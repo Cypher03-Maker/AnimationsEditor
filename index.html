@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Animations Editor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -11,66 +11,79 @@
 :root{
   --bg:#181a1f;--panel:#20232a;--panel2:#272b34;--panel3:#2e333e;
   --border:#353a47;--border2:#404552;
-  --acc:#FFFF98;--acc-btn:#27A9F5;--acc2:#2089C7;--acc-bg:rgba(232,130,58,.12);
+  --acc-title:#FFB74D;
+  --acc-import:#29B6F6;--acc-import-hover:#039BE5;--acc-import-bg:rgba(41,182,246,0.12);
+  --acc-export:#66BB6A;--acc-export-hover:#43A047;--acc-export-bg:rgba(102,187,106,0.12);
+  --acc-play:#FFA726;--acc-play-hover:#F57C00;--acc-play-bg:rgba(255,167,38,0.15);
+  --acc-add:#AB47BC;--acc-add-hover:#8E24AA;--acc-add-bg:rgba(171,71,188,0.15);
+  --acc-tween:#26C6DA;--acc-tween-bg:rgba(38,198,218,0.15);
+  --acc-zoom:#AB47BC;
   --sel:#3a78c9;--sel-bg:rgba(58,120,201,.18);
   --text:#bfc5d1;--text2:#7c8494;--text3:#434956;--textbright:#edf0f5;
-  --red:#c0454a;--green:#4caf50;--blue:#4a90d9;
+  --red:#EF5350;--green:#66BB6A;--blue:#42A5F5;
   --timeline:#181a1f;--th:32px;
   font-family:'IBM Plex Sans',sans-serif;
 }
-body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;user-select:none}
+body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none}
 
 /* ── TOP BAR ── */
-#topbar{height:42px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;flex-shrink:0;z-index:100}
-#logo{padding:0 16px;font-weight:600;font-size:13px;color:var(--acc);letter-spacing:.05em;white-space:nowrap;display:flex;align-items:center;gap:7px}
-#logo svg{flex-shrink:0}
-.sep{width:1px;height:24px;background:var(--border);margin:0 4px}
-.tb-group{display:flex;align-items:center;gap:2px;padding:0 6px}
-.tb-btn{height:28px;padding:0 10px;border:none;background:transparent;color:var(--text);font-size:12px;font-family:inherit;cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:background .12s,color .12s}
-.tb-btn:hover:not(:disabled){background:var(--panel3);color:var(--textbright)}
-.tb-btn.active{background:var(--acc-bg);color:var(--acc)}
-.tb-btn:disabled{opacity:0.3;cursor:not-allowed;}
+#topbar{height:42px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;flex-shrink:0;z-index:100;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+#topbar::-webkit-scrollbar{display:none}
+#logo{padding:0 14px;font-weight:600;font-size:13px;color:var(--acc-title);letter-spacing:.05em;white-space:nowrap;display:flex;align-items:center;gap:7px;flex-shrink:0}
+#logo svg{flex-shrink:0;fill:none;stroke:var(--acc-title)}
+.sep{width:1px;height:24px;background:var(--border);margin:0 4px;flex-shrink:0}
+.tb-group{display:flex;align-items:center;gap:2px;padding:0 6px;flex-shrink:0}
+.tb-btn{height:28px;padding:0 10px;border:none;background:transparent;color:var(--text);font-size:12px;font-family:inherit;cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.tb-btn:disabled{opacity:.3;cursor:not-allowed}
 .tb-btn svg{flex-shrink:0}
-
-/* Playback inactivo inicialmente */
-#playback-container{display:flex;align-items:center;opacity:0.3;pointer-events:none;transition:opacity 0.3s}
+.tb-btn-import{color:var(--acc-import)}
+.tb-btn-import:hover:not(:disabled){background:var(--acc-import-bg);color:var(--textbright)}
+.tb-btn-import:active:not(:disabled){background:var(--acc-import-hover);color:#fff}
+.tb-btn-export{color:var(--acc-export)}
+.tb-btn-export:hover:not(:disabled){background:var(--acc-export-bg);color:var(--textbright)}
+.tb-btn-export:active:not(:disabled){background:var(--acc-export-hover);color:#fff}
+.tb-btn-tween{color:var(--text3)}
+.tb-btn-tween.active{color:var(--acc-tween)}
+.tb-btn-tween:hover:not(:disabled){background:var(--acc-tween-bg);color:var(--acc-tween)}
+#uhd-badge{padding:2px 6px;background:rgba(255,167,38,.2);border:1px solid var(--acc-play);border-radius:3px;font-size:10px;font-weight:700;color:var(--acc-play);letter-spacing:.06em;display:none;flex-shrink:0}
+#playback-container{display:flex;align-items:center;opacity:.3;pointer-events:none;transition:opacity .3s;flex-shrink:0}
 #playback-container.active{opacity:1;pointer-events:auto}
-
 #playback{display:flex;align-items:center;gap:4px;padding:0 8px}
-.pb-btn{width:28px;height:28px;border:none;background:transparent;color:var(--text2);cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:background .1s,color .1s}
-.pb-btn:hover{background:var(--panel3);color:var(--textbright)}
-.pb-btn.play-main{width:32px;height:32px;border-radius:50%;background:var(--acc-btn);color:#fff}
-.pb-btn.play-main:hover{background:var(--acc2)}
-#fps-wrap{display:flex;align-items:center;gap:6px;padding:0 10px;font-size:11px;color:var(--text2)}
+.pb-btn{width:28px;height:28px;border:none;background:transparent;color:var(--text2);cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .1s}
+.pb-btn:hover{background:var(--acc-play-bg);color:var(--acc-play)}
+.pb-btn.play-main{width:32px;height:32px;border-radius:50%;background:var(--acc-play);color:#fff}
+.pb-btn.play-main:hover{background:var(--acc-play-hover)}
+.pb-btn.play-main:active{transform:scale(.95)}
+#fps-wrap{display:flex;align-items:center;gap:6px;padding:0 10px;font-size:11px;color:var(--text2);flex-shrink:0}
 #fps-input{width:40px;background:var(--panel3);border:1px solid var(--border2);color:var(--textbright);font-size:11px;font-family:'JetBrains Mono',monospace;border-radius:3px;padding:2px 5px;text-align:center;outline:none}
-#fps-input:focus{border-color:var(--acc)}
-#spacer{flex:1}
-#scale-info{padding:0 14px;font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
-#frame-info-top{padding:0 14px;font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace}
+#fps-input:focus{border-color:var(--acc-play)}
+#spacer{flex:1;min-width:8px}
+#scale-info{padding:0 14px;font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+#frame-info-top{padding:0 14px;font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;flex-shrink:0}
 
-/* ── MAIN AREA ── */
-#main{display:flex;flex:1;overflow:hidden;min-height:0}
+/* ── MAIN ── */
+#main{display:flex;flex:1;overflow:hidden;min-height:0;position:relative}
 
 /* ── LEFT PANEL ── */
-#left{width:210px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+#left{width:210px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:transform .3s ease,box-shadow .3s}
 .pane-header{height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--border);flex-shrink:0}
 .pane-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text2)}
-.pane-btn{width:20px;height:20px;background:transparent;border:none;color:var(--text2);cursor:pointer;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:14px;transition:background .1s,color .1s}
-.pane-btn:hover{background:var(--panel3);color:var(--acc)}
+.pane-btn{width:20px;height:20px;background:transparent;border:none;color:var(--text2);cursor:pointer;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .1s}
+.pane-btn.add-btn{color:var(--acc-add)}
+.pane-btn.add-btn:hover{background:var(--acc-add-bg);color:var(--acc-add-hover)}
+.pane-btn.del-btn{color:var(--red)}
+.pane-btn.del-btn:hover{background:rgba(239,83,80,.15);color:#ff7979}
 .pane-scroll{flex:1;overflow-y:auto;overflow-x:hidden}
 .pane-scroll::-webkit-scrollbar{width:4px}
 .pane-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-
-/* animations & parts list */
-.anim-item{display:flex;align-items:center;gap:6px;height:28px;padding:0 12px;cursor:pointer;font-size:12px;transition:background .1s}
+.anim-item{display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;cursor:pointer;font-size:12px;transition:background .1s}
 .anim-item:hover{background:var(--panel3)}
-.anim-item.active{background:var(--acc-bg);color:var(--acc)}
+.anim-item.active{background:rgba(41,182,246,.12);color:var(--acc-import)}
 .anim-item .anim-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);flex-shrink:0}
-.anim-item.active .anim-dot{background:var(--acc)}
+.anim-item.active .anim-dot{background:var(--acc-import)}
 .anim-item .anim-frames{margin-left:auto;font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace}
-.anim-item.active .anim-frames{color:var(--acc2)}
-
-.part-item{display:flex;align-items:center;gap:6px;height:26px;padding:0 12px;cursor:pointer;font-size:11px;transition:background .1s}
+.anim-item.active .anim-frames{color:var(--acc-import-hover)}
+.part-item{display:flex;align-items:center;gap:6px;height:28px;padding:0 12px;cursor:pointer;font-size:11px;transition:background .1s}
 .part-item:hover{background:var(--panel3)}
 .part-item.selected{background:var(--sel-bg);color:var(--sel)}
 .part-icon{width:10px;height:10px;border-radius:2px;flex-shrink:0;opacity:.7}
@@ -78,41 +91,42 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
 
 /* ── VIEWPORT ── */
 #viewport{flex:1;position:relative;overflow:hidden;background:#0d0e11}
-#canvas{display:block;cursor:crosshair}
-#grid-canvas{position:absolute;top:0;left:0;pointer-events:none}
+#canvas{display:block;cursor:crosshair;touch-action:none}
 #drop-zone{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(24,26,31,.92);z-index:50}
 #drop-zone.hidden{display:none}
-.dz-card{background:var(--panel2);border:1px dashed var(--border2);border-radius:10px;padding:20px 28px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;min-width:220px}
-.dz-card:hover{border-color:var(--acc);background:var(--acc-bg)}
+.dz-card{background:var(--panel2);border:1px dashed var(--border2);border-radius:10px;padding:20px 28px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;min-width:200px}
+.dz-card:hover{border-color:var(--acc-import);background:var(--acc-import-bg)}
 .dz-card h3{font-size:12px;font-weight:600;color:var(--textbright);margin-bottom:4px}
 .dz-card p{font-size:11px;color:var(--text2)}
 .dz-card .dz-icon{font-size:28px;margin-bottom:8px}
 .dz-status{font-size:11px;display:flex;align-items:center;gap:6px}
 .dz-status .ok{color:var(--green)}
 .dz-status .pending{color:var(--text3)}
-.dz-actions-wrap{display:flex;gap:10px;margin-top:10px;height:34px;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.dz-actions-wrap{display:flex;gap:10px;margin-top:10px;height:34px;opacity:0;pointer-events:none;transition:opacity .3s}
 .dz-actions-wrap.visible{opacity:1;pointer-events:auto}
-.dz-btn{padding:0 20px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s, transform .1s}
-.dz-btn:active{transform:scale(0.97)}
-.dz-btn-primary{background:var(--acc);color:#fff}
-.dz-btn-primary:hover{background:var(--acc2)}
+.dz-btn{padding:0 20px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s}
+.dz-btn:active{transform:scale(.97)}
+.dz-btn-primary{background:var(--acc-import);color:#fff}
+.dz-btn-primary:hover{background:var(--acc-import-hover)}
 .dz-btn-secondary{background:transparent;border:1px solid var(--border2);color:var(--textbright)}
 .dz-btn-secondary:hover{background:var(--panel3)}
 
 /* ── RIGHT PANEL ── */
-#right{width:220px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+#right{width:220px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;overflow-y:auto;transition:transform .3s ease,box-shadow .3s}
+#right::-webkit-scrollbar{width:4px}
+#right::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 .prop-section{border-bottom:1px solid var(--border)}
-.prop-row{display:flex;align-items:center;height:30px;padding:0 12px;gap:8px}
+.prop-row{display:flex;align-items:center;height:32px;padding:0 12px;gap:8px}
 .prop-label{font-size:11px;color:var(--text2);width:56px;flex-shrink:0}
 .prop-val{flex:1;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--textbright)}
 .prop-input{flex:1;background:var(--panel3);border:1px solid var(--border2);color:var(--textbright);font-size:11px;font-family:'JetBrains Mono',monospace;border-radius:3px;padding:2px 6px;outline:none;width:0;min-width:0}
-.prop-input:focus{border-color:var(--acc);background:var(--panel2)}
+.prop-input:focus{border-color:var(--acc-import);background:var(--panel2)}
 .prop-2col{display:grid;grid-template-columns:1fr 1fr;gap:4px;flex:1}
 .prop-2col .prop-input{width:100%}
 .flip-btn{width:22px;height:22px;background:var(--panel3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;cursor:pointer;font-size:10px;font-weight:700;transition:background .1s,color .1s,border-color .1s}
 .flip-btn.active{background:var(--sel-bg);border-color:var(--sel);color:var(--sel)}
-.layer-row{display:flex;align-items:center;gap:6px;height:26px;padding:0 12px;font-size:11px}
-.layer-eye{width:18px;height:18px;background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:12px;border-radius:3px;display:flex;align-items:center;justify-content:center;transition:color .1s}
+.layer-row{display:flex;align-items:center;gap:6px;height:28px;padding:0 12px;font-size:11px}
+.layer-eye{width:20px;height:20px;background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:12px;border-radius:3px;display:flex;align-items:center;justify-content:center;transition:color .1s}
 .layer-eye.off{color:var(--text3)}
 .layer-eye:hover{color:var(--textbright)}
 .layer-name{flex:1;color:var(--text)}
@@ -120,7 +134,7 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
 #no-sel{padding:24px 12px;text-align:center;font-size:11px;color:var(--text3);line-height:1.6}
 
 /* ── TIMELINE ── */
-#timeline{height:190px;background:var(--timeline);border-top:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+#timeline{height:190px;background:var(--timeline);border-top:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:height .3s ease}
 #tl-top{height:36px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;flex-shrink:0}
 #tl-label{width:210px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--text2);text-transform:uppercase;border-right:1px solid var(--border)}
 #tl-ruler{flex:1;overflow:hidden;position:relative;height:100%}
@@ -131,31 +145,89 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
 #tl-tracks::-webkit-scrollbar{height:6px}
 #tl-tracks::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 #tl-names canvas,#tl-tracks canvas{display:block}
-
-.sm-btn{background:var(--panel3);border:1px solid var(--border2);color:var(--text);border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer;}
+.sm-btn{background:var(--panel3);border:1px solid var(--border2);color:var(--text);border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer}
 .sm-btn:hover{background:var(--panel2);color:var(--textbright)}
-.sm-btn.red:hover{background:rgba(192,69,74,.15);color:var(--red)}
+.sm-btn.green:hover{background:rgba(102,187,106,.15);color:var(--green);border-color:var(--green)}
+.sm-btn.red:hover{background:rgba(239,83,80,.15);color:var(--red);border-color:var(--red)}
+
+/* ── TWEEN INDICATOR ── */
+#tween-indicator{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:rgba(38,198,218,.15);border:1px solid var(--acc-tween);border-radius:3px;padding:1px 8px;font-size:9px;font-weight:600;color:var(--acc-tween);letter-spacing:.06em;pointer-events:none;opacity:0;transition:opacity .3s}
+#tween-indicator.visible{opacity:1}
 
 /* ── MODALS ── */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-bg.open{opacity:1;pointer-events:auto}
-.modal{background:var(--panel2);border:1px solid var(--border2);border-radius:10px;padding:24px;min-width:320px;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:translateY(10px);transition:transform 0.2s}
+.modal{background:var(--panel2);border:1px solid var(--border2);border-radius:10px;padding:24px;min-width:320px;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:translateY(10px);transition:transform .2s;max-width:90vw}
 .modal-bg.open .modal{transform:translateY(0)}
 .modal h2{font-size:14px;font-weight:600;color:var(--textbright);margin-bottom:16px}
 .modal-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
 .modal-row label{font-size:11px;color:var(--text2)}
 .modal-input{background:var(--panel3);border:1px solid var(--border2);color:var(--textbright);font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;padding:6px 10px;outline:none;width:100%}
-.modal-input:focus{border-color:var(--acc)}
+.modal-input:focus{border-color:var(--acc-import)}
 .modal-select{background:var(--panel3);border:1px solid var(--border2);color:var(--textbright);font-size:11px;font-family:inherit;border-radius:4px;padding:5px 8px;width:100%;outline:none;max-height:200px}
-.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
-.btn-cancel{height:30px;padding:0 14px;background:transparent;border:1px solid var(--border2);color:var(--text);border-radius:5px;font-size:11px;cursor:pointer;transition:background .1s}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.btn-cancel{height:32px;padding:0 14px;background:transparent;border:1px solid var(--border2);color:var(--text);border-radius:5px;font-size:11px;cursor:pointer;transition:background .1s}
 .btn-cancel:hover{background:var(--panel3)}
-.btn-ok{height:30px;padding:0 14px;background:var(--acc);border:none;color:#fff;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;transition:background .1s}
-.btn-ok:hover{background:var(--acc2)}
+.btn-ok{height:32px;padding:0 14px;background:var(--acc-import);border:none;color:#fff;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;transition:background .1s}
+.btn-ok:hover{background:var(--acc-import-hover)}
 
+/* ── MOBILE OVERLAY ── */
+#mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;backdrop-filter:blur(2px)}
+
+/* ── MOBILE FABs ── */
+.mob-fab{display:none;position:fixed;bottom:200px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text);font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;transition:background .2s,color .2s}
+.mob-fab.active{background:var(--acc-import-bg);border-color:var(--acc-import);color:var(--acc-import)}
+#mob-left-fab{left:8px}
+#mob-right-fab{right:8px}
+#mob-tl-fab{display:none;position:fixed;bottom:148px;right:8px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text2);font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;font-weight:600}
+
+/* ── SCROLLBAR GLOBAL ── */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ════════════════════════════════════════════
+   MOBILE RESPONSIVE  (≤768px)
+════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #left {
+    position:fixed;left:0;top:42px;bottom:0;z-index:200;
+    transform:translateX(-100%);box-shadow:none;width:240px
+  }
+  #left.mob-open {
+    transform:translateX(0);
+    box-shadow:4px 0 24px rgba(0,0,0,.6)
+  }
+  #right {
+    position:fixed;right:0;top:42px;bottom:0;z-index:200;
+    transform:translateX(100%);box-shadow:none;width:240px
+  }
+  #right.mob-open {
+    transform:translateX(0);
+    box-shadow:-4px 0 24px rgba(0,0,0,.6)
+  }
+  #mob-overlay { display:block }
+  .mob-fab { display:flex }
+  #mob-tl-fab { display:flex }
+  #timeline { height:120px }
+  #tl-label { width:160px; font-size:9px }
+  #tl-names { width:160px }
+  .mob-overlay-visible { opacity:1;pointer-events:auto }
+  /* Topbar: shrink logo text */
+  #logo span { display:none }
+  /* Bigger touch targets in lists */
+  .anim-item { height:40px }
+  .part-item { height:36px }
+  .prop-row { height:38px }
+  /* Scale slider full width */
+  #preview-scale { accent-color:var(--acc-zoom) }
+}
+
+@media (max-width: 480px) {
+  #tl-label { width:120px }
+  #tl-names { width:120px }
+  .modal { padding:16px; min-width:280px }
+}
 </style>
 </head>
 <body>
@@ -163,42 +235,56 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
 <!-- TOP BAR -->
 <div id="topbar">
   <div id="logo">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-      <circle cx="9" cy="9" r="3.5" fill="var(--acc)"/>
-      <line x1="9" y1="2" x2="9" y2="5.5" stroke="var(--acc)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="9" y1="12.5" x2="9" y2="16" stroke="var(--acc)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="2" y1="9" x2="5.5" y2="9" stroke="var(--acc)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="12.5" y1="9" x2="16" y2="9" stroke="var(--acc)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="3.9" y1="3.9" x2="6.4" y2="6.4" stroke="var(--acc)" stroke-width="1.2" stroke-linecap="round"/>
-      <line x1="11.6" y1="11.6" x2="14.1" y2="14.1" stroke="var(--acc)" stroke-width="1.2" stroke-linecap="round"/>
-      <line x1="14.1" y1="3.9" x2="11.6" y2="6.4" stroke="var(--acc)" stroke-width="1.2" stroke-linecap="round"/>
-      <line x1="6.4" y1="11.6" x2="3.9" y2="14.1" stroke="var(--acc)" stroke-width="1.2" stroke-linecap="round"/>
+    <svg width="18" height="18" viewBox="0 0 18 18">
+      <circle cx="9" cy="9" r="3.5" fill="currentColor"/>
+      <line x1="9" y1="2" x2="9" y2="5.5" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9" y1="12.5" x2="9" y2="16" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="2" y1="9" x2="5.5" y2="9" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="12.5" y1="9" x2="16" y2="9" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="3.9" y1="3.9" x2="6.4" y2="6.4" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="11.6" y1="11.6" x2="14.1" y2="14.1" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="14.1" y1="3.9" x2="11.6" y2="6.4" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="6.4" y1="11.6" x2="3.9" y2="14.1" stroke-width="1.2" stroke-linecap="round"/>
     </svg>
-    Animations Editor
+    <span>Animations Editor</span>
   </div>
+  <span id="uhd-badge">2×UHD</span>
   <div class="sep"></div>
   <div class="tb-group">
-    <button class="tb-btn" id="btn-open-png" title="Importar atlas PNG" disabled>
+    <button class="tb-btn tb-btn-import" id="btn-open-png" title="Importar atlas PNG" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 8l2-3 2 2.5L9.5 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Atlas PNG
     </button>
-    <button class="tb-btn" id="btn-open-atlas" title="Importar Atlas JSON/Plist" disabled>
+    <button class="tb-btn tb-btn-import" id="btn-open-atlas" title="Importar Atlas JSON/Plist" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 5h5M4 8h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Atlas JSON/Plist
+      Atlas Data
     </button>
-    <button class="tb-btn" id="btn-open-anim" title="Importar AnimDesc JSON/Plist" disabled>
+    <button class="tb-btn tb-btn-import" id="btn-open-anim" title="Importar AnimDesc JSON/Plist" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M7 1H3a1 1 0 00-1 1v9a1 1 0 001 1h7a1 1 0 001-1V5L7 1z" stroke="currentColor" stroke-width="1.2"/><path d="M7 1v4h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      AnimDesc JSON/Plist
+      AnimDesc
     </button>
   </div>
   <div class="sep"></div>
   <div class="tb-group">
-    <button class="tb-btn" id="btn-export" title="Exportar Animación" disabled>
+    <button class="tb-btn tb-btn-export" id="btn-export" title="Exportar Animación" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 2v7M4 7l2.5 2.5L9 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10v1.5h9V10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Exportar
     </button>
   </div>
-  
+  <div class="sep"></div>
+  <!-- Tween toggle -->
+  <div class="tb-group">
+    <button class="tb-btn tb-btn-tween active" id="btn-tween" title="Animación suave entre frames (interpolación)">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <circle cx="2.5" cy="6.5" r="1.5" fill="currentColor"/>
+        <circle cx="10.5" cy="6.5" r="1.5" fill="currentColor"/>
+        <path d="M4 6.5 C5 4, 8 4, 9 6.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M4 6.5 C5 9, 8 9, 9 6.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      Suave
+    </button>
+  </div>
+
   <div id="playback-container">
     <div class="sep"></div>
     <div id="playback">
@@ -237,15 +323,15 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
   <div id="left">
     <div class="pane-header">
       <span class="pane-title">Animaciones</span>
-      <button class="pane-btn" id="btn-new-anim" title="Nueva animación">+</button>
+      <button class="pane-btn add-btn" id="btn-new-anim" title="Nueva animación">+</button>
     </div>
     <div class="pane-scroll" id="anim-list" style="flex:1;max-height:200px"></div>
 
     <div class="pane-header" style="border-top:1px solid var(--border)">
       <span class="pane-title">Partes</span>
       <div style="display:flex;gap:4px">
-        <button class="pane-btn" id="btn-new-part" title="Añadir parte al frame actual" style="font-size:12px">+</button>
-        <button class="pane-btn red" id="btn-del-part" title="Eliminar parte seleccionada" style="font-size:12px;color:var(--red);display:none">-</button>
+        <button class="pane-btn add-btn" id="btn-new-part" title="Añadir parte" style="font-size:12px">+</button>
+        <button class="pane-btn del-btn" id="btn-del-part" title="Eliminar parte" style="font-size:12px;display:none">−</button>
       </div>
     </div>
     <div class="pane-scroll" id="parts-list" style="flex:1"></div>
@@ -254,17 +340,18 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
   <!-- VIEWPORT -->
   <div id="viewport">
     <canvas id="canvas"></canvas>
-    
-    <!-- Drop zone overlay -->
+
+    <!-- Drop Zone -->
     <div id="drop-zone">
       <div style="text-align:center;margin-bottom:8px">
         <div style="font-size:13px;font-weight:600;color:var(--textbright);margin-bottom:4px">Animation Editor</div>
-        <div style="font-size:11px;color:var(--text2)">Importa archivos para comenzar (JSON o Plist)</div>
+        <div style="font-size:11px;color:var(--text2)">Importa archivos o espera la carga automática</div>
       </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
         <div class="dz-card" onclick="document.getElementById('inp-png').click()">
           <div class="dz-icon">🖼️</div>
           <h3>Atlas PNG</h3>
+          <p>.png / .jpg</p>
         </div>
         <div class="dz-card" onclick="document.getElementById('inp-atlas').click()">
           <div class="dz-icon">📋</div>
@@ -278,11 +365,10 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
         </div>
       </div>
       <div id="dz-status" style="display:flex;gap:16px;font-size:11px">
-        <span id="st-png" class="dz-status"><span class="pending">○</span>PNG</span>
-        <span id="st-atlas" class="dz-status"><span class="pending">○</span>Atlas</span>
-        <span id="st-anim" class="dz-status"><span class="pending">○</span>AnimDesc</span>
+        <span id="st-png" class="dz-status"><span class="pending">○</span> PNG</span>
+        <span id="st-atlas" class="dz-status"><span class="pending">○</span> Atlas</span>
+        <span id="st-anim" class="dz-status"><span class="pending">○</span> AnimDesc</span>
       </div>
-      
       <div class="dz-actions-wrap" id="dz-actions">
         <button class="dz-btn dz-btn-primary" id="dz-btn-open" onclick="hideDrop()" style="display:none">Abrir Editor ▶</button>
         <button class="dz-btn dz-btn-secondary" id="dz-btn-scratch" onclick="createFromScratch()" style="display:none">Crear desde cero</button>
@@ -295,18 +381,16 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
     <div class="pane-header">
       <span class="pane-title">Propiedades</span>
     </div>
-
     <div id="no-sel" class="prop-section" style="padding:20px 12px;text-align:center;font-size:11px;color:var(--text3)">
       Selecciona una parte<br>en la lista o el viewport
     </div>
-
     <div id="prop-panel" style="display:none">
       <div class="prop-section">
         <div class="prop-row"><span class="prop-label">Nombre</span><span class="prop-val" id="pp-name" style="font-size:10px;word-break:break-all">—</span></div>
         <div class="prop-row"><span class="prop-label">Capa</span><span class="prop-val" id="pp-layer">—</span></div>
         <div class="prop-row">
-            <span class="prop-label">zValue</span>
-            <input class="prop-input" id="pp-z" type="number" step="1" style="width:100%;max-width:50px;">
+          <span class="prop-label">zValue</span>
+          <input class="prop-input" id="pp-z" type="number" step="1" style="width:100%;max-width:50px">
         </div>
       </div>
       <div class="prop-section">
@@ -337,21 +421,16 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
         </div>
       </div>
     </div>
-
-    <div class="pane-header" style="border-top:1px solid var(--border);margin-top:auto">
-      <span class="pane-title">Capas</span>
+    <div id="layer-panel-container" style="display:none;flex-direction:column">
+      <div class="pane-header" style="border-top:1px solid var(--border)">
+        <span class="pane-title">Capas</span>
+      </div>
+      <div id="layer-panel"></div>
     </div>
-    <div id="layer-panel">
-      <div class="layer-row"><button class="layer-eye" data-layer="glow">👁</button><div class="layer-dot" style="background:#7ec8e3"></div><span class="layer-name">Glow</span></div>
-      <div class="layer-row"><button class="layer-eye" data-layer="2">👁</button><div class="layer-dot" style="background:#e86b5f"></div><span class="layer-name">Capa 2</span></div>
-      <div class="layer-row"><button class="layer-eye" data-layer="1">👁</button><div class="layer-dot" style="background:#7ebd7e"></div><span class="layer-name">Base (1)</span></div>
-      <div class="layer-row"><button class="layer-eye" data-layer="extra">👁</button><div class="layer-dot" style="background:#e8c87e"></div><span class="layer-name">Extra</span></div>
-    </div>
-
-    <div style="padding:8px 12px;border-top:1px solid var(--border);margin-top:auto">
+    <div style="padding:8px 12px;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0">
       <div style="font-size:10px;color:var(--text3);margin-bottom:4px">Escala preview</div>
       <div style="display:flex;align-items:center;gap:8px">
-        <input type="range" id="preview-scale" min="0.2" max="4" step="0.05" value="1.5" style="flex:1;accent-color:var(--acc)">
+        <input type="range" id="preview-scale" min="0.2" max="4" step="0.05" value="1.5" style="flex:1;accent-color:var(--acc-zoom)">
         <span id="preview-scale-val" style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text2);width:32px">1.5×</span>
       </div>
     </div>
@@ -364,11 +443,14 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
     <div id="tl-label">
       <span>Timeline</span>
       <div style="display:flex;gap:4px">
-        <button class="sm-btn" id="btn-add-frame" title="Duplicar e insertar frame">+ Fr</button>
-        <button class="sm-btn red" id="btn-del-frame" title="Eliminar frame actual">- Fr</button>
+        <button class="sm-btn green" id="btn-add-frame" title="Duplicar e insertar frame">+Fr</button>
+        <button class="sm-btn red" id="btn-del-frame" title="Eliminar frame actual">−Fr</button>
       </div>
     </div>
-    <div id="tl-ruler"><canvas id="ruler-canvas"></canvas></div>
+    <div id="tl-ruler" style="position:relative">
+      <canvas id="ruler-canvas"></canvas>
+      <div id="tween-indicator">INTERPOLANDO</div>
+    </div>
   </div>
   <div id="tl-body">
     <div id="tl-names"><canvas id="names-canvas"></canvas></div>
@@ -376,7 +458,15 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
   </div>
 </div>
 
-<!-- MODAL: Nueva animación -->
+<!-- MOBILE OVERLAY -->
+<div id="mob-overlay" onclick="closeMobilePanels()"></div>
+
+<!-- MOBILE FABs -->
+<button id="mob-left-fab" class="mob-fab" title="Animaciones / Partes">☰</button>
+<button id="mob-right-fab" class="mob-fab" title="Propiedades" style="right:8px;left:auto">⚙</button>
+<button id="mob-tl-fab" title="Timeline">TL</button>
+
+<!-- MODALS -->
 <div class="modal-bg" id="modal-new">
   <div class="modal">
     <h2>Nueva Animación</h2>
@@ -394,21 +484,17 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
     </div>
   </div>
 </div>
-
-<!-- MODAL: Exportar -->
 <div class="modal-bg" id="modal-export">
   <div class="modal" style="min-width:280px">
     <h2>Exportar Animación</h2>
     <p style="font-size:11px;color:var(--text2);margin-bottom:15px">Selecciona el formato de salida para AnimDesc.</p>
     <div class="modal-btns" style="justify-content:center;gap:12px">
       <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
-      <button class="btn-ok" onclick="exportFile('json')" style="background:var(--acc2)">JSON</button>
-      <button class="btn-ok" onclick="exportFile('plist')">Plist</button>
+      <button class="btn-ok" onclick="exportFile('json')" style="background:var(--acc-import)">JSON</button>
+      <button class="btn-ok" onclick="exportFile('plist')" style="background:var(--acc-export)">Plist</button>
     </div>
   </div>
 </div>
-
-<!-- MODAL: Añadir Parte -->
 <div class="modal-bg" id="modal-part">
   <div class="modal">
     <h2>Añadir Textura / Parte</h2>
@@ -418,12 +504,12 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
     </div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
-      <button class="btn-ok" onclick="addPartToFrame()">Añadir</button>
+      <button class="btn-ok" onclick="addPartToFrame()" style="background:var(--acc-add)">Añadir</button>
     </div>
   </div>
 </div>
 
-<!-- hidden file inputs con value=null para permitir re-seleccionar el mismo archivo -->
+<!-- File inputs -->
 <input type="file" id="inp-png" accept=".png,.jpg,.jpeg,.webp" style="display:none" onclick="this.value=null">
 <input type="file" id="inp-atlas" accept=".json,.plist" style="display:none" onclick="this.value=null">
 <input type="file" id="inp-anim" accept=".json,.plist" style="display:none" onclick="this.value=null">
@@ -437,40 +523,47 @@ const S = {
   currentAnim: null, currentFrame: 1, frameCount: 0,
   isPlaying: false, fps: 20, raf: null, lastT: 0, acc: 0,
   selectedPartIdx: -1,
-  viewX: 0, viewY: 0, viewScale: 1.5,
+  viewX: 0, viewY: 0,
   isPanning: false, panSX: 0, panSY: 0, panOX: 0, panOY: 0,
   previewScale: 1.5,
   layers: { glow: true, '2': true, '1': true, extra: true },
-  loaded: { png: false, atlas: false, anim: false }
+  loaded: { png: false, atlas: false, anim: false },
+  // ── NEW FEATURES ──
+  atlasScale: 1,        // 1 = normal, 2 = UHD/2x, 3 = 3x
+  tweenEnabled: true,   // Smooth sub-frame interpolation
+  playT: 0,             // Continuous play time (frames, float)
 };
 
-let dragInfo = null; // { idx, startX, startY, origPX, origPY }
+let dragInfo = null;
+window.isAutoLoading = false;
+
+// ── Timeline cell/row sizes (responsive) ──
+let CELL = 28, ROW = 24;
+function updateTLSizes() {
+  CELL = window.innerWidth < 768 ? 22 : 28;
+  ROW  = window.innerWidth < 768 ? 20 : 24;
+}
+updateTLSizes();
 
 // ═══════════════════════════════════════════════════════════════════════
-//  PARSERS (JSON & PLIST robusto)
+//  PARSERS
 // ═══════════════════════════════════════════════════════════════════════
-
-// Función para parsear Plist, insensible a mayúsculas/minúsculas para evitar bugs
 function parsePlistXML(node) {
   if (!node) return null;
   const name = node.nodeName.toLowerCase();
-  
   if (name === 'dict') {
-    const obj = {};
-    let currentKey = null;
+    const obj = {}; let curKey = null;
     for (let i = 0; i < node.childNodes.length; i++) {
-      const child = node.childNodes[i];
-      if (child.nodeType !== 1) continue; // Skip text/comment nodes
-      const cName = child.nodeName.toLowerCase();
-      if (cName === 'key') currentKey = child.textContent;
-      else if (currentKey) { obj[currentKey] = parsePlistXML(child); currentKey = null; }
+      const c = node.childNodes[i]; if (c.nodeType !== 1) continue;
+      const cn = c.nodeName.toLowerCase();
+      if (cn === 'key') curKey = c.textContent;
+      else if (curKey) { obj[curKey] = parsePlistXML(c); curKey = null; }
     }
     return obj;
   } else if (name === 'array') {
     const arr = [];
     for (let i = 0; i < node.childNodes.length; i++) {
-      const child = node.childNodes[i];
-      if (child.nodeType === 1) arr.push(parsePlistXML(child));
+      const c = node.childNodes[i]; if (c.nodeType === 1) arr.push(parsePlistXML(c));
     }
     return arr;
   } else if (name === 'string') return node.textContent;
@@ -479,135 +572,155 @@ function parsePlistXML(node) {
   else if (name === 'false') return false;
   return null;
 }
-
-// Lector de archivos protegido contra saltos de línea al principio (BUGFIX)
+function parseXMLText(text) {
+  const xmlDoc = new DOMParser().parseFromString(text.trim(), 'text/xml');
+  const err = xmlDoc.getElementsByTagName('parsererror');
+  if (err.length) throw new Error('XML inválido: ' + err[0].textContent);
+  const findDict = n => {
+    if (n.nodeType === 1 && n.nodeName.toLowerCase() === 'dict') return n;
+    for (let i = 0; i < n.childNodes.length; i++) { const r = findDict(n.childNodes[i]); if (r) return r; }
+    return null;
+  };
+  const d = findDict(xmlDoc);
+  if (!d) throw new Error('No se encontró <dict> en el Plist.');
+  return parsePlistXML(d);
+}
 function parseFileContent(file, callback) {
   const isPlist = file.name.toLowerCase().endsWith('.plist');
   const r = new FileReader();
   r.onload = e => {
-    try {
-      let data;
-      if (isPlist) {
-        // BUGFIX: Si un archivo XML tiene espacios, saltos de línea o texto antes 
-        // de la etiqueta <?xml... DOMParser se rompe instantáneamente. Limpiamos el texto.
-        const cleanXML = e.target.result.trim();
-        
-        const xmlDoc = new DOMParser().parseFromString(cleanXML, "text/xml");
-        
-        // Verificar si el motor XML nativo del navegador arrojó un error de lectura
-        const parseError = xmlDoc.getElementsByTagName("parsererror");
-        if (parseError.length > 0) {
-            throw new Error("El archivo Plist tiene un formato XML inválido o corrupto.\nDetalle: " + parseError[0].textContent);
-        }
-
-        // Encontrar recursivamente el primer <dict> verdadero (evita problemas del root plist)
-        const findDict = (node) => {
-          if (node.nodeType === 1 && node.nodeName.toLowerCase() === 'dict') return node;
-          for (let i=0; i<node.childNodes.length; i++) {
-            const res = findDict(node.childNodes[i]);
-            if (res) return res;
-          }
-          return null;
-        };
-        
-        const dictNode = findDict(xmlDoc);
-        if (!dictNode) throw new Error("No se encontró estructura válida de diccionario (<dict>) en el archivo Plist.");
-        
-        data = parsePlistXML(dictNode);
-      } else {
-        // Leer como JSON
-        data = JSON.parse(e.target.result);
-      }
-      callback(data);
-    } catch(err) { 
-      alert(`Error al leer archivo:\n${err.message}`);
-      console.error(err);
-    }
+    try { callback(isPlist ? parseXMLText(e.target.result) : JSON.parse(e.target.result), file.name); }
+    catch(err) { alert('Error al leer archivo:\n' + err.message); }
   };
   r.readAsText(file);
 }
 
-function processAtlas(data) {
+// ═══════════════════════════════════════════════════════════════════════
+//  UHD / SCALE DETECTION
+// ═══════════════════════════════════════════════════════════════════════
+function detectScaleFromName(name) {
+  const n = name.toLowerCase();
+  if (n.includes('-uhd') || n.includes('@2x') || n.includes('-2x') || n.includes('_2x') || n.includes('x2.')) return 2;
+  if (n.includes('@3x') || n.includes('-3x') || n.includes('_3x')) return 3;
+  return 1;
+}
+function detectScaleFromData(data, filename) {
+  // Check metadata in plist
+  const meta = data && data.metadata;
+  if (meta) {
+    const fn = (meta.realTextureFileName || meta.textureFileName || '').toLowerCase();
+    if (fn.includes('-uhd') || fn.includes('@2x') || fn.includes('-2x')) return 2;
+    if (fn.includes('@3x') || fn.includes('-3x')) return 3;
+    if (meta.scale && parseFloat(meta.scale) > 1) return parseFloat(meta.scale);
+  }
+  if (filename) return detectScaleFromName(filename);
+  return 1;
+}
+function applyAtlasScale(scale) {
+  S.atlasScale = scale;
+  const badge = document.getElementById('uhd-badge');
+  badge.style.display = scale > 1 ? 'flex' : 'none';
+  badge.textContent = scale === 2 ? '2×UHD' : scale === 3 ? '3×' : scale + '×';
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  ATLAS PROCESSING
+// ═══════════════════════════════════════════════════════════════════════
+function processAtlas(data, filename) {
   const out = {};
-  if (data.frames) {
-    for (const [k, f] of Object.entries(data.frames)) {
-      if (f.textureRect) { // Plist
+  const frames = data.frames;
+  if (!frames) return out;
+  if (Array.isArray(frames)) {
+    for (const f of frames) {
+      const k = f.filename, r = f.frame, sz = f.sourceSize;
+      out[k] = {
+        x:r.x, y:r.y, spriteW:r.w, spriteH:r.h, sourceW:sz.w, sourceH:sz.h,
+        offsetX: f.spriteSourceSize ? f.spriteSourceSize.x : 0,
+        offsetY: f.spriteSourceSize ? f.spriteSourceSize.y : 0,
+        rotated:!!f.rotated
+      };
+    }
+  } else {
+    for (const [k, f] of Object.entries(frames)) {
+      if (f.textureRect) {
         const rect = f.textureRect.match(/-?\d+/g).map(Number);
-        const off = f.spriteOffset.match(/-?\d+/g).map(Number);
-        const sz = f.spriteSize.match(/-?\d+/g).map(Number);
-        const ssz = f.spriteSourceSize.match(/-?\d+/g).map(Number);
-        out[k] = { x:rect[0], y:rect[1], spriteW:sz[0], spriteH:sz[1], sourceW:ssz[0], sourceH:ssz[1], offsetX:off[0], offsetY:off[1], rotated:f.textureRotated };
-      } else { // JSON
+        const off  = f.spriteOffset.match(/-?\d+/g).map(Number);
+        const sz   = f.spriteSize.match(/-?\d+/g).map(Number);
+        const ssz  = f.spriteSourceSize.match(/-?\d+/g).map(Number);
+        out[k] = { x:rect[0], y:rect[1], spriteW:sz[0], spriteH:sz[1], sourceW:ssz[0], sourceH:ssz[1], offsetX:off[0], offsetY:off[1], rotated:!!f.textureRotated };
+      } else {
         const sw = f.spriteW ?? f.sourceW ?? f.w, sh = f.spriteH ?? f.sourceH ?? f.h;
-        out[k] = { x:f.x, y:f.y, spriteW:sw, spriteH:sh, sourceW:f.sourceW??sw, sourceH:f.sourceH??sh, offsetX:f.offsetX??0, offsetY:f.offsetY??0, rotated:!!f.rotated };
+        const rv = f.frame || f;
+        out[k] = { x:rv.x, y:rv.y, spriteW:sw, spriteH:sh, sourceW:f.sourceW??sw, sourceH:f.sourceH??sh, offsetX:f.offsetX??0, offsetY:f.offsetY??0, rotated:!!f.rotated };
       }
     }
   }
   return out;
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+//  ANIM DESC PROCESSING
+// ═══════════════════════════════════════════════════════════════════════
 function processAnimDesc(data) {
-  const out = { baseVariantID: "01", usedTextures: {}, animationContainer: {}, _frame_counts: {}, _frame_names: {} };
-  if(data.usedTextures) out.usedTextures = data.usedTextures;
-
-  const firstAnim = Object.values(data.animationContainer || {})[0];
-  const isPlist = firstAnim && !Array.isArray(firstAnim);
-  
+  const out = { baseVariantID:'01', usedTextures:{}, animationContainer:{}, _frame_counts:{}, _frame_names:{} };
+  if (data.usedTextures) out.usedTextures = data.usedTextures;
   if (data.animationContainer) {
-    for (const [frameName, sprites] of Object.entries(data.animationContainer)) {
-      if (isPlist) {
-        const partsArr = [];
-        for (const [spKey, sp] of Object.entries(sprites)) {
-          const pos = sp.position ? sp.position.match(/-?[\d.]+/g).map(Number) : [0,0];
-          const sca = sp.scale ? sp.scale.match(/-?[\d.]+/g).map(Number) : [1,1];
-          const flip = sp.flipped ? sp.flipped.match(/-?[\d.]+/g).map(Number) : [0,0];
-          const rot = parseFloat(sp.rotation || 0);
-          const rrad = -rot * Math.PI / 180;
-          partsArr.push({
-            texture: sp.texture, tag: parseInt(sp.tag || 0), usesCustomTag: parseInt(sp.usesCustomTag || 0),
-            x: pos[0], y: pos[1], scaleX: sca[0], scaleY: sca[1], rotation: rot, flipX: flip[0], flipY: flip[1],
-            zValue: parseInt(sp.zValue || 0), cosRot: Math.cos(rrad), sinRot: Math.sin(rrad),
-            flipXMul: flip[0]===1?-1:1, flipYMul: flip[1]===1?-1:1
-          });
-        }
-        out.animationContainer[frameName] = partsArr;
-      } else {
-        out.animationContainer[frameName] = sprites;
+    for (const [fn, sprites] of Object.entries(data.animationContainer)) {
+      const arr = [];
+      const list = Array.isArray(sprites) ? sprites : Object.values(sprites);
+      for (const sp of list) {
+        let pos = [0,0];
+        if (sp.position) pos = typeof sp.position === 'string' ? sp.position.match(/-?[\d.]+/g).map(Number) : [sp.position[0]||0, sp.position[1]||0];
+        else pos = [sp.x||0, sp.y||0];
+        let sca = [1,1];
+        if (sp.scale) sca = typeof sp.scale === 'string' ? sp.scale.match(/-?[\d.]+/g).map(Number) : (Array.isArray(sp.scale) ? sp.scale : [sp.scaleX??1, sp.scaleY??1]);
+        else sca = [sp.scaleX??1, sp.scaleY??1];
+        let flip = [0,0];
+        if (sp.flipped) flip = typeof sp.flipped === 'string' ? sp.flipped.match(/-?[\d.]+/g).map(Number) : [sp.flipX?1:0, sp.flipY?1:0];
+        else flip = [sp.flipX?1:0, sp.flipY?1:0];
+        let rot = parseFloat(sp.rotation || sp.angle || 0);
+        let tex = sp.texture;
+        if (/^\d+$/.test(tex) && data.usedTextures && data.usedTextures['texture_'+tex]) tex = data.usedTextures['texture_'+tex].texture || tex;
+        arr.push({
+          texture:tex, tag:parseInt(sp.tag||0), usesCustomTag:parseInt(sp.usesCustomTag||0),
+          x:pos[0], y:pos[1], scaleX:sca[0], scaleY:sca[1], rotation:rot,
+          flipX:flip[0], flipY:flip[1], zValue:parseInt(sp.zValue||0),
+          flipXMul:flip[0]===1?-1:1, flipYMul:flip[1]===1?-1:1
+        });
       }
+      out.animationContainer[fn] = arr;
     }
   }
-
   if (!data._frame_counts) {
-    const animMap = {};
+    const am = {};
     for (const k of Object.keys(out.animationContainer)) {
       const m = k.match(/^(.+?)_(\d+)\.png$/);
       if (!m) continue;
-      if (!animMap[m[1]]) animMap[m[1]] = [];
-      animMap[m[1]].push({ n: parseInt(m[2]), k });
+      if (!am[m[1]]) am[m[1]] = [];
+      am[m[1]].push({ n:parseInt(m[2]), k });
     }
-    for (const [base, frames] of Object.entries(animMap)) {
-      frames.sort((a,b)=>a.n-b.n);
-      out._frame_names[base] = frames.map(f=>f.k);
-      out._frame_counts[base] = frames.length;
+    for (const [base, frs] of Object.entries(am)) {
+      frs.sort((a,b) => a.n - b.n);
+      out._frame_names[base] = frs.map(f => f.k);
+      out._frame_counts[base] = frs.length;
     }
   } else {
     out._frame_counts = data._frame_counts;
-    out._frame_names = data._frame_names;
+    out._frame_names  = data._frame_names;
   }
   return out;
 }
 
-function getLayer(texName) {
-  if (texName.includes('_glow_')) return 'glow';
-  if (texName.includes('_extra_')) return 'extra';
-  if (texName.includes('_2_') && !texName.includes('_glow_')) return '2';
+function getLayer(t) {
+  if (!t) return '1';
+  if (t.includes('_glow_')) return 'glow';
+  if (t.includes('_extra_')) return 'extra';
+  if (t.includes('_2_') && !t.includes('_glow_')) return '2';
   return '1';
 }
-
-function getLayerColor(layer) {
-  return { glow:'#7ec8e3', '2':'#e86b5f', '1':'#7ebd7e', extra:'#e8c87e' }[layer] || '#888';
+function getLayerColor(l) {
+  return { glow:'#7ec8e3', '2':'#e86b5f', '1':'#7ebd7e', extra:'#e8c87e' }[l] || '#888';
 }
-
 function companionTexName(baseTex, layer) {
   if (getLayer(baseTex) !== '1') return null;
   const dot = baseTex.lastIndexOf('.');
@@ -619,14 +732,102 @@ function companionTexName(baseTex, layer) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-//  RENDERING
+//  LAYER PANEL
+// ═══════════════════════════════════════════════════════════════════════
+function updateLayerPanel() {
+  const container = document.getElementById('layer-panel-container');
+  const panel = document.getElementById('layer-panel');
+  if (!S.atlasFrames || !Object.keys(S.atlasFrames).length) { container.style.display = 'none'; return; }
+  container.style.display = 'flex';
+  panel.innerHTML = '';
+  const available = new Set(['1']);
+  Object.keys(S.atlasFrames).forEach(k => available.add(getLayer(k)));
+  [{ id:'glow',name:'Glow',color:'#7ec8e3' }, { id:'2',name:'Capa 2',color:'#e86b5f' },
+   { id:'1',name:'Base (1)',color:'#7ebd7e' }, { id:'extra',name:'Extra',color:'#e8c87e' }].forEach(ld => {
+    if (!available.has(ld.id)) return;
+    if (S.layers[ld.id] === undefined) S.layers[ld.id] = true;
+    const row = document.createElement('div'); row.className = 'layer-row';
+    const btn = document.createElement('button');
+    btn.className = 'layer-eye' + (S.layers[ld.id] ? '' : ' off');
+    btn.innerHTML = '👁'; btn.title = 'Mostrar/Ocultar';
+    btn.onclick = () => { S.layers[ld.id] = !S.layers[ld.id]; btn.className = 'layer-eye' + (S.layers[ld.id] ? '' : ' off'); render(); };
+    row.appendChild(btn);
+    const dot = document.createElement('div'); dot.className = 'layer-dot'; dot.style.background = ld.color;
+    const lbl = document.createElement('span'); lbl.className = 'layer-name'; lbl.textContent = ld.name;
+    row.appendChild(dot); row.appendChild(lbl);
+    panel.appendChild(row);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  SMOOTH TWEEN / INTERPOLATION
+// ═══════════════════════════════════════════════════════════════════════
+function lerpVal(a, b, t) { return a + (b - a) * t; }
+function lerpAngle(a, b, t) {
+  let d = b - a;
+  while (d > 180) d -= 360;
+  while (d < -180) d += 360;
+  return a + d * t;
+}
+
+/** Returns the parts to render — interpolated if tweening during playback */
+function getPartsAtTime() {
+  if (!S.animDesc || !S.currentAnim) return null;
+  const fns = S.animDesc._frame_names[S.currentAnim];
+  if (!fns || !fns.length) return null;
+
+  // If not playing or tween disabled: return discrete frame
+  if (!S.isPlaying || !S.tweenEnabled) {
+    const fi = Math.min(S.currentFrame - 1, fns.length - 1);
+    return S.animDesc.animationContainer[fns[fi]] || null;
+  }
+
+  // Sub-frame fractional position
+  const t = S.playT - Math.floor(S.playT);
+  if (t < 0.001) {
+    const fi = Math.floor(S.playT) % fns.length;
+    return S.animDesc.animationContainer[fns[fi]] || null;
+  }
+
+  const fi0 = Math.floor(S.playT) % fns.length;
+  const fi1 = (fi0 + 1) % fns.length;
+  const p0 = S.animDesc.animationContainer[fns[fi0]];
+  const p1 = S.animDesc.animationContainer[fns[fi1]];
+  if (!p0 || !p1) return p0 || null;
+
+  // Interpolate matching parts (by index; assume same structure across frames)
+  const n = Math.min(p0.length, p1.length);
+  const result = [];
+  for (let i = 0; i < p0.length; i++) {
+    const a = p0[i];
+    if (i >= n) { result.push(a); continue; }
+    const b = p1[i];
+    if (a.texture !== b.texture) { result.push(a); continue; } // Can't lerp different textures
+    const rot = lerpAngle(a.rotation, b.rotation, t);
+    result.push({
+      ...a,
+      x       : lerpVal(a.x, b.x, t),
+      y       : lerpVal(a.y, b.y, t),
+      scaleX  : lerpVal(a.scaleX, b.scaleX, t),
+      scaleY  : lerpVal(a.scaleY, b.scaleY, t),
+      rotation: rot,
+      // Keep flip from dominant frame
+      flipXMul: t < 0.5 ? a.flipXMul : b.flipXMul,
+      flipYMul: t < 0.5 ? a.flipYMul : b.flipYMul,
+    });
+  }
+  return result;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  RENDERING  (UHD-aware)
 // ═══════════════════════════════════════════════════════════════════════
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 function resizeCanvas() {
   const vp = document.getElementById('viewport');
-  canvas.width = vp.clientWidth;
+  canvas.width  = vp.clientWidth;
   canvas.height = vp.clientHeight;
   render();
 }
@@ -644,75 +845,83 @@ function drawGrid() {
   const w = canvas.width, h = canvas.height;
   const cx = w/2 + S.viewX, cy = h/2 + S.viewY, step = 50 * S.previewScale;
   ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 1; ctx.beginPath();
-  for (let x = cx % step; x < w; x += step) { ctx.moveTo(x,0); ctx.lineTo(x,h); }
-  for (let y = cy % step; y < h; y += step) { ctx.moveTo(0,y); ctx.lineTo(w,y); }
+  for (let x = ((cx % step) + step) % step; x < w; x += step) { ctx.moveTo(x,0); ctx.lineTo(x,h); }
+  for (let y = ((cy % step) + step) % step; y < h; y += step) { ctx.moveTo(0,y); ctx.lineTo(w,y); }
   ctx.stroke();
   ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.setLineDash([4,4]); ctx.beginPath();
   ctx.moveTo(cx,0); ctx.lineTo(cx,h); ctx.moveTo(0,cy); ctx.lineTo(w,cy); ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle = 'rgba(232,130,58,0.5)'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'var(--acc-play)'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI*2); ctx.fill();
 }
 
+/** Draw one sprite part — fully UHD-scale-aware */
 function drawPart(frame, part, ox, oy, alpha, highlight) {
   if (!frame || !S.atlasImg) return;
+  const AS = S.atlasScale;                    // 1, 2, or 3
   const sw = frame.spriteW, sh = frame.spriteH;
-  const psx = part.scaleX * S.previewScale * part.flipXMul;
-  const psy = part.scaleY * S.previewScale * part.flipYMul;
-  const pangDeg = part.rotation; 
+  const lsw = sw / AS, lsh = sh / AS;        // logical (display) size
+  const lox = frame.offsetX / AS, loy = frame.offsetY / AS;
+
+  const psx = part.scaleX * S.previewScale * (part.flipXMul || 1);
+  const psy = part.scaleY * S.previewScale * (part.flipYMul || 1);
   const absPsx = Math.abs(psx), absPsy = Math.abs(psy);
+
   const lx = part.x * S.previewScale * 2, ly = -part.y * S.previewScale * 2;
   const wx = ox + lx, wy = oy + ly;
-  
-  const cx = wx + frame.offsetX * absPsx;
-  const cy = wy + (-frame.offsetY) * absPsy;
-  
+  const cx = wx + lox * absPsx;
+  const cy = wy + (-loy) * absPsy;
+
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.translate(cx, cy);
-  ctx.rotate(pangDeg * Math.PI / 180);
+  ctx.rotate(part.rotation * Math.PI / 180);
   ctx.scale(psx, psy);
-  
+
   if (frame.rotated) {
     ctx.rotate(-Math.PI / 2);
-    ctx.drawImage(S.atlasImg, frame.x, frame.y, sh, sw, -sh/2, -sw/2, sh, sw);
+    ctx.drawImage(S.atlasImg, frame.x, frame.y, sh, sw, -lsh/2, -lsw/2, lsh, lsw);
   } else {
-    ctx.drawImage(S.atlasImg, frame.x, frame.y, sw, sh, -sw/2, -sh/2, sw, sh);
+    ctx.drawImage(S.atlasImg, frame.x, frame.y, sw, sh, -lsw/2, -lsh/2, lsw, lsh);
   }
-  
+
   if (highlight) {
+    const hw = frame.rotated ? lsh : lsw, hh = frame.rotated ? lsw : lsh;
     ctx.globalAlpha = 0.35; ctx.fillStyle = '#3a78c9';
-    if (frame.rotated) ctx.fillRect(-sh/2,-sw/2,sh,sw); else ctx.fillRect(-sw/2,-sh/2,sw,sh);
+    ctx.fillRect(-hw/2, -hh/2, hw, hh);
     ctx.globalAlpha = 1; ctx.strokeStyle = '#5a98e9'; ctx.lineWidth = 1.5 / Math.abs(psx);
-    if (frame.rotated) ctx.strokeRect(-sh/2,-sw/2,sh,sw); else ctx.strokeRect(-sw/2,-sh/2,sw,sh);
+    ctx.strokeRect(-hw/2, -hh/2, hw, hh);
   }
   ctx.restore();
 }
 
 function render() {
   drawCheckerboard(); drawGrid();
-  if (!S.animDesc || !S.atlasImg) return;
+  if (!S.animDesc || !S.atlasImg) { drawTimeline(); return; }
   const w = canvas.width, h = canvas.height;
   const ox = w/2 + S.viewX, oy = h/2 + S.viewY;
-  const frameNames = S.animDesc._frame_names[S.currentAnim];
-  if (!frameNames || !frameNames.length) return;
-  const fi = Math.min(S.currentFrame - 1, frameNames.length - 1);
-  const parts = S.animDesc.animationContainer[frameNames[fi]];
-  if (!parts) return;
 
-  const layerOrder = { glow: 0, '2': 1, '1': 2, extra: 3 };
-  const sorted = [...parts].sort((a,b) => (layerOrder[getLayer(a.texture)]*100 + a.zValue) - (layerOrder[getLayer(b.texture)]*100 + b.zValue));
+  const parts = getPartsAtTime();
+  if (!parts) { drawTimeline(); return; }
+
+  const layerOrder = { glow:0, '2':1, '1':2, extra:3 };
+  // Sort with original indices preserved
+  const sorted = parts.map((p,i) => ({p, i})).sort((a,b) =>
+    (layerOrder[getLayer(a.p.texture)]*100 + a.p.zValue) -
+    (layerOrder[getLayer(b.p.texture)]*100 + b.p.zValue)
+  );
 
   for (const pass of ['glow','2','1','extra']) {
     if (!S.layers[pass]) continue;
-    for (let i = 0; i < sorted.length; i++) {
-      const part = sorted[i], baseTex = part.texture, baseLayer = getLayer(baseTex);
-      const highlight = (S.selectedPartIdx === parts.indexOf(part)) && pass === '1';
+    for (const { p: part, i: idx } of sorted) {
+      const baseTex = part.texture, baseLayer = getLayer(baseTex);
+      // Highlight only on discrete frames (not while tweening)
+      const highlight = (S.selectedPartIdx === idx) && pass === '1' && !S.isPlaying;
 
       if (pass === '1' && baseLayer === '1') {
         drawPart(S.atlasFrames[baseTex], part, ox, oy, 1.0, highlight);
       } else if (pass !== '1' && baseLayer === '1') {
-        const compTex = companionTexName(baseTex, pass);
-        if (compTex && S.atlasFrames[compTex]) drawPart(S.atlasFrames[compTex], part, ox, oy, pass==='glow'?0.7:1.0, false);
+        const cTex = companionTexName(baseTex, pass);
+        if (cTex && S.atlasFrames[cTex]) drawPart(S.atlasFrames[cTex], part, ox, oy, pass==='glow'?0.7:1.0, false);
       } else if (baseLayer === pass) {
         drawPart(S.atlasFrames[baseTex], part, ox, oy, 1.0, false);
       }
@@ -722,12 +931,15 @@ function render() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-//  PLAYBACK
+//  PLAYBACK  (smooth timing)
 // ═══════════════════════════════════════════════════════════════════════
 function play() {
-  S.isPlaying = true; S.lastT = performance.now(); S.acc = 0;
+  S.isPlaying = true;
+  S.lastT = performance.now();
+  S.playT = S.currentFrame - 1; // Start from current discrete frame
   document.getElementById('play-icon').style.display = 'none';
   document.getElementById('pause-icon').style.display = '';
+  document.getElementById('tween-indicator').classList.toggle('visible', S.tweenEnabled);
   loop();
 }
 function pause() {
@@ -735,21 +947,26 @@ function pause() {
   if (S.raf) { cancelAnimationFrame(S.raf); S.raf = null; }
   document.getElementById('play-icon').style.display = '';
   document.getElementById('pause-icon').style.display = 'none';
+  document.getElementById('tween-indicator').classList.remove('visible');
 }
 function loop() {
   if (!S.isPlaying) return;
-  const now = performance.now(), dt = (now - S.lastT) / 1000;
-  S.lastT = now; S.acc += dt;
-  const frameDur = 1 / S.fps;
-  while (S.acc >= frameDur) {
-    S.acc -= frameDur; S.currentFrame++;
-    if (S.currentFrame > S.frameCount) S.currentFrame = 1;
-  }
+  const now = performance.now();
+  const dt = Math.min((now - S.lastT) / 1000, 0.1); // cap to avoid big jumps
+  S.lastT = now;
+
+  S.playT += dt * S.fps;
+  if (S.playT >= S.frameCount) S.playT -= S.frameCount; // seamless loop
+
+  S.currentFrame = Math.floor(S.playT) + 1;
+  if (S.currentFrame > S.frameCount) S.currentFrame = S.frameCount;
+
   render(); updateHUD();
   S.raf = requestAnimationFrame(loop);
 }
 function setFrame(f) {
   S.currentFrame = Math.max(1, Math.min(f, S.frameCount));
+  S.playT = S.currentFrame - 1;
   render(); updateHUD(); buildPartsList();
 }
 
@@ -762,35 +979,37 @@ function buildAnimList() {
   for (const name of Object.keys(S.animDesc._frame_names)) {
     const item = document.createElement('div');
     item.className = 'anim-item' + (name === S.currentAnim ? ' active' : '');
-    item.innerHTML = `<div class="anim-dot"></div><span>${name.split('_').slice(1).join('_')||name}</span><span class="anim-frames">${S.animDesc._frame_counts[name]}f</span>`;
-    item.onclick = () => switchAnim(name);
+    item.innerHTML = `<div class="anim-dot"></div><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name.split('_').slice(1).join('_')||name}</span><span class="anim-frames">${S.animDesc._frame_counts[name]}f</span>`;
+    item.onclick = () => { switchAnim(name); closeMobilePanels(); };
     el.appendChild(item);
   }
 }
 function switchAnim(name) {
   if (!S.animDesc || !S.animDesc._frame_names[name]) return;
   S.currentAnim = name; S.frameCount = S.animDesc._frame_counts[name] || 0;
-  S.currentFrame = 1; S.selectedPartIdx = -1;
+  S.currentFrame = 1; S.playT = 0; S.selectedPartIdx = -1;
   buildAnimList(); buildPartsList(); drawTimeline(); render(); updateHUD(); updatePropPanel();
 }
 function buildPartsList() {
   const el = document.getElementById('parts-list'); el.innerHTML = '';
   if (!S.animDesc || !S.currentAnim) return;
-  const fn = S.animDesc._frame_names[S.currentAnim][Math.min(S.currentFrame - 1, S.frameCount - 1)];
+  const fi = Math.min(S.currentFrame - 1, S.frameCount - 1);
+  const fn = S.animDesc._frame_names[S.currentAnim][fi];
   const parts = S.animDesc.animationContainer[fn];
   if (!parts) return;
-
-  const btnDel = document.getElementById('btn-del-part');
-  btnDel.style.display = S.selectedPartIdx >= 0 ? 'flex' : 'none';
-
-  const sorted = [...parts.entries()].sort((a,b)=> (getLayer(a[1].texture)==='1'?2:0)*100+a[1].zValue - (getLayer(b[1].texture)==='1'?2:0)*100+b[1].zValue);
+  document.getElementById('btn-del-part').style.display = S.selectedPartIdx >= 0 ? 'flex' : 'none';
+  const sorted = [...parts.entries()].sort((a,b) => {
+    const la = getLayer(a[1].texture), lb = getLayer(b[1].texture);
+    const lo = {glow:0,'2':1,'1':2,extra:3};
+    return (lo[la]||0)*100 + (a[1].zValue||0) - (lo[lb]||0)*100 - (b[1].zValue||0);
+  });
   for (const [idx, part] of sorted) {
     const layer = getLayer(part.texture);
     const shortName = part.texture.replace(/^.*_(\d{2})_/,'').replace('.png','');
     const item = document.createElement('div');
     item.className = 'part-item' + (S.selectedPartIdx === idx ? ' selected' : '');
-    item.innerHTML = `<div class="part-icon" style="background:${getLayerColor(layer)}"></div><span>${shortName}</span><span class="part-z">z${part.zValue}</span>`;
-    item.onclick = () => { S.selectedPartIdx = idx; buildPartsList(); updatePropPanel(); render(); };
+    item.innerHTML = `<div class="part-icon" style="background:${getLayerColor(layer)}"></div><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${shortName}</span><span class="part-z">z${part.zValue}</span>`;
+    item.onclick = () => { S.selectedPartIdx = idx; buildPartsList(); updatePropPanel(); render(); closeMobilePanels(); };
     el.appendChild(item);
   }
 }
@@ -800,12 +1019,12 @@ function buildPartsList() {
 // ═══════════════════════════════════════════════════════════════════════
 function updatePropPanel() {
   const panel = document.getElementById('prop-panel'), nosel = document.getElementById('no-sel');
-  if (!S.animDesc || !S.currentAnim || S.selectedPartIdx < 0) { panel.style.display = 'none'; nosel.style.display = ''; return; }
-  const fn = S.animDesc._frame_names[S.currentAnim][Math.min(S.currentFrame-1, S.frameCount-1)];
+  if (!S.animDesc || !S.currentAnim || S.selectedPartIdx < 0) { panel.style.display='none'; nosel.style.display=''; return; }
+  const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+  const fn = S.animDesc._frame_names[S.currentAnim][fi];
   const p = S.animDesc.animationContainer[fn]?.[S.selectedPartIdx];
-  if (!p) { panel.style.display = 'none'; nosel.style.display = ''; return; }
-  
-  nosel.style.display = 'none'; panel.style.display = '';
+  if (!p) { panel.style.display='none'; nosel.style.display=''; return; }
+  nosel.style.display='none'; panel.style.display='';
   document.getElementById('pp-name').textContent = p.texture.replace(/^.*_(\d{2})_/,'');
   document.getElementById('pp-layer').textContent = getLayer(p.texture);
   document.getElementById('pp-z').value = p.zValue;
@@ -817,84 +1036,115 @@ function updatePropPanel() {
   document.getElementById('pp-flipx').className = 'flip-btn' + (p.flipX ? ' active' : '');
   document.getElementById('pp-flipy').className = 'flip-btn' + (p.flipY ? ' active' : '');
 }
-
 function applyPropEdit() {
   if (!S.animDesc || !S.currentAnim || S.selectedPartIdx < 0) return;
-  const fn = S.animDesc._frame_names[S.currentAnim][Math.min(S.currentFrame-1, S.frameCount-1)];
+  const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+  const fn = S.animDesc._frame_names[S.currentAnim][fi];
   const p = S.animDesc.animationContainer[fn]?.[S.selectedPartIdx];
   if (!p) return;
-  p.x = parseFloat(document.getElementById('pp-x').value) || 0;
-  p.y = parseFloat(document.getElementById('pp-y').value) || 0;
-  p.scaleX = parseFloat(document.getElementById('pp-sx').value) || 1;
-  p.scaleY = parseFloat(document.getElementById('pp-sy').value) || 1;
-  p.rotation = parseFloat(document.getElementById('pp-rot').value) || 0;
-  p.zValue = parseInt(document.getElementById('pp-z').value) || 0;
-  const rrad = -p.rotation * Math.PI / 180;
-  p.cosRot = Math.cos(rrad); p.sinRot = Math.sin(rrad);
+  p.x = parseFloat(document.getElementById('pp-x').value)||0;
+  p.y = parseFloat(document.getElementById('pp-y').value)||0;
+  p.scaleX = parseFloat(document.getElementById('pp-sx').value)||1;
+  p.scaleY = parseFloat(document.getElementById('pp-sy').value)||1;
+  p.rotation = parseFloat(document.getElementById('pp-rot').value)||0;
+  p.zValue = parseInt(document.getElementById('pp-z').value)||0;
   render(); buildPartsList();
 }
-
 function updateHUD() {
-  document.getElementById('frame-info-top').textContent = S.currentAnim ? `${S.currentAnim.replace(/^.*_/,'')}  ${S.currentFrame}/${S.frameCount}` : '—';
-  document.getElementById('scale-info').textContent = Math.round(S.previewScale*100/1.5*100)+'%';
+  const fi = `${S.currentAnim ? S.currentAnim.replace(/^.*?_/,'') : '—'}  ${S.currentFrame}/${S.frameCount}`;
+  document.getElementById('frame-info-top').textContent = S.currentAnim ? fi : '—';
+  document.getElementById('scale-info').textContent = Math.round(S.previewScale*100/1.5*100) + '%';
+  document.getElementById('preview-scale-val').textContent = S.previewScale.toFixed(2) + '×';
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-//  TIMELINE
+//  TIMELINE  (smooth floating playhead)
 // ═══════════════════════════════════════════════════════════════════════
-const CELL = 28, ROW = 24;
 function drawTimeline() {
   if (!S.animDesc || !S.currentAnim) return;
   const fns = S.animDesc._frame_names[S.currentAnim] || [];
   const parts0 = S.animDesc.animationContainer[fns[0]] || [];
   const partNames = parts0.map(p => p.texture.replace(/^.*_(\d{2})_/,'').replace('.png',''));
 
+  // Ruler
+  const rulerEl = document.getElementById('tl-ruler');
   const rc = document.getElementById('ruler-canvas').getContext('2d');
-  rc.canvas.width = Math.max(document.getElementById('tl-ruler').clientWidth, fns.length*CELL+20);
-  rc.canvas.height = 36; rc.fillStyle = '#20232a'; rc.fillRect(0,0,rc.canvas.width,36);
-  
+  rc.canvas.width  = Math.max(rulerEl.clientWidth, fns.length * CELL + 20);
+  rc.canvas.height = 36;
+  rc.fillStyle = '#20232a'; rc.fillRect(0, 0, rc.canvas.width, 36);
   for (let f = 0; f < fns.length; f++) {
-    const isCur = (f+1 === S.currentFrame);
-    if (isCur) { rc.fillStyle = '#e8823a'; rc.fillRect(f*CELL, 0, CELL, 36); }
+    const isCur = (f + 1 === S.currentFrame);
+    if (isCur) { rc.fillStyle='rgba(255,167,38,.18)'; rc.fillRect(f*CELL, 0, CELL, 36); }
     if (f%5===0 || isCur) {
-      rc.fillStyle = isCur ? '#fff' : '#bfc5d1'; rc.font = `500 10px 'JetBrains Mono'`;
-      rc.textAlign = 'center'; rc.fillText(f+1, f*CELL+CELL/2, 22);
+      rc.fillStyle = isCur ? '#fff' : '#bfc5d1';
+      rc.font = `500 10px 'JetBrains Mono'`; rc.textAlign='center';
+      rc.fillText(f+1, f*CELL+CELL/2, 22);
     }
     rc.fillStyle = '#353a47'; rc.fillRect(f*CELL, 32, 1, 4);
   }
+  // Smooth playhead in ruler
+  const phPos = S.isPlaying && S.tweenEnabled ? S.playT : (S.currentFrame - 1);
+  const phX = phPos * CELL + CELL/2;
+  rc.strokeStyle = '#FFA726'; rc.lineWidth = 2;
+  rc.beginPath(); rc.moveTo(phX, 0); rc.lineTo(phX, 36); rc.stroke();
+  rc.fillStyle = '#FFA726'; rc.beginPath();
+  rc.moveTo(phX-5,0); rc.lineTo(phX+5,0); rc.lineTo(phX,8); rc.closePath(); rc.fill();
 
+  // Names
   const nc = document.getElementById('names-canvas').getContext('2d');
-  nc.canvas.width = 210; nc.canvas.height = partNames.length*ROW + 4;
-  nc.fillStyle = '#20232a'; nc.fillRect(0,0,210,nc.canvas.height);
+  const namesEl = document.getElementById('tl-names');
+  nc.canvas.width = namesEl.clientWidth || 210;
+  nc.canvas.height = partNames.length * ROW + 4;
+  nc.fillStyle = '#20232a'; nc.fillRect(0, 0, nc.canvas.width, nc.canvas.height);
   for (let i = 0; i < partNames.length; i++) {
     const y = i*ROW + 4, sel = S.selectedPartIdx === i;
-    if (sel) { nc.fillStyle = 'rgba(58,120,201,.18)'; nc.fillRect(0,y,210,ROW); }
-    nc.fillStyle = getLayerColor(getLayer(parts0[i]?.texture||'')); nc.fillRect(8, y+ROW/2-4, 8, 8);
-    nc.fillStyle = sel ? '#edf0f5' : '#bfc5d1'; nc.font = `400 11px 'IBM Plex Sans'`; nc.textAlign='left';
-    nc.fillText(partNames[i], 24, y+ROW/2+4);
-    nc.fillStyle = '#353a47'; nc.fillRect(0, y+ROW-1, 210, 1);
+    if (sel) { nc.fillStyle='rgba(58,120,201,.18)'; nc.fillRect(0,y,nc.canvas.width,ROW); }
+    nc.fillStyle = getLayerColor(getLayer(parts0[i]?.texture||''));
+    nc.fillRect(8, y+ROW/2-4, 8, 8);
+    nc.fillStyle = sel ? '#edf0f5' : '#bfc5d1';
+    nc.font = `400 11px 'IBM Plex Sans'`; nc.textAlign='left';
+    const nameStr = partNames[i].length > 14 ? partNames[i].slice(0,13)+'…' : partNames[i];
+    nc.fillText(nameStr, 24, y+ROW/2+4);
+    nc.fillStyle = '#353a47'; nc.fillRect(0, y+ROW-1, nc.canvas.width, 1);
   }
 
+  // Tracks
   const tc = document.getElementById('tracks-canvas').getContext('2d');
-  tc.canvas.width = Math.max(400, fns.length*CELL+20); tc.canvas.height = partNames.length*ROW + 4;
-  tc.fillStyle = '#1d1f23'; tc.fillRect(0,0,tc.canvas.width,tc.canvas.height);
-  
+  tc.canvas.width  = Math.max(400, fns.length*CELL + 20);
+  tc.canvas.height = partNames.length * ROW + 4;
+  tc.fillStyle = '#1d1f23'; tc.fillRect(0, 0, tc.canvas.width, tc.canvas.height);
+
   for (let i = 0; i < partNames.length; i++) {
     const y = i*ROW + 4, sel = S.selectedPartIdx === i;
-    if (sel) { tc.fillStyle = 'rgba(58,120,201,.08)'; tc.fillRect(0,y,tc.canvas.width,ROW); }
-    tc.fillStyle = '#292d38'; tc.fillRect(0,y+ROW-1,tc.canvas.width,1);
+    if (sel) { tc.fillStyle='rgba(58,120,201,.08)'; tc.fillRect(0,y,tc.canvas.width,ROW); }
+    tc.fillStyle = '#292d38'; tc.fillRect(0, y+ROW-1, tc.canvas.width, 1);
     for (let f = 0; f < fns.length; f++) {
       const isCur = (f+1===S.currentFrame);
-      if (isCur) { tc.fillStyle='rgba(232,130,58,.12)'; tc.fillRect(f*CELL,y,CELL,ROW); }
+      if (isCur) { tc.fillStyle='rgba(255,167,38,.1)'; tc.fillRect(f*CELL,y,CELL,ROW); }
       tc.save(); tc.translate(f*CELL+CELL/2, y+ROW/2); tc.rotate(Math.PI/4);
-      tc.fillStyle = isCur ? '#e8823a' : sel ? '#3a78c9' : '#3a3d47';
-      tc.fillRect(-2,-2,4,4); tc.restore();
+      tc.fillStyle = isCur ? '#FFA726' : sel ? '#3a78c9' : '#3a3d47';
+      const ks = isCur ? 3 : 2;
+      tc.fillRect(-ks,-ks,ks*2,ks*2); tc.restore();
     }
-    if (fns.length>1) { tc.strokeStyle = sel?'rgba(58,120,201,.3)':'rgba(255,255,255,.06)'; tc.beginPath(); tc.moveTo(CELL/2, y+ROW/2); tc.lineTo((fns.length-1)*CELL+CELL/2, y+ROW/2); tc.stroke(); }
+    if (fns.length > 1) {
+      tc.strokeStyle = sel ? 'rgba(58,120,201,.3)' : 'rgba(255,255,255,.06)';
+      tc.beginPath(); tc.moveTo(CELL/2,y+ROW/2); tc.lineTo((fns.length-1)*CELL+CELL/2,y+ROW/2); tc.stroke();
+    }
   }
-  const phX = (S.currentFrame-1)*CELL+CELL/2;
-  tc.strokeStyle = 'rgba(232,130,58,.8)'; tc.lineWidth = 1.5;
-  tc.beginPath(); tc.moveTo(phX,0); tc.lineTo(phX,tc.canvas.height); tc.stroke();
+
+  // Smooth playhead line in tracks
+  tc.strokeStyle = 'rgba(255,167,38,.85)'; tc.lineWidth = 1.5;
+  tc.beginPath(); tc.moveTo(phX,0); tc.lineTo(phX, tc.canvas.height); tc.stroke();
+
+  // If tweening: draw a subtle ghost line at the next discrete frame
+  if (S.isPlaying && S.tweenEnabled && S.frameCount > 1) {
+    const t = S.playT - Math.floor(S.playT);
+    tc.globalAlpha = t * 0.3;
+    tc.strokeStyle = '#26C6DA'; tc.lineWidth = 1;
+    const nextX = ((Math.floor(S.playT)+1)%S.frameCount) * CELL + CELL/2;
+    tc.beginPath(); tc.moveTo(nextX,0); tc.lineTo(nextX,tc.canvas.height); tc.stroke();
+    tc.globalAlpha = 1;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -902,12 +1152,10 @@ function drawTimeline() {
 // ═══════════════════════════════════════════════════════════════════════
 function reindexFrames(animName) {
   const oldNames = S.animDesc._frame_names[animName];
-  const newNames = [];
-  const newCont = {};
+  const newNames = [], newCont = {};
   oldNames.forEach((old, i) => {
     const n = `${animName}_${String(i+1).padStart(3,'0')}.png`;
-    newNames.push(n);
-    newCont[n] = S.animDesc.animationContainer[old];
+    newNames.push(n); newCont[n] = S.animDesc.animationContainer[old];
   });
   oldNames.forEach(old => { if(!newNames.includes(old)) delete S.animDesc.animationContainer[old]; });
   Object.assign(S.animDesc.animationContainer, newCont);
@@ -915,61 +1163,41 @@ function reindexFrames(animName) {
   S.animDesc._frame_counts[animName] = newNames.length;
   S.frameCount = newNames.length;
 }
-
 document.getElementById('btn-add-frame').onclick = () => {
-  if(!S.currentAnim) return;
+  if (!S.currentAnim) return;
   const fns = S.animDesc._frame_names[S.currentAnim];
-  const curFn = fns[S.currentFrame-1];
-  const dupe = JSON.parse(JSON.stringify(S.animDesc.animationContainer[curFn]));
-  const tempName = `TMP_${Date.now()}.png`;
-  S.animDesc.animationContainer[tempName] = dupe;
-  fns.splice(S.currentFrame, 0, tempName);
-  reindexFrames(S.currentAnim);
-  setFrame(S.currentFrame + 1);
+  const dupe = JSON.parse(JSON.stringify(S.animDesc.animationContainer[fns[S.currentFrame-1]]));
+  const tmp = `TMP_${Date.now()}.png`;
+  S.animDesc.animationContainer[tmp] = dupe;
+  fns.splice(S.currentFrame, 0, tmp);
+  reindexFrames(S.currentAnim); setFrame(S.currentFrame + 1);
 };
-
 document.getElementById('btn-del-frame').onclick = () => {
-  if(!S.currentAnim || S.frameCount <= 1) return;
-  const fns = S.animDesc._frame_names[S.currentAnim];
-  fns.splice(S.currentFrame-1, 1);
+  if (!S.currentAnim || S.frameCount <= 1) return;
+  S.animDesc._frame_names[S.currentAnim].splice(S.currentFrame-1, 1);
   reindexFrames(S.currentAnim);
   if (S.currentFrame > S.frameCount) S.currentFrame = S.frameCount;
   setFrame(S.currentFrame);
 };
-
 document.getElementById('btn-new-part').onclick = () => {
-  if(!S.currentAnim) return;
-  const sel = document.getElementById('m-part-sel');
-  sel.innerHTML = '';
-  Object.keys(S.atlasFrames).filter(k => getLayer(k) === '1').forEach(k => {
-    sel.innerHTML += `<option value="${k}">${k}</option>`;
-  });
+  if (!S.currentAnim) return;
+  const sel = document.getElementById('m-part-sel'); sel.innerHTML = '';
+  Object.keys(S.atlasFrames).filter(k => getLayer(k)==='1').forEach(k => { sel.innerHTML += `<option value="${k}">${k}</option>`; });
   document.getElementById('modal-part').classList.add('open');
 };
-
 function addPartToFrame() {
-  const tex = document.getElementById('m-part-sel').value;
-  if (!tex) return;
-  const fns = S.animDesc._frame_names[S.currentAnim];
-  const curFn = fns[S.currentFrame-1];
-  const parts = S.animDesc.animationContainer[curFn];
-  parts.push({
-    texture: tex, tag: 0, usesCustomTag: 0,
-    x: 0, y: 0, scaleX: 1, scaleY: 1, rotation: 0, flipX: 0, flipY: 0,
-    zValue: parts.length, cosRot: 1, sinRot: 0, flipXMul: 1, flipYMul: 1
-  });
-  closeModals();
-  S.selectedPartIdx = parts.length - 1;
+  const tex = document.getElementById('m-part-sel').value; if (!tex) return;
+  const fn = S.animDesc._frame_names[S.currentAnim][S.currentFrame-1];
+  const parts = S.animDesc.animationContainer[fn];
+  parts.push({ texture:tex, tag:0, usesCustomTag:0, x:0, y:0, scaleX:1, scaleY:1, rotation:0, flipX:0, flipY:0, zValue:parts.length, flipXMul:1, flipYMul:1 });
+  closeModals(); S.selectedPartIdx = parts.length-1;
   buildPartsList(); updatePropPanel(); render();
 }
-
 document.getElementById('btn-del-part').onclick = () => {
-  if(!S.currentAnim || S.selectedPartIdx < 0) return;
-  const fns = S.animDesc._frame_names[S.currentAnim];
-  const parts = S.animDesc.animationContainer[fns[S.currentFrame-1]];
-  parts.splice(S.selectedPartIdx, 1);
-  S.selectedPartIdx = -1;
-  buildPartsList(); updatePropPanel(); render();
+  if (!S.currentAnim || S.selectedPartIdx < 0) return;
+  const fn = S.animDesc._frame_names[S.currentAnim][S.currentFrame-1];
+  S.animDesc.animationContainer[fn].splice(S.selectedPartIdx, 1);
+  S.selectedPartIdx = -1; buildPartsList(); updatePropPanel(); render();
 };
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -982,148 +1210,129 @@ function checkAllLoaded() {
   }
   if (S.loaded.png && S.loaded.atlas && S.loaded.anim) {
     document.getElementById('dz-btn-open').style.display = 'block';
+    if (window.isAutoLoading) setTimeout(hideDrop, 300);
   }
 }
 function hideDrop() {
   document.getElementById('drop-zone').classList.add('hidden');
   document.getElementById('playback-container').classList.add('active');
-  
-  // Habilitar los botones del topbar que estaban disabled inicialmente
-  document.querySelectorAll('.tb-btn').forEach(btn => btn.removeAttribute('disabled'));
-
-  if(S.animDesc && Object.keys(S.animDesc._frame_names).length > 0) {
+  document.querySelectorAll('.tb-btn').forEach(b => b.removeAttribute('disabled'));
+  if (S.animDesc && Object.keys(S.animDesc._frame_names).length > 0)
     switchAnim(Object.keys(S.animDesc._frame_names)[0]);
-  }
   resizeCanvas();
 }
 function updateDzStatus(k) {
   document.getElementById('st-'+k).innerHTML = `<span class="ok">✓</span> ${k==='png'?'PNG':k==='atlas'?'Atlas':'AnimDesc'}`;
   S.loaded[k] = true; checkAllLoaded();
 }
+function createFromScratch() { openNewAnimModal(); }
 
-function createFromScratch() {
-  openNewAnimModal();
-}
+document.getElementById('btn-open-png').onclick   = () => document.getElementById('inp-png').click();
+document.getElementById('btn-open-atlas').onclick  = () => document.getElementById('inp-atlas').click();
+document.getElementById('btn-open-anim').onclick   = () => document.getElementById('inp-anim').click();
 
-// BINDINGS DE LOS BOTONES SUPERIORES A LOS INPUTS DE ARCHIVOS
-document.getElementById('btn-open-png').onclick = () => document.getElementById('inp-png').click();
-document.getElementById('btn-open-atlas').onclick = () => document.getElementById('inp-atlas').click();
-document.getElementById('btn-open-anim').onclick = () => document.getElementById('inp-anim').click();
-
-document.getElementById('inp-png').onchange = e => { 
-  if(e.target.files[0]) {
-    const img = new Image(); img.onload = () => { S.atlasImg = img; updateDzStatus('png'); render(); };
-    img.src = URL.createObjectURL(e.target.files[0]);
-  }
+document.getElementById('inp-png').onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  // Detect UHD from PNG filename too
+  const sc = detectScaleFromName(f.name);
+  if (sc > 1) applyAtlasScale(sc);
+  const img = new Image();
+  img.onload = () => { S.atlasImg = img; updateDzStatus('png'); render(); };
+  img.src = URL.createObjectURL(f);
 };
-document.getElementById('inp-atlas').onchange = e => { 
-  const f = e.target.files[0];
-  if(f) parseFileContent(f, data => { S.atlasFrames = processAtlas(data); updateDzStatus('atlas'); render(); });
-};
-document.getElementById('inp-anim').onchange = e => { 
-  const f = e.target.files[0];
-  if(f) parseFileContent(f, data => { 
-    S.animDesc = processAnimDesc(data); 
-    updateDzStatus('anim'); 
-    buildAnimList(); 
-    // Actualización forzada al re-importar para resolver BUG de interfaz trabada
-    const keys = Object.keys(S.animDesc._frame_names);
-    if(keys.length > 0) switchAnim(keys[0]);
-    else { S.currentAnim = null; S.frameCount = 0; S.currentFrame = 1; S.selectedPartIdx = -1; render(); updateHUD(); updatePropPanel(); }
+document.getElementById('inp-atlas').onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  parseFileContent(f, (data, fname) => {
+    const sc = detectScaleFromData(data, fname);
+    applyAtlasScale(sc);
+    S.atlasFrames = processAtlas(data, fname);
+    updateDzStatus('atlas'); updateLayerPanel(); render();
   });
 };
-
-// ====================== EXPORTAR ======================
+document.getElementById('inp-anim').onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  parseFileContent(f, data => {
+    S.animDesc = processAnimDesc(data); updateDzStatus('anim');
+    buildAnimList();
+    const keys = Object.keys(S.animDesc._frame_names);
+    if (keys.length) switchAnim(keys[0]);
+    else { S.currentAnim=null; S.frameCount=0; S.currentFrame=1; S.selectedPartIdx=-1; render(); updateHUD(); updatePropPanel(); }
+  });
+};
 document.getElementById('btn-export').onclick = () => {
-  if(!S.animDesc) return alert("No hay animaciones para exportar.");
+  if (!S.animDesc) return alert('No hay animaciones para exportar.');
   document.getElementById('modal-export').classList.add('open');
 };
 
 function refreshUsedTextures() {
-  if(!S.animDesc) return;
-  const used = {};
-  let tagIdx = 0;
-  const tex2tag = {};
-  for(const parts of Object.values(S.animDesc.animationContainer)) {
-    for(const p of parts) {
-      if(tex2tag[p.texture] === undefined) {
-        tex2tag[p.texture] = tagIdx;
-        used[`texture_${tagIdx}`] = { texture: p.texture, tag: tagIdx };
-        tagIdx++;
-      }
+  if (!S.animDesc) return;
+  const used={}, tex2tag={};
+  let tagIdx=0;
+  for (const parts of Object.values(S.animDesc.animationContainer)) {
+    for (const p of parts) {
+      if (tex2tag[p.texture]===undefined) { tex2tag[p.texture]=tagIdx; used[`texture_${tagIdx}`]={texture:p.texture,tag:tagIdx}; tagIdx++; }
       p.tag = tex2tag[p.texture];
     }
   }
   S.animDesc.usedTextures = used;
 }
-
 function buildPlistStr(desc) {
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n<plist version="1.0">\n<dict>\n`;
-  xml += `<key>usedTextures</key>\n<dict>\n`;
-  for(const [k, v] of Object.entries(desc.usedTextures||{})) {
-    xml += `<key>${k}</key>\n<dict>\n<key>texture</key>\n<string>${v.texture}</string>\n<key>tag</key>\n<string>${v.tag}</string>\n</dict>\n`;
-  }
-  xml += `</dict>\n<key>animationContainer</key>\n<dict>\n`;
-  for(const [fn, parts] of Object.entries(desc.animationContainer)) {
-    xml += `<key>${fn}</key>\n<dict>\n`;
-    parts.forEach((p, i) => {
-      xml += `<key>sprite_${i}</key>\n<dict>\n`;
-      xml += `<key>texture</key><string>${p.texture}</string>\n`;
-      xml += `<key>tag</key><string>${p.tag}</string>\n`;
-      xml += `<key>usesCustomTag</key><string>${p.usesCustomTag||0}</string>\n`;
-      xml += `<key>position</key><string>{${p.x}, ${p.y}}</string>\n`;
-      xml += `<key>scale</key><string>{${p.scaleX}, ${p.scaleY}}</string>\n`;
-      xml += `<key>rotation</key><string>${p.rotation}</string>\n`;
-      xml += `<key>flipped</key><string>{${p.flipX}, ${p.flipY}}</string>\n`;
-      xml += `<key>zValue</key><string>${p.zValue}</string>\n`;
-      xml += `</dict>\n`;
+  let x = `<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n<plist version="1.0">\n<dict>\n`;
+  x += `<key>usedTextures</key>\n<dict>\n`;
+  for (const [k,v] of Object.entries(desc.usedTextures||{}))
+    x += `<key>${k}</key>\n<dict>\n<key>texture</key>\n<string>${v.texture}</string>\n<key>tag</key>\n<string>${v.tag}</string>\n</dict>\n`;
+  x += `</dict>\n<key>animationContainer</key>\n<dict>\n`;
+  for (const [fn, parts] of Object.entries(desc.animationContainer)) {
+    x += `<key>${fn}</key>\n<dict>\n`;
+    parts.forEach((p,i) => {
+      x += `<key>sprite_${i}</key>\n<dict>\n`;
+      x += `<key>texture</key><string>${p.texture}</string>\n`;
+      x += `<key>tag</key><string>${p.tag}</string>\n`;
+      x += `<key>usesCustomTag</key><string>${p.usesCustomTag||0}</string>\n`;
+      x += `<key>position</key><string>{${p.x}, ${p.y}}</string>\n`;
+      x += `<key>scale</key><string>{${p.scaleX}, ${p.scaleY}}</string>\n`;
+      x += `<key>rotation</key><string>${p.rotation}</string>\n`;
+      x += `<key>flipped</key><string>{${p.flipX}, ${p.flipY}}</string>\n`;
+      x += `<key>zValue</key><string>${p.zValue}</string>\n`;
+      x += `</dict>\n`;
     });
-    xml += `</dict>\n`;
+    x += `</dict>\n`;
   }
-  xml += `</dict>\n</dict>\n</plist>`;
-  return xml;
+  x += `</dict>\n</dict>\n</plist>`;
+  return x;
 }
-
 function exportFile(type) {
   refreshUsedTextures();
-  const content = type === 'json' ? JSON.stringify(S.animDesc, null, 2) : buildPlistStr(S.animDesc);
-  const blob = new Blob([content], { type: type==='json'?'application/json':'application/xml' });
+  const content = type==='json' ? JSON.stringify(S.animDesc, null, 2) : buildPlistStr(S.animDesc);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `AnimDesc.${type}`;
-  a.click();
+  a.href = URL.createObjectURL(new Blob([content], { type:type==='json'?'application/json':'application/xml' }));
+  a.download = `AnimDesc.${type}`; a.click();
   closeModals();
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-//  MODALS & EVENTS
+//  MODALS
 // ═══════════════════════════════════════════════════════════════════════
 function openNewAnimModal() {
   if (!S.animDesc) {
-    if (!S.loaded.png || !S.loaded.atlas) return alert("Por favor importa primero el Atlas PNG y los Datos del Atlas.");
-    S.animDesc = { baseVariantID: "01", usedTextures: {}, animationContainer: {}, _frame_counts: {}, _frame_names: {} };
-    updateDzStatus('anim');
-    hideDrop();
+    if (!S.loaded.png || !S.loaded.atlas) return alert('Por favor importa primero el Atlas PNG y los Datos del Atlas.');
+    S.animDesc = { baseVariantID:'01', usedTextures:{}, animationContainer:{}, _frame_counts:{}, _frame_names:{} };
+    updateDzStatus('anim'); hideDrop();
   }
-
   const sel = document.getElementById('m-copy');
   sel.innerHTML = '<option value="">— Vacía —</option>';
-  for (const n of Object.keys(S.animDesc?._frame_names || {})) sel.innerHTML += `<option value="${n}">${n}</option>`;
-  
-  document.getElementById('m-copy-row').style.display = Object.keys(S.animDesc?._frame_names || {}).length ? 'flex' : 'none';
-
+  for (const n of Object.keys(S.animDesc?._frame_names||{})) sel.innerHTML += `<option value="${n}">${n}</option>`;
+  document.getElementById('m-copy-row').style.display = Object.keys(S.animDesc?._frame_names||{}).length ? 'flex' : 'none';
   document.getElementById('m-name').value = '';
   document.getElementById('modal-new').classList.add('open');
   document.getElementById('m-name').focus();
 }
-
-function closeModals() { document.querySelectorAll('.modal-bg').forEach(m=>m.classList.remove('open')); }
-
+function closeModals() { document.querySelectorAll('.modal-bg').forEach(m => m.classList.remove('open')); }
 function createAnim() {
-  const name = document.getElementById('m-name').value.trim(), copyFrom = document.getElementById('m-copy').value;
+  const name = document.getElementById('m-name').value.trim();
+  const copyFrom = document.getElementById('m-copy').value;
   if (!name) return alert('Introduce un nombre');
   if (S.animDesc._frame_names[name]) return alert('La animación ya existe');
-  
   if (copyFrom) {
     const srcNames = S.animDesc._frame_names[copyFrom];
     const newNames = srcNames.map((fn, i) => {
@@ -1140,131 +1349,291 @@ function createAnim() {
   closeModals(); buildAnimList(); switchAnim(name);
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+//  MOUSE / KEYBOARD EVENTS
+// ═══════════════════════════════════════════════════════════════════════
 document.getElementById('btn-new-anim').onclick = openNewAnimModal;
 document.getElementById('btn-play').onclick = () => S.isPlaying ? pause() : play();
 document.getElementById('btn-first').onclick = () => { pause(); setFrame(1); };
-document.getElementById('btn-last').onclick = () => { pause(); setFrame(S.frameCount); };
-document.getElementById('btn-prev').onclick = () => { pause(); setFrame(S.currentFrame - 1); };
-document.getElementById('btn-next').onclick = () => { pause(); setFrame(S.currentFrame + 1); };
-document.getElementById('fps-input').onchange = e => S.fps = Math.max(1,parseInt(e.target.value)||20);
+document.getElementById('btn-last').onclick  = () => { pause(); setFrame(S.frameCount); };
+document.getElementById('btn-prev').onclick  = () => { pause(); setFrame(S.currentFrame - 1); };
+document.getElementById('btn-next').onclick  = () => { pause(); setFrame(S.currentFrame + 1); };
+document.getElementById('fps-input').onchange = e => S.fps = Math.max(1, parseInt(e.target.value)||20);
+document.getElementById('preview-scale').oninput = e => { S.previewScale = parseFloat(e.target.value); updateHUD(); render(); };
+
+// Tween toggle
+document.getElementById('btn-tween').onclick = () => {
+  S.tweenEnabled = !S.tweenEnabled;
+  document.getElementById('btn-tween').classList.toggle('active', S.tweenEnabled);
+  if (S.isPlaying) document.getElementById('tween-indicator').classList.toggle('visible', S.tweenEnabled);
+  render();
+};
 
 ['pp-x','pp-y','pp-sx','pp-sy','pp-rot','pp-z'].forEach(id => {
   document.getElementById(id).onchange = applyPropEdit;
   document.getElementById(id).onkeydown = e => { if (e.key==='Enter') applyPropEdit(); };
 });
-document.getElementById('pp-flipx').onclick = () => { const p = S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][S.currentFrame-1]]?.[S.selectedPartIdx]; if(p){ p.flipX=p.flipX?0:1; p.flipXMul=p.flipX?-1:1; updatePropPanel(); render(); }};
-document.getElementById('pp-flipy').onclick = () => { const p = S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][S.currentFrame-1]]?.[S.selectedPartIdx]; if(p){ p.flipY=p.flipY?0:1; p.flipYMul=p.flipY?-1:1; updatePropPanel(); render(); }};
-document.querySelectorAll('.layer-eye').forEach(btn => btn.onclick = () => { S.layers[btn.dataset.layer] = !S.layers[btn.dataset.layer]; btn.className = 'layer-eye' + (S.layers[btn.dataset.layer] ? '' : ' off'); render(); });
-document.getElementById('preview-scale').oninput = e => { S.previewScale = parseFloat(e.target.value); updateHUD(); render(); };
+document.getElementById('pp-flipx').onclick = () => {
+  const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+  const p = S.animDesc?.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]]?.[S.selectedPartIdx];
+  if (p) { p.flipX=p.flipX?0:1; p.flipXMul=p.flipX?-1:1; updatePropPanel(); render(); }
+};
+document.getElementById('pp-flipy').onclick = () => {
+  const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+  const p = S.animDesc?.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]]?.[S.selectedPartIdx];
+  if (p) { p.flipY=p.flipY?0:1; p.flipYMul=p.flipY?-1:1; updatePropPanel(); render(); }
+};
 
-// Viewport Mouse Events (INCLUYE SOLUCION A ARRASTRAR PARTES)
+// Canvas mouse
 canvas.onmousedown = e => {
-  if (e.button===1 || (e.button===0 && e.altKey)) { 
-    S.isPanning=true; S.panSX=e.clientX; S.panSY=e.clientY; S.panOX=S.viewX; S.panOY=S.viewY; canvas.style.cursor='grab'; 
-  }
-  else if (e.button===0) {
-    if(!S.currentAnim) return;
-    const r = canvas.getBoundingClientRect(), mx = e.clientX-r.left, my = e.clientY-r.top;
-    const ox = canvas.width/2+S.viewX, oy = canvas.height/2+S.viewY;
-    const fn = S.animDesc._frame_names[S.currentAnim][S.currentFrame-1];
-    const parts = S.animDesc.animationContainer[fn] || [];
+  if (e.button===1 || (e.button===0 && e.altKey)) {
+    S.isPanning=true; S.panSX=e.clientX; S.panSY=e.clientY; S.panOX=S.viewX; S.panOY=S.viewY;
+    canvas.style.cursor='grab';
+  } else if (e.button===0) {
+    if (!S.currentAnim) return;
+    const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+    const ox=canvas.width/2+S.viewX, oy=canvas.height/2+S.viewY;
+    const fi=Math.min(S.currentFrame-1, S.frameCount-1);
+    const fn=S.animDesc._frame_names[S.currentAnim][fi];
+    const parts=S.animDesc.animationContainer[fn]||[];
     let best=-1, bd=30;
-    
-    parts.forEach((p,i)=>{
-      const px = ox + p.x * S.previewScale * 2;
-      const py = oy - p.y * S.previewScale * 2;
-      const d = Math.hypot(mx - px, my - py);
-      if(d<bd) { bd=d; best=i; }
+    parts.forEach((p,i) => {
+      const px=ox+p.x*S.previewScale*2, py=oy-p.y*S.previewScale*2;
+      const d=Math.hypot(mx-px, my-py);
+      if (d<bd) { bd=d; best=i; }
     });
-    
-    if(best>=0) { 
-      S.selectedPartIdx = best; 
-      buildPartsList(); 
-      updatePropPanel(); 
-      render(); 
-      
-      // Comenzar a arrastrar la pieza seleccionada
-      dragInfo = {
-        idx: best,
-        startX: mx,
-        startY: my,
-        origPX: parts[best].x,
-        origPY: parts[best].y
-      };
+    if (best>=0) {
+      S.selectedPartIdx=best; buildPartsList(); updatePropPanel(); render();
+      dragInfo={idx:best, startX:mx, startY:my, origPX:parts[best].x, origPY:parts[best].y};
+    } else { S.selectedPartIdx=-1; buildPartsList(); updatePropPanel(); render(); }
+  }
+};
+canvas.onmousemove = e => {
+  if (S.isPanning) { S.viewX=S.panOX+(e.clientX-S.panSX); S.viewY=S.panOY+(e.clientY-S.panSY); render(); }
+  else if (dragInfo) {
+    const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+    const dx=(mx-dragInfo.startX)/(S.previewScale*2), dy=(my-dragInfo.startY)/(S.previewScale*2);
+    const fi=Math.min(S.currentFrame-1, S.frameCount-1);
+    const p=S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]][dragInfo.idx];
+    p.x=dragInfo.origPX+dx; p.y=dragInfo.origPY-dy;
+    updatePropPanel(); render();
+  }
+};
+canvas.onmouseup = () => {
+  if (S.isPanning) { S.isPanning=false; canvas.style.cursor='crosshair'; }
+  dragInfo=null;
+};
+canvas.onwheel = e => {
+  e.preventDefault();
+  S.previewScale = Math.max(0.1, Math.min(10, S.previewScale*(e.deltaY<0?1.1:0.9)));
+  document.getElementById('preview-scale').value = S.previewScale;
+  updateHUD(); render();
+};
+
+// Timeline click
+document.getElementById('tracks-canvas').onclick = e => {
+  const r = e.target.getBoundingClientRect();
+  const f = Math.floor((e.clientX - r.left) / CELL) + 1;
+  if (f>=1 && f<=S.frameCount) setFrame(f);
+  const row = Math.floor((e.clientY - r.top - 4) / ROW);
+  if (row>=0) { S.selectedPartIdx=row; buildPartsList(); updatePropPanel(); render(); }
+};
+
+// Drag on tracks to scrub
+let tlDragging = false;
+document.getElementById('tl-tracks').addEventListener('mousedown', () => { tlDragging=true; });
+document.addEventListener('mousemove', e => {
+  if (!tlDragging || !S.animDesc || !S.currentAnim) return;
+  const r = document.getElementById('tracks-canvas').getBoundingClientRect();
+  const f = Math.floor((e.clientX - r.left) / CELL) + 1;
+  if (f>=1 && f<=S.frameCount) { pause(); setFrame(f); }
+});
+document.addEventListener('mouseup', () => { tlDragging=false; });
+
+// ═══════════════════════════════════════════════════════════════════════
+//  TOUCH EVENTS  (Mobile support)
+// ═══════════════════════════════════════════════════════════════════════
+let touchState = {
+  isPanning:false, isDragging:false,
+  startX:0, startY:0, panOX:0, panOY:0,
+  pinching:false, pinchDist:0,
+  dragInfo:null
+};
+
+function getTouchCanvasPos(touch) {
+  const r = canvas.getBoundingClientRect();
+  return { x: touch.clientX - r.left, y: touch.clientY - r.top };
+}
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if (e.touches.length === 2) {
+    touchState.pinching = true; touchState.isDragging = false; touchState.isPanning = false;
+    touchState.pinchDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+    // Pan center point
+    touchState.startX = (e.touches[0].clientX+e.touches[1].clientX)/2;
+    touchState.startY = (e.touches[0].clientY+e.touches[1].clientY)/2;
+    touchState.panOX = S.viewX; touchState.panOY = S.viewY;
+  } else if (e.touches.length === 1) {
+    touchState.pinching = false;
+    const pos = getTouchCanvasPos(e.touches[0]);
+    if (!S.currentAnim) { touchState.isPanning=true; touchState.startX=pos.x; touchState.startY=pos.y; touchState.panOX=S.viewX; touchState.panOY=S.viewY; return; }
+    const ox=canvas.width/2+S.viewX, oy=canvas.height/2+S.viewY;
+    const fi=Math.min(S.currentFrame-1, S.frameCount-1);
+    const fn=S.animDesc._frame_names[S.currentAnim]?.[fi];
+    const parts = fn ? (S.animDesc.animationContainer[fn]||[]) : [];
+    let best=-1, bd=55; // larger hit radius on touch
+    parts.forEach((p,i) => {
+      const px=ox+p.x*S.previewScale*2, py=oy-p.y*S.previewScale*2;
+      const d=Math.hypot(pos.x-px, pos.y-py);
+      if (d<bd) { bd=d; best=i; }
+    });
+    if (best>=0) {
+      S.selectedPartIdx=best; buildPartsList(); updatePropPanel(); render();
+      touchState.isDragging=true; touchState.isPanning=false;
+      touchState.dragInfo={idx:best, startX:pos.x, startY:pos.y, origPX:parts[best].x, origPY:parts[best].y};
     } else {
-      S.selectedPartIdx = -1;
-      buildPartsList(); 
-      updatePropPanel(); 
-      render();
+      touchState.isPanning=true; touchState.isDragging=false;
+      touchState.startX=pos.x; touchState.startY=pos.y; touchState.panOX=S.viewX; touchState.panOY=S.viewY;
     }
   }
-};
+}, { passive:false });
 
-canvas.onmousemove = e => { 
-  if (S.isPanning) { 
-    S.viewX = S.panOX+(e.clientX-S.panSX); S.viewY = S.panOY+(e.clientY-S.panSY); render(); 
-  } else if (dragInfo) {
-    // Calcular distancia arrastrada para partes
-    const r = canvas.getBoundingClientRect(), mx = e.clientX-r.left, my = e.clientY-r.top;
-    const dx = (mx - dragInfo.startX) / (S.previewScale * 2);
-    const dy = (my - dragInfo.startY) / (S.previewScale * 2);
-    
-    const fn = S.animDesc._frame_names[S.currentAnim][S.currentFrame-1];
-    const p = S.animDesc.animationContainer[fn][dragInfo.idx];
-    
-    p.x = dragInfo.origPX + dx;
-    p.y = dragInfo.origPY - dy; // Invierte Y por cómo se dibuja en canvas
-    
-    updatePropPanel();
-    render();
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (e.touches.length===2 && touchState.pinching) {
+    const newDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+    const factor = newDist / touchState.pinchDist;
+    S.previewScale = Math.max(0.1, Math.min(10, S.previewScale*factor));
+    touchState.pinchDist = newDist;
+    // Also pan with pinch center
+    const cx=(e.touches[0].clientX+e.touches[1].clientX)/2, cy=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    S.viewX = touchState.panOX + (cx-touchState.startX);
+    S.viewY = touchState.panOY + (cy-touchState.startY);
+    document.getElementById('preview-scale').value = S.previewScale;
+    updateHUD(); render();
+  } else if (e.touches.length===1) {
+    const pos = getTouchCanvasPos(e.touches[0]);
+    if (touchState.isPanning) {
+      S.viewX = touchState.panOX + (pos.x-touchState.startX);
+      S.viewY = touchState.panOY + (pos.y-touchState.startY);
+      render();
+    } else if (touchState.isDragging && touchState.dragInfo) {
+      const dx=(pos.x-touchState.dragInfo.startX)/(S.previewScale*2);
+      const dy=(pos.y-touchState.dragInfo.startY)/(S.previewScale*2);
+      const fi=Math.min(S.currentFrame-1, S.frameCount-1);
+      const fn=S.animDesc._frame_names[S.currentAnim][fi];
+      const p=S.animDesc.animationContainer[fn][touchState.dragInfo.idx];
+      p.x=touchState.dragInfo.origPX+dx; p.y=touchState.dragInfo.origPY-dy;
+      updatePropPanel(); render();
+    }
   }
+}, { passive:false });
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault();
+  if (e.touches.length===0) {
+    touchState.isPanning=false; touchState.isDragging=false;
+    touchState.pinching=false; touchState.dragInfo=null;
+  } else if (e.touches.length===1 && touchState.pinching) {
+    // Transition from pinch to pan
+    const pos = getTouchCanvasPos(e.touches[0]);
+    touchState.pinching=false; touchState.isPanning=true;
+    touchState.startX=pos.x; touchState.startY=pos.y;
+    touchState.panOX=S.viewX; touchState.panOY=S.viewY;
+  }
+}, { passive:false });
+
+// Timeline touch scrubbing
+document.getElementById('tl-tracks').addEventListener('touchstart', e => {
+  if (e.touches.length===1) {
+    const r=document.getElementById('tracks-canvas').getBoundingClientRect();
+    const f=Math.floor((e.touches[0].clientX-r.left)/CELL)+1;
+    if (f>=1 && f<=S.frameCount) { pause(); setFrame(f); }
+  }
+}, { passive:true });
+
+// ═══════════════════════════════════════════════════════════════════════
+//  MOBILE PANEL TOGGLES
+// ═══════════════════════════════════════════════════════════════════════
+function closeMobilePanels() {
+  document.getElementById('left').classList.remove('mob-open');
+  document.getElementById('right').classList.remove('mob-open');
+  document.getElementById('mob-overlay').style.opacity='0';
+  document.getElementById('mob-overlay').style.pointerEvents='none';
+  document.getElementById('mob-left-fab').classList.remove('active');
+  document.getElementById('mob-right-fab').classList.remove('active');
+}
+function toggleMobilePanel(side) {
+  const panel = document.getElementById(side);
+  const isOpen = panel.classList.contains('mob-open');
+  closeMobilePanels();
+  if (!isOpen) {
+    panel.classList.add('mob-open');
+    document.getElementById('mob-overlay').style.opacity='1';
+    document.getElementById('mob-overlay').style.pointerEvents='auto';
+    document.getElementById(side==='left'?'mob-left-fab':'mob-right-fab').classList.add('active');
+  }
+}
+document.getElementById('mob-left-fab').onclick  = () => toggleMobilePanel('left');
+document.getElementById('mob-right-fab').onclick = () => toggleMobilePanel('right');
+document.getElementById('mob-overlay').onclick   = closeMobilePanels;
+
+// Timeline toggle on mobile
+let tlCollapsed = false;
+document.getElementById('mob-tl-fab').onclick = () => {
+  tlCollapsed = !tlCollapsed;
+  document.getElementById('timeline').style.height = tlCollapsed ? '0' : '';
+  document.getElementById('mob-tl-fab').textContent = tlCollapsed ? 'TL▶' : 'TL';
+  setTimeout(resizeCanvas, 310);
 };
 
-canvas.onmouseup = () => { 
-  if(S.isPanning) { S.isPanning=false; canvas.style.cursor='crosshair'; } 
-  if(dragInfo) { dragInfo = null; }
-};
-
-canvas.onwheel = e => { e.preventDefault(); S.previewScale = Math.max(0.1, Math.min(10, S.previewScale * (e.deltaY<0?1.1:0.9))); document.getElementById('preview-scale').value = S.previewScale; updateHUD(); render(); };
-
-// Timeline clicks
-document.getElementById('tracks-canvas').onclick = e => {
-  const f = Math.floor((e.clientX - e.target.getBoundingClientRect().left) / CELL) + 1;
-  if(f>=1 && f<=S.frameCount) setFrame(f);
-  const row = Math.floor((e.clientY - e.target.getBoundingClientRect().top - 4) / ROW);
-  if(row>=0) { S.selectedPartIdx = row; buildPartsList(); updatePropPanel(); render(); }
-};
-
+// ═══════════════════════════════════════════════════════════════════════
+//  DRAG & DROP (files on viewport)
+// ═══════════════════════════════════════════════════════════════════════
 document.ondragover = e => e.preventDefault();
 document.ondrop = e => {
   e.preventDefault();
   for (const file of e.dataTransfer.files) {
     const n = file.name.toLowerCase();
-    if (n.endsWith('.png') || n.endsWith('.jpg')) { 
-      const img = new Image(); 
-      img.onload=()=>{S.atlasImg=img;updateDzStatus('png'); render();}; 
-      img.src=URL.createObjectURL(file); 
-    }
-    else if (n.endsWith('.json') || n.endsWith('.plist')) {
-      parseFileContent(file, data => {
-        if(data.animationContainer||data._frame_counts) { 
-          S.animDesc = processAnimDesc(data); 
-          updateDzStatus('anim'); 
-          buildAnimList(); 
-          const keys = Object.keys(S.animDesc._frame_names);
-          if(keys.length > 0) switchAnim(keys[0]);
-        }
-        else if(data.frames) { 
-          S.atlasFrames = processAtlas(data); 
-          updateDzStatus('atlas'); 
-          render(); 
+    if (n.endsWith('.png')||n.endsWith('.jpg')||n.endsWith('.jpeg')||n.endsWith('.webp')) {
+      const sc = detectScaleFromName(file.name);
+      if (sc>1) applyAtlasScale(sc);
+      const img=new Image();
+      img.onload=()=>{ S.atlasImg=img; updateDzStatus('png'); render(); };
+      img.src=URL.createObjectURL(file);
+    } else if (n.endsWith('.json')||n.endsWith('.plist')) {
+      parseFileContent(file, (data, fname) => {
+        if (data.animationContainer||data._frame_counts) {
+          S.animDesc=processAnimDesc(data); updateDzStatus('anim'); buildAnimList();
+          const keys=Object.keys(S.animDesc._frame_names);
+          if (keys.length) switchAnim(keys[0]);
+        } else if (data.frames) {
+          const sc=detectScaleFromData(data, fname);
+          applyAtlasScale(sc);
+          S.atlasFrames=processAtlas(data, fname);
+          updateLayerPanel(); updateDzStatus('atlas'); render();
         }
       });
     }
   }
 };
 
-window.onresize = resizeCanvas;
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
+  if (e.key==='ArrowRight') { pause(); setFrame(S.currentFrame+1); }
+  else if (e.key==='ArrowLeft') { pause(); setFrame(S.currentFrame-1); }
+  else if (e.key===' ') { e.preventDefault(); S.isPlaying ? pause() : play(); }
+  else if (e.key==='Home') { pause(); setFrame(1); }
+  else if (e.key==='End') { pause(); setFrame(S.frameCount); }
+  else if (e.key==='t'||e.key==='T') document.getElementById('btn-tween').click();
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════════
+window.onresize = () => { updateTLSizes(); resizeCanvas(); };
 resizeCanvas();
 </script>
 </body>
