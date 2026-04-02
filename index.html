@@ -206,7 +206,7 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
     transform:translateX(0);
     box-shadow:-4px 0 24px rgba(0,0,0,.6)
   }
-  #mob-overlay { display:block }
+  #mob-overlay { display:block; opacity:0; pointer-events:none }
   .mob-fab { display:flex }
   #mob-tl-fab { display:flex }
   #timeline { height:120px }
@@ -274,7 +274,7 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
   <div class="sep"></div>
   <!-- Tween toggle -->
   <div class="tb-group">
-    <button class="tb-btn tb-btn-tween active" id="btn-tween" title="Animación suave entre frames (interpolación)">
+    <button class="tb-btn tb-btn-tween active" id="btn-tween" title="Animación suave entre frames (interpolación)" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
         <circle cx="2.5" cy="6.5" r="1.5" fill="currentColor"/>
         <circle cx="10.5" cy="6.5" r="1.5" fill="currentColor"/>
@@ -528,6 +528,7 @@ const S = {
   previewScale: 1.5,
   layers: { glow: true, '2': true, '1': true, extra: true },
   loaded: { png: false, atlas: false, anim: false },
+  animDescFileName: null,  // Nombre base del archivo AnimDesc importado
   // ── NEW FEATURES ──
   atlasScale: 1,        // 1 = normal, 2 = UHD/2x, 3 = 3x
   tweenEnabled: true,   // Smooth sub-frame interpolation
@@ -1251,6 +1252,8 @@ document.getElementById('inp-atlas').onchange = e => {
 };
 document.getElementById('inp-anim').onchange = e => {
   const f = e.target.files[0]; if (!f) return;
+  // Guardar nombre base sin extensión para usarlo al exportar
+  S.animDescFileName = f.name.replace(/\.(json|plist)$/i, '');
   parseFileContent(f, data => {
     S.animDesc = processAnimDesc(data); updateDzStatus('anim');
     buildAnimList();
@@ -1305,8 +1308,8 @@ function exportFile(type) {
   refreshUsedTextures();
   const content = type==='json' ? JSON.stringify(S.animDesc, null, 2) : buildPlistStr(S.animDesc);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([content], { type:type==='json'?'application/json':'application/xml' }));
-  a.download = `AnimDesc.${type}`; a.click();
+  a.href = URL.createObjectURL(new Blob([content], { type:type==='json'?'application/json':'application/octet-stream' }));
+  a.download = `${S.animDescFileName || 'AnimDesc'}.${type}`; a.click();
   closeModals();
 }
 
@@ -1605,6 +1608,7 @@ document.ondrop = e => {
     } else if (n.endsWith('.json')||n.endsWith('.plist')) {
       parseFileContent(file, (data, fname) => {
         if (data.animationContainer||data._frame_counts) {
+          if (!S.animDescFileName) S.animDescFileName = fname.replace(/\.(json|plist)$/i, '');
           S.animDesc=processAnimDesc(data); updateDzStatus('anim'); buildAnimList();
           const keys=Object.keys(S.animDesc._frame_names);
           if (keys.length) switchAnim(keys[0]);
