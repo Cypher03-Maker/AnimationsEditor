@@ -1,1 +1,1 @@
-# AnimatiosEditor
+# AnimationsEditor
