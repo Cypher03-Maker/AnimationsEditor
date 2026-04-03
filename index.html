@@ -832,7 +832,12 @@ function processAtlas(data, filename) {
 
 function processAnimDesc(data) {
   const out = { baseVariantID:'01', usedTextures:{}, animationContainer:{}, _frame_counts:{}, _frame_names:{} };
-  if (data.usedTextures) out.usedTextures = data.usedTextures; // Conservamos customID automáticamente
+  
+  // Guardamos las texturas originales EXCTAMENTE como estaban para preservar tags especiales
+  if (data.usedTextures) {
+    out.usedTextures = JSON.parse(JSON.stringify(data.usedTextures));
+  }
+  
   if (data.animationContainer) {
     for (const [fn, sprites] of Object.entries(data.animationContainer)) {
       const arr = [];
@@ -849,6 +854,11 @@ function processAnimDesc(data) {
         else flip = [sp.flipX?1:0, sp.flipY?1:0];
         let rot = parseFloat(sp.rotation || sp.angle || 0);
         let tex = sp.texture != null ? String(sp.texture) : '0';
+        
+        // Conservamos los tags y customTags originales
+        let originalTag = parseInt(sp.tag !== undefined ? sp.tag : 0);
+        let customTag = parseInt(sp.usesCustomTag||0);
+
         if (/^\d+$/.test(tex) && data.usedTextures) {
           const resolved =
             data.usedTextures['texture_' + tex] ||
@@ -862,8 +872,9 @@ function processAnimDesc(data) {
             })();
           if (resolved) tex = resolved.texture || tex;
         }
+        
         arr.push({
-          texture:tex, tag:parseInt(sp.tag||0), usesCustomTag:parseInt(sp.usesCustomTag||0),
+          texture:tex, tag:originalTag, usesCustomTag:customTag,
           x:pos[0], y:pos[1], scaleX:sca[0], scaleY:sca[1], rotation:rot,
           flipX:flip[0], flipY:flip[1], zValue:parseInt(sp.zValue||0),
           flipXMul:flip[0]===1?-1:1, flipYMul:flip[1]===1?-1:1
@@ -1286,7 +1297,7 @@ function makeDraggableInput(id, step) {
     }
     
     if (moved) {
-        if (e.cancelable) e.preventDefault(); // Detener scroll vertical si estás arrastrando lateralmente en móvil
+        if (e.cancelable) e.preventDefault();
         const factor = id.includes('s') ? 0.01 : (id==='pp-rot' ? 1 : 1);
         let effStep = step * factor;
         const newVal = startVal + (dx * effStep * (e.shiftKey ? 5 : 1));
@@ -1467,7 +1478,10 @@ function addPartToFrame() {
   pushHistory();
   const fn = S.animDesc._frame_names[S.currentAnim][S.currentFrame-1];
   const parts = S.animDesc.animationContainer[fn];
-  parts.push({ texture:tex, tag:0, usesCustomTag:0, x:0, y:0, scaleX:1, scaleY:1, rotation:0, flipX:0, flipY:0, zValue:parts.length, flipXMul:1, flipYMul:1 });
+  
+  // Tag "-1" indica a refreshUsedTextures que debe asignar un tag nuevo o existente correcto sin pisar.
+  parts.push({ texture:tex, tag:-1, usesCustomTag:0, x:0, y:0, scaleX:1, scaleY:1, rotation:0, flipX:0, flipY:0, zValue:parts.length, flipXMul:1, flipYMul:1 });
+  
   closeModals(); S.selectedParts = [parts.length-1];
   buildPartsList(); updatePropPanel(); render();
 }
@@ -1506,7 +1520,7 @@ document.getElementById('btn-paste-part').onclick = () => {
   const newSel = [];
   S.clipboard.data.forEach(p => {
       const clone = JSON.parse(JSON.stringify(p));
-      clone.x += 8; clone.y -= 8; // Offset visual ligero
+      clone.x += 8; clone.y -= 8;
       parts.push(clone);
       newSel.push(parts.length - 1);
   });
@@ -1603,37 +1617,50 @@ document.getElementById('btn-export').onclick = () => {
 
 function refreshUsedTextures() {
   if (!S.animDesc) return;
-  const used = {};
-  const tex2tag = {};
   
-  // Guardar datos previos para mantener el CustomID usado por GD
-  const existingByTex = {};
-  if (S.animDesc.usedTextures) {
-    for (const [k, v] of Object.entries(S.animDesc.usedTextures)) {
-      existingByTex[v.texture] = v;
+  // Mantenemos el array original intacto para no borrar customID u overrides.
+  const used = S.animDesc.usedTextures || {};
+
+  // Buscar el tag más alto para asignar nuevos tags.
+  let maxTag = -1;
+  for (const v of Object.values(used)) {
+    const t = parseInt(v.tag);
+    if (!isNaN(t) && t > maxTag) maxTag = t;
+  }
+
+  // Mapeamos las texturas estándar (sin customID ni dinámicas "0") 
+  // para reusarlas si el usuario añadió una nueva copia.
+  const standardTex2Tag = {};
+  for (const v of Object.values(used)) {
+    if (!v.customID && v.texture !== "0") {
+      standardTex2Tag[v.texture] = parseInt(v.tag);
     }
   }
 
-  let tagIdx = 0;
+  // Comprobar todos los frames
   for (const parts of Object.values(S.animDesc.animationContainer)) {
     for (const p of parts) {
-      if (tex2tag[p.texture] === undefined) {
-        const existing = existingByTex[p.texture];
-        const t = existing ? parseInt(existing.tag) : tagIdx;
-        tex2tag[p.texture] = t;
-        
-        used[`texture_${t}`] = {
-          texture: p.texture,
-          tag: t
-        };
-        // Preservar el customID importantísimo
-        if (existing && existing.customID) {
-           used[`texture_${t}`].customID = existing.customID;
+      // Si la parte ya tenía un tag preexistente asignado (-1 es marca de parte nueva)
+      if (p.tag !== -1 && p.tag !== undefined) {
+        let tagStr = `texture_${p.tag}`;
+        let u = used[tagStr];
+        // Validamos que su entrada siga ahí, y que la textura coincida o sea dinámica ("0" o usesCustomTag)
+        if (u && (u.texture === p.texture || u.texture === "0" || p.usesCustomTag == 1)) {
+          continue; // La conexión es válida, mantener intacta.
         }
-        
-        tagIdx = Math.max(tagIdx, t) + 1;
       }
-      p.tag = tex2tag[p.texture];
+
+      // Si llegamos aquí, la parte es nueva (tag=-1) o su viejo link se rompió por alguna razón.
+      if (standardTex2Tag[p.texture] !== undefined) {
+        p.tag = standardTex2Tag[p.texture];
+        p.usesCustomTag = 0;
+      } else {
+        maxTag++;
+        p.tag = maxTag;
+        p.usesCustomTag = 0;
+        used[`texture_${maxTag}`] = { texture: p.texture, tag: maxTag };
+        standardTex2Tag[p.texture] = maxTag;
+      }
     }
   }
   S.animDesc.usedTextures = used;
@@ -1667,6 +1694,7 @@ function buildPlistStr(desc) {
   x += `</dict>\n</dict>\n</plist>`;
   return x;
 }
+
 function exportFile(type) {
   refreshUsedTextures();
   const content = type==='json' ? JSON.stringify(S.animDesc, null, 2) : buildPlistStr(S.animDesc);
@@ -1881,7 +1909,7 @@ canvas.onmouseup = e => {
     const by0=Math.min(boxSel.y0,boxSel.y1), by1=Math.max(boxSel.y0,boxSel.y1);
     
     if (bx1-bx0 > 6 || by1-by0 > 6) {
-      const newSel = (e.shiftKey && (e.ctrlKey||e.metaKey)) ? [...S.selectedParts] : [];
+      const newSel = e.shiftKey ? [...S.selectedParts] : [];
       parts.forEach((p, i) => {
         const frame = S.atlasFrames[p.texture];
         const AS = S.atlasScale;
