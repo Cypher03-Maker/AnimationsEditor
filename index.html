@@ -235,13 +235,10 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
   #tl-label { width:120px; font-size:9px }
   #tl-names { width:120px }
   .mob-overlay-visible { opacity:1;pointer-events:auto }
-  /* Topbar: shrink logo text */
   #logo span { display:none }
-  /* Bigger touch targets in lists */
   .anim-item { height:40px }
   .part-item { height:36px }
   .prop-row { height:38px }
-  /* Scale slider full width */
   #preview-scale { accent-color:var(--acc-zoom) }
 }
 
@@ -273,65 +270,65 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
   <span id="uhd-badge">2×UHD</span>
   <div class="sep"></div>
   <div class="tb-group">
-    <button class="tb-btn tb-btn-import" id="btn-open-png" title="Importar atlas PNG" disabled>
+    <button class="tb-btn tb-btn-import" id="btn-open-png" data-i18n-title="tt_import_png" title="Importar atlas PNG" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 8l2-3 2 2.5L9.5 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Atlas PNG
+      <span data-i18n="btn_atlas_png">Atlas PNG</span>
     </button>
-    <button class="tb-btn tb-btn-import" id="btn-open-atlas" title="Importar Atlas JSON/Plist" disabled>
+    <button class="tb-btn tb-btn-import" id="btn-open-atlas" data-i18n-title="tt_import_atlas" title="Importar Atlas JSON/Plist" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 5h5M4 8h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Atlas Data
+      <span data-i18n="btn_atlas_data">Atlas Data</span>
     </button>
-    <button class="tb-btn tb-btn-import" id="btn-open-anim" title="Importar AnimDesc JSON/Plist" disabled>
+    <button class="tb-btn tb-btn-import" id="btn-open-anim" data-i18n-title="tt_import_anim" title="Importar AnimDesc JSON/Plist" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M7 1H3a1 1 0 00-1 1v9a1 1 0 001 1h7a1 1 0 001-1V5L7 1z" stroke="currentColor" stroke-width="1.2"/><path d="M7 1v4h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      AnimDesc
+      <span data-i18n="btn_anim_desc">AnimDesc</span>
     </button>
   </div>
   <div class="sep"></div>
   <div class="tb-group">
-    <button class="tb-btn tb-btn-export" id="btn-export" title="Exportar Animación" disabled>
+    <button class="tb-btn tb-btn-export" id="btn-export" data-i18n-title="tt_export" title="Exportar Animación" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 2v7M4 7l2.5 2.5L9 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10v1.5h9V10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Exportar
+      <span data-i18n="btn_export">Exportar</span>
     </button>
   </div>
   <div class="sep"></div>
   <!-- Undo/Redo -->
   <div class="tb-group">
-    <button class="tb-btn" id="btn-undo" title="Deshacer (Ctrl+Z)" disabled style="color:var(--text2)">
+    <button class="tb-btn" id="btn-undo" data-i18n-title="tt_undo" title="Deshacer (Ctrl+Z)" disabled style="color:var(--text2)">
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 5h5a3 3 0 110 6H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2 5l3-3M2 5l3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <button class="tb-btn" id="btn-redo" title="Rehacer (Ctrl+Y)" disabled style="color:var(--text2)">
+    <button class="tb-btn" id="btn-redo" data-i18n-title="tt_redo" title="Rehacer (Ctrl+Y)" disabled style="color:var(--text2)">
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M11 5H6a3 3 0 100 6h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 5l-3-3M11 5l-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
   </div>
   <div class="tb-group">
-    <button class="tb-btn tb-btn-tween active" id="btn-tween" title="Animación suave entre frames (interpolación)" disabled>
+    <button class="tb-btn tb-btn-tween active" id="btn-tween" data-i18n-title="tt_smooth" title="Animación suave entre frames (interpolación)" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
         <circle cx="2.5" cy="6.5" r="1.5" fill="currentColor"/>
         <circle cx="10.5" cy="6.5" r="1.5" fill="currentColor"/>
         <path d="M4 6.5 C5 4, 8 4, 9 6.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
         <path d="M4 6.5 C5 9, 8 9, 9 6.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/>
       </svg>
-      Suave
+      <span data-i18n="btn_smooth">Suave</span>
     </button>
   </div>
 
   <div id="playback-container">
     <div class="sep"></div>
     <div id="playback">
-      <button class="pb-btn" id="btn-first" title="Primer frame">
+      <button class="pb-btn" id="btn-first" data-i18n-title="tt_first" title="Primer frame">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2v8M4 6l5-3v6L4 6z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <button class="pb-btn" id="btn-prev" title="Frame anterior">
+      <button class="pb-btn" id="btn-prev" data-i18n-title="tt_prev" title="Frame anterior">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 2L3 6l5 4V2z" fill="currentColor"/></svg>
       </button>
-      <button class="pb-btn play-main" id="btn-play" title="Play/Pause">
+      <button class="pb-btn play-main" id="btn-play" data-i18n-title="tt_play" title="Play/Pause">
         <svg id="play-icon" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 2l7 4-7 4V2z" fill="currentColor"/></svg>
         <svg id="pause-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:none"><rect x="2.5" y="2" width="2.5" height="8" rx="1" fill="currentColor"/><rect x="7" y="2" width="2.5" height="8" rx="1" fill="currentColor"/></svg>
       </button>
-      <button class="pb-btn" id="btn-next" title="Frame siguiente">
+      <button class="pb-btn" id="btn-next" data-i18n-title="tt_next" title="Frame siguiente">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4V2z" fill="currentColor"/></svg>
       </button>
-      <button class="pb-btn" id="btn-last" title="Último frame">
+      <button class="pb-btn" id="btn-last" data-i18n-title="tt_last" title="Último frame">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10 2v8M8 6L3 3v6l5-3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
@@ -344,9 +341,15 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
 
   <div id="spacer"></div>
   <div class="tb-group">
-    <button class="tb-btn" id="btn-help" title="Documentación / Ayuda" style="color:var(--text2)">
+    <!-- Lang Switcher -->
+    <button class="tb-btn" id="btn-lang" title="Cambiar Idioma / Change Language" style="color:var(--text2); font-weight:600">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+      <span id="lang-label">EN</span>
+    </button>
+    <div class="sep" style="margin: 0 8px"></div>
+    <button class="tb-btn" id="btn-help" data-i18n-title="tt_help" title="Documentación / Ayuda" style="color:var(--text2)">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 5.2a1.5 1.5 0 012.8.7c0 1-1.3 1.3-1.3 2.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="10" r=".7" fill="currentColor"/></svg>
-      <span>Ayuda</span>
+      <span data-i18n="btn_help">Ayuda</span>
     </button>
   </div>
   <div id="frame-info-top">—</div>
@@ -358,18 +361,18 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
   <!-- LEFT -->
   <div id="left">
     <div class="pane-header">
-      <span class="pane-title">Animaciones</span>
-      <button class="pane-btn add-btn" id="btn-new-anim" title="Nueva animación">+</button>
+      <span class="pane-title" data-i18n="lbl_animations">Animaciones</span>
+      <button class="pane-btn add-btn" id="btn-new-anim" data-i18n-title="btn_new_anim_tt" title="Nueva animación">+</button>
     </div>
     <div class="pane-scroll" id="anim-list" style="flex:1;max-height:200px"></div>
 
     <div class="pane-header" style="border-top:1px solid var(--border)">
-      <span class="pane-title">Partes</span>
+      <span class="pane-title" data-i18n="lbl_parts">Partes</span>
       <div style="display:flex;gap:4px">
-        <button class="pane-btn" id="btn-copy-part" title="Copiar partes seleccionadas" style="font-size:11px">📄</button>
-        <button class="pane-btn" id="btn-paste-part" title="Pegar partes" style="font-size:11px">📋</button>
-        <button class="pane-btn add-btn" id="btn-new-part" title="Añadir parte" style="font-size:12px">+</button>
-        <button class="pane-btn del-btn" id="btn-del-part" title="Eliminar partes" style="font-size:12px;display:none">−</button>
+        <button class="pane-btn" id="btn-copy-part" data-i18n-title="btn_copy_part_tt" title="Copiar partes seleccionadas" style="font-size:11px">📄</button>
+        <button class="pane-btn" id="btn-paste-part" data-i18n-title="btn_paste_part_tt" title="Pegar partes" style="font-size:11px">📋</button>
+        <button class="pane-btn add-btn" id="btn-new-part" data-i18n-title="btn_new_part_tt" title="Añadir parte" style="font-size:12px">+</button>
+        <button class="pane-btn del-btn" id="btn-del-part" data-i18n-title="btn_del_part_tt" title="Eliminar partes" style="font-size:12px;display:none">−</button>
       </div>
     </div>
     <div class="pane-scroll" id="parts-list" style="flex:1"></div>
@@ -383,7 +386,7 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
     <div id="drop-zone">
       <div style="text-align:center;margin-bottom:8px">
         <div style="font-size:13px;font-weight:600;color:var(--textbright);margin-bottom:4px">Animation Editor</div>
-        <div style="font-size:11px;color:var(--text2)">Importa archivos o espera la carga automática</div>
+        <div style="font-size:11px;color:var(--text2)" data-i18n="dz_subtitle">Importa archivos o espera la carga automática</div>
       </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
         <div class="dz-card" onclick="document.getElementById('inp-png').click()">
@@ -393,23 +396,23 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
         </div>
         <div class="dz-card" onclick="document.getElementById('inp-atlas').click()">
           <div class="dz-icon">📋</div>
-          <h3>Datos Atlas</h3>
+          <h3 data-i18n="dz_card_atlas_title">Datos Atlas</h3>
           <p>.json / .plist</p>
         </div>
         <div class="dz-card" onclick="document.getElementById('inp-anim').click()">
           <div class="dz-icon">🎬</div>
-          <h3>AnimDesc</h3>
+          <h3 data-i18n="dz_card_anim_title">AnimDesc</h3>
           <p>.json / .plist</p>
         </div>
       </div>
       <div id="dz-status" style="display:flex;gap:16px;font-size:11px">
         <span id="st-png" class="dz-status"><span class="pending">○</span> PNG</span>
-        <span id="st-atlas" class="dz-status"><span class="pending">○</span> Atlas</span>
+        <span id="st-atlas" class="dz-status"><span class="pending">○</span> <span data-i18n="dz_st_atlas">Atlas</span></span>
         <span id="st-anim" class="dz-status"><span class="pending">○</span> AnimDesc</span>
       </div>
       <div class="dz-actions-wrap" id="dz-actions">
-        <button class="dz-btn dz-btn-primary" id="dz-btn-open" onclick="hideDrop()" style="display:none">Abrir Editor ▶</button>
-        <button class="dz-btn dz-btn-secondary" id="dz-btn-scratch" onclick="createFromScratch()" style="display:none">Crear desde cero</button>
+        <button class="dz-btn dz-btn-primary" id="dz-btn-open" onclick="hideDrop()" style="display:none" data-i18n="dz_btn_open">Abrir Editor ▶</button>
+        <button class="dz-btn dz-btn-secondary" id="dz-btn-scratch" onclick="createFromScratch()" style="display:none" data-i18n="dz_btn_scratch">Crear desde cero</button>
       </div>
     </div>
   </div>
@@ -417,37 +420,36 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
   <!-- RIGHT -->
   <div id="right">
     <div class="pane-header">
-      <span class="pane-title">Propiedades</span>
+      <span class="pane-title" data-i18n="lbl_properties">Propiedades</span>
     </div>
     <div id="no-sel" class="prop-section" style="padding:20px 12px;text-align:center;font-size:11px;color:var(--text3)">
-      Selecciona una parte<br>en la lista o el viewport
     </div>
     <div id="prop-panel" style="display:none">
       <div class="prop-section">
-        <div class="prop-row"><span class="prop-label">Nombre</span><span class="prop-val" id="pp-name" style="font-size:10px;word-break:break-all">—</span></div>
-        <div class="prop-row"><span class="prop-label">Capa</span><span class="prop-val" id="pp-layer">—</span></div>
-        <div class="prop-row" title="Arrastra el número para cambiar el valor">
+        <div class="prop-row"><span class="prop-label" data-i18n="prop_name">Nombre</span><span class="prop-val" id="pp-name" style="font-size:10px;word-break:break-all">—</span></div>
+        <div class="prop-row"><span class="prop-label" data-i18n="prop_layer">Capa</span><span class="prop-val" id="pp-layer">—</span></div>
+        <div class="prop-row" data-i18n-title="prop_drag_num_tt" title="Arrastra el número para cambiar el valor">
           <span class="prop-label">zValue</span>
           <input class="prop-input" id="pp-z" type="number" step="1" style="width:100%;max-width:50px">
         </div>
       </div>
       <div class="prop-section">
-        <div class="prop-row" title="Arrastra los números para cambiar el valor">
-          <span class="prop-label">Posición</span>
+        <div class="prop-row" data-i18n-title="prop_drag_num_tt" title="Arrastra los números para cambiar el valor">
+          <span class="prop-label" data-i18n="prop_pos">Posición</span>
           <div class="prop-2col">
             <input class="prop-input" id="pp-x" type="number" step="0.1" placeholder="X">
             <input class="prop-input" id="pp-y" type="number" step="0.1" placeholder="Y">
           </div>
         </div>
-        <div class="prop-row" title="Arrastra los números para cambiar el valor">
-          <span class="prop-label">Escala</span>
+        <div class="prop-row" data-i18n-title="prop_drag_num_tt" title="Arrastra los números para cambiar el valor">
+          <span class="prop-label" data-i18n="prop_scale">Escala</span>
           <div class="prop-2col">
             <input class="prop-input" id="pp-sx" type="number" step="0.01" placeholder="X">
             <input class="prop-input" id="pp-sy" type="number" step="0.01" placeholder="Y">
           </div>
         </div>
-        <div class="prop-row" title="Arrastra el número para rotar">
-          <span class="prop-label">Rotación</span>
+        <div class="prop-row" data-i18n-title="prop_drag_rot_tt" title="Arrastra el número para rotar">
+          <span class="prop-label" data-i18n="prop_rot">Rotación</span>
           <input class="prop-input" id="pp-rot" type="number" step="0.1" placeholder="°">
         </div>
         <div class="prop-row">
@@ -461,12 +463,12 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
     </div>
     <div id="layer-panel-container" style="display:none;flex-direction:column">
       <div class="pane-header" style="border-top:1px solid var(--border)">
-        <span class="pane-title">Capas</span>
+        <span class="pane-title" data-i18n="lbl_layers">Capas</span>
       </div>
       <div id="layer-panel"></div>
     </div>
     <div style="padding:8px 12px;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0">
-      <div style="font-size:10px;color:var(--text3);margin-bottom:4px">Escala preview</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:4px" data-i18n="lbl_prev_scale">Escala preview</div>
       <div style="display:flex;align-items:center;gap:8px">
         <input type="range" id="preview-scale" min="0.2" max="4" step="0.05" value="1.5" style="flex:1;accent-color:var(--acc-zoom)">
         <span id="preview-scale-val" style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text2);width:32px">1.5×</span>
@@ -481,15 +483,15 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
     <div id="tl-label">
       <span>Timeline</span>
       <div style="display:flex;gap:4px">
-        <button class="sm-btn" id="btn-copy-frame" title="Copiar Frame">📄</button>
-        <button class="sm-btn" id="btn-paste-frame" title="Pegar Frame">📋</button>
-        <button class="sm-btn green" id="btn-add-frame" title="Duplicar e insertar frame">+Fr</button>
-        <button class="sm-btn red" id="btn-del-frame" title="Eliminar frame actual">−Fr</button>
+        <button class="sm-btn" id="btn-copy-frame" data-i18n-title="tl_copy_tt" title="Copiar Frame">📄</button>
+        <button class="sm-btn" id="btn-paste-frame" data-i18n-title="tl_paste_tt" title="Pegar Frame">📋</button>
+        <button class="sm-btn green" id="btn-add-frame" data-i18n-title="tl_add_tt" title="Duplicar e insertar frame">+Fr</button>
+        <button class="sm-btn red" id="btn-del-frame" data-i18n-title="tl_del_tt" title="Eliminar frame actual">−Fr</button>
       </div>
     </div>
     <div id="tl-ruler" style="position:relative">
       <canvas id="ruler-canvas"></canvas>
-      <div id="tween-indicator">INTERPOLANDO</div>
+      <div id="tween-indicator" data-i18n="tl_tween_ind">INTERPOLANDO</div>
     </div>
   </div>
   <div id="tl-body">
@@ -512,27 +514,27 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
 <!-- MODALS -->
 <div class="modal-bg" id="modal-new">
   <div class="modal">
-    <h2>Nueva Animación</h2>
+    <h2 data-i18n="mod_new_anim_title">Nueva Animación</h2>
     <div class="modal-row">
-      <label>Nombre</label>
+      <label data-i18n="mod_name_lbl">Nombre</label>
       <input class="modal-input" id="m-name" placeholder="Spider_attack">
     </div>
     <div class="modal-row" id="m-copy-row">
-      <label>Copiar desde (opcional)</label>
+      <label data-i18n="mod_copy_lbl">Copiar desde (opcional)</label>
       <select class="modal-select" id="m-copy"></select>
     </div>
     <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
-      <button class="btn-ok" onclick="createAnim()">Crear</button>
+      <button class="btn-cancel" onclick="closeModals()" data-i18n="mod_cancel">Cancelar</button>
+      <button class="btn-ok" onclick="createAnim()" data-i18n="mod_create">Crear</button>
     </div>
   </div>
 </div>
 <div class="modal-bg" id="modal-export">
   <div class="modal" style="min-width:280px">
-    <h2>Exportar Animación</h2>
-    <p style="font-size:11px;color:var(--text2);margin-bottom:15px">Selecciona el formato de salida para AnimDesc.</p>
+    <h2 data-i18n="mod_exp_title">Exportar Animación</h2>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:15px" data-i18n="mod_exp_desc">Selecciona el formato de salida para AnimDesc.</p>
     <div class="modal-btns" style="justify-content:center;gap:12px">
-      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
+      <button class="btn-cancel" onclick="closeModals()" data-i18n="mod_cancel">Cancelar</button>
       <button class="btn-ok" onclick="exportFile('json')" style="background:var(--acc-import)">JSON</button>
       <button class="btn-ok" onclick="exportFile('plist')" style="background:var(--acc-export)">Plist</button>
     </div>
@@ -540,14 +542,14 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
 </div>
 <div class="modal-bg" id="modal-part">
   <div class="modal">
-    <h2>Añadir Textura / Parte</h2>
+    <h2 data-i18n="mod_add_part_title">Añadir Textura / Parte</h2>
     <div class="modal-row">
-      <label>Seleccionar textura base</label>
+      <label data-i18n="mod_add_part_lbl">Seleccionar textura base</label>
       <select class="modal-select" id="m-part-sel"></select>
     </div>
     <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
-      <button class="btn-ok" onclick="addPartToFrame()" style="background:var(--acc-add)">Añadir</button>
+      <button class="btn-cancel" onclick="closeModals()" data-i18n="mod_cancel">Cancelar</button>
+      <button class="btn-ok" onclick="addPartToFrame()" style="background:var(--acc-add)" data-i18n="mod_add">Añadir</button>
     </div>
   </div>
 </div>
@@ -556,11 +558,102 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
 <div class="modal-bg" id="modal-help">
   <div class="modal" style="min-width:min(640px,95vw);max-height:85vh;display:flex;flex-direction:column">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <h2 style="margin:0">📖 Documentación — Animation Editor</h2>
+      <h2 style="margin:0" data-i18n="mod_help_title">📖 Documentación — Animation Editor</h2>
       <button class="btn-cancel" onclick="closeModals()" style="padding:0 10px;min-width:28px">✕</button>
     </div>
     <div style="overflow-y:auto;flex:1;padding-right:4px" id="help-content">
+      <!-- Injected via JS based on language -->
+    </div>
+  </div>
+</div>
 
+<!-- File inputs -->
+<input type="file" id="inp-png" accept=".png,.jpg,.jpeg,.webp" style="display:none" onclick="this.value=null">
+<input type="file" id="inp-atlas" accept=".json,.plist" style="display:none" onclick="this.value=null">
+<input type="file" id="inp-anim" accept=".json,.plist" style="display:none" onclick="this.value=null">
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+//  DICTIONARY & I18N SYSTEM
+// ═══════════════════════════════════════════════════════════════════════
+const i18n = {
+  es: {
+    btn_atlas_png: "Atlas PNG",
+    btn_atlas_data: "Atlas Data",
+    btn_anim_desc: "AnimDesc",
+    btn_export: "Exportar",
+    btn_smooth: "Suave",
+    btn_help: "Ayuda",
+    tt_import_png: "Importar atlas PNG",
+    tt_import_atlas: "Importar Atlas JSON/Plist",
+    tt_import_anim: "Importar AnimDesc JSON/Plist",
+    tt_export: "Exportar Animación",
+    tt_undo: "Deshacer (Ctrl+Z)",
+    tt_redo: "Rehacer (Ctrl+Y)",
+    tt_smooth: "Animación suave entre frames (interpolación)",
+    tt_first: "Primer frame",
+    tt_prev: "Frame anterior",
+    tt_play: "Play/Pause",
+    tt_next: "Frame siguiente",
+    tt_last: "Último frame",
+    tt_help: "Documentación / Ayuda",
+    lbl_animations: "Animaciones",
+    lbl_parts: "Partes",
+    lbl_properties: "Propiedades",
+    lbl_layers: "Capas",
+    btn_new_anim_tt: "Nueva animación",
+    btn_copy_part_tt: "Copiar partes seleccionadas",
+    btn_paste_part_tt: "Pegar partes",
+    btn_new_part_tt: "Añadir parte",
+    btn_del_part_tt: "Eliminar partes",
+    dz_subtitle: "Importa archivos o espera la carga automática",
+    dz_card_atlas_title: "Datos Atlas",
+    dz_card_anim_title: "AnimDesc",
+    dz_st_atlas: "Atlas",
+    dz_btn_open: "Abrir Editor ▶",
+    dz_btn_scratch: "Crear desde cero",
+    prop_nosel: "Selecciona una parte<br>en la lista o el viewport",
+    prop_multi_sel: '<b style="color:var(--textbright)">{0} partes seleccionadas</b><br><br>Arrastra para moverlas juntas.<br>Usa el panel de partes para copiarlas, borrarlas o modificar selección.',
+    prop_name: "Nombre",
+    prop_layer: "Capa",
+    prop_pos: "Posición",
+    prop_scale: "Escala",
+    prop_rot: "Rotación",
+    prop_drag_num_tt: "Arrastra el número o presiona para cambiar el valor",
+    prop_drag_rot_tt: "Arrastra el número para rotar",
+    lbl_prev_scale: "Escala preview",
+    tl_copy_tt: "Copiar Frame",
+    tl_paste_tt: "Pegar Frame",
+    tl_add_tt: "Duplicar e insertar frame",
+    tl_del_tt: "Eliminar frame actual",
+    tl_tween_ind: "INTERPOLANDO",
+    mod_new_anim_title: "Nueva Animación",
+    mod_name_lbl: "Nombre",
+    mod_copy_lbl: "Copiar desde (opcional)",
+    mod_cancel: "Cancelar",
+    mod_create: "Crear",
+    mod_exp_title: "Exportar Animación",
+    mod_exp_desc: "Selecciona el formato de salida para AnimDesc.",
+    mod_add_part_title: "Añadir Textura / Parte",
+    mod_add_part_lbl: "Seleccionar textura base",
+    mod_add: "Añadir",
+    mod_help_title: "📖 Documentación — Animation Editor",
+    mod_empty_opt: "— Vacía —",
+    msg_copied_parts: "Copiadas {0} parte(s)",
+    msg_no_parts_cb: "No hay partes en el portapapeles",
+    msg_pasted_parts: "Pegadas {0} parte(s)",
+    msg_frame_copied: "Frame entero copiado",
+    msg_no_frames_cb: "No hay frames en el portapapeles",
+    msg_frame_pasted: "Frame reemplazado/pegado",
+    err_no_anims_exp: "No hay animaciones para exportar.",
+    err_enter_name: "Introduce un nombre",
+    err_anim_exists: "La animación ya existe",
+    err_import_first: "Por favor importa primero el Atlas PNG y los Datos del Atlas.",
+    layer_glow: "Glow",
+    layer_2: "Capa 2",
+    layer_1: "Base (1)",
+    layer_extra: "Extra",
+    help_html: `
       <div class="help-section">
         <h3>🗂️ Carga de archivos</h3>
         <p>El editor necesita hasta tres archivos. Puedes arrastrarlos (<b>drag &amp; drop</b>) al viewport o usar los botones de la barra superior:</p>
@@ -609,7 +702,7 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
         <h3>⚙️ Panel derecho — Propiedades</h3>
         <ul>
           <li>Muestra y edita la posición <b>(X, Y)</b>, escala <b>(SX, SY)</b>, rotación y zValue de la parte seleccionada.</li>
-          <li>💡 <b>Tip de velocidad:</b> Puedes <b>hacer clic y arrastrar (izquierda/derecha) sobre los cuadros de texto numéricos</b> para cambiar su valor fluidamente. Mantén presionado `Shift` para que el valor cambie más rápido.</li>
+          <li>💡 <b>Tip de velocidad:</b> Puedes <b>hacer clic y arrastrar (izquierda/derecha) sobre los cuadros de texto numéricos</b> para cambiar su valor fluidamente. Mantén presionado <code>Shift</code> para que el valor cambie más rápido.</li>
         </ul>
       </div>
 
@@ -622,18 +715,181 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
           <li><b>Shift + Flechas</b> → Mover parte 1px (o 10px con Ctrl).</li>
           <li><b>T</b> → Activar/Desactivar interpolación suave.</li>
         </ul>
+      </div>`
+  },
+  en: {
+    btn_atlas_png: "PNG Atlas",
+    btn_atlas_data: "Atlas Data",
+    btn_anim_desc: "AnimDesc",
+    btn_export: "Export",
+    btn_smooth: "Smooth",
+    btn_help: "Help",
+    tt_import_png: "Import PNG atlas",
+    tt_import_atlas: "Import Atlas JSON/Plist",
+    tt_import_anim: "Import AnimDesc JSON/Plist",
+    tt_export: "Export Animation",
+    tt_undo: "Undo (Ctrl+Z)",
+    tt_redo: "Redo (Ctrl+Y)",
+    tt_smooth: "Smooth animation between frames (tweening)",
+    tt_first: "First frame",
+    tt_prev: "Previous frame",
+    tt_play: "Play/Pause",
+    tt_next: "Next frame",
+    tt_last: "Last frame",
+    tt_help: "Documentation / Help",
+    lbl_animations: "Animations",
+    lbl_parts: "Parts",
+    lbl_properties: "Properties",
+    lbl_layers: "Layers",
+    btn_new_anim_tt: "New animation",
+    btn_copy_part_tt: "Copy selected parts",
+    btn_paste_part_tt: "Paste parts",
+    btn_new_part_tt: "Add part",
+    btn_del_part_tt: "Delete parts",
+    dz_subtitle: "Import files or wait for automatic loading",
+    dz_card_atlas_title: "Atlas Data",
+    dz_card_anim_title: "AnimDesc",
+    dz_st_atlas: "Atlas",
+    dz_btn_open: "Open Editor ▶",
+    dz_btn_scratch: "Create from scratch",
+    prop_nosel: "Select a part<br>in the list or viewport",
+    prop_multi_sel: '<b style="color:var(--textbright)">{0} parts selected</b><br><br>Drag to move them together.<br>Use the parts panel to copy, delete, or modify selection.',
+    prop_name: "Name",
+    prop_layer: "Layer",
+    prop_pos: "Position",
+    prop_scale: "Scale",
+    prop_rot: "Rotation",
+    prop_drag_num_tt: "Drag the number or click to change the value",
+    prop_drag_rot_tt: "Drag the number to rotate",
+    lbl_prev_scale: "Preview Scale",
+    tl_copy_tt: "Copy Frame",
+    tl_paste_tt: "Paste Frame",
+    tl_add_tt: "Duplicate and insert frame",
+    tl_del_tt: "Delete current frame",
+    tl_tween_ind: "TWEENING",
+    mod_new_anim_title: "New Animation",
+    mod_name_lbl: "Name",
+    mod_copy_lbl: "Copy from (optional)",
+    mod_cancel: "Cancel",
+    mod_create: "Create",
+    mod_exp_title: "Export Animation",
+    mod_exp_desc: "Select the output format for AnimDesc.",
+    mod_add_part_title: "Add Texture / Part",
+    mod_add_part_lbl: "Select base texture",
+    mod_add: "Add",
+    mod_help_title: "📖 Documentation — Animation Editor",
+    mod_empty_opt: "— Empty —",
+    msg_copied_parts: "Copied {0} part(s)",
+    msg_no_parts_cb: "No parts in clipboard",
+    msg_pasted_parts: "Pasted {0} part(s)",
+    msg_frame_copied: "Entire frame copied",
+    msg_no_frames_cb: "No frames in clipboard",
+    msg_frame_pasted: "Frame replaced/pasted",
+    err_no_anims_exp: "No animations to export.",
+    err_enter_name: "Enter a name",
+    err_anim_exists: "Animation already exists",
+    err_import_first: "Please import the PNG Atlas and Atlas Data first.",
+    layer_glow: "Glow",
+    layer_2: "Layer 2",
+    layer_1: "Base (1)",
+    layer_extra: "Extra",
+    help_html: `
+      <div class="help-section">
+        <h3>🗂️ File Loading</h3>
+        <p>The editor needs up to three files. You can <b>drag &amp; drop</b> them into the viewport or use the top bar buttons:</p>
+        <ul>
+          <li><b>PNG Atlas</b> — the sprite-sheet image (can be <code>.png</code>, <code>.jpg</code>, <code>.webp</code>). If the name contains <code>@2x</code>, <code>-uhd</code>, or similar, it is auto-detected as UHD.</li>
+          <li><b>Atlas Data</b> — JSON or Plist with the clipping info for each sprite (<code>frames</code>).</li>
+          <li><b>AnimDesc</b> — JSON or Plist with the animations descriptor (<code>animationContainer</code>, <code>usedTextures</code>).</li>
+        </ul>
+        <p>When all three are loaded, the <b>"Open Editor"</b> button appears. You can also click <b>"Create from scratch"</b> with only PNG + Atlas.</p>
       </div>
 
-    </div>
-  </div>
-</div>
+      <div class="help-section">
+        <h3>🎞️ Left Panel — Animations &amp; Parts</h3>
+        <ul>
+          <li>The top list shows the <b>animations</b>. Click one to activate it.</li>
+          <li>The <b>"+"</b> button opens the modal to create a new animation.</li>
+          <li>The bottom list shows the <b>parts/sprites</b> of the current frame, ordered by layer and zValue.</li>
+          <li>Use the 📄 (Copy) and 📋 (Paste) buttons to easily duplicate parts.</li>
+        </ul>
+      </div>
 
-<!-- File inputs -->
-<input type="file" id="inp-png" accept=".png,.jpg,.jpeg,.webp" style="display:none" onclick="this.value=null">
-<input type="file" id="inp-atlas" accept=".json,.plist" style="display:none" onclick="this.value=null">
-<input type="file" id="inp-anim" accept=".json,.plist" style="display:none" onclick="this.value=null">
+      <div class="help-section">
+        <h3>🖼️ Viewport — Main Canvas</h3>
+        <ul>
+          <li><b>Left click</b> on a sprite → selects it. If multiple overlap, successive clicks <b>cycle through layers</b>.</li>
+          <li><b>Drag</b> a sprite → moves all selected parts.</li>
+          <li><b>Click on background</b> → deselects active sprites.</li>
+          <li><b>Drag on empty space</b> → canvas panning.</li>
+          <li><b>Shift+drag on empty space</b> → draws a <b>multi-part selection box</b>.</li>
+          <li><b>Shift+click or Ctrl+click</b> → selects or deselects multiple parts in the list.</li>
+          <li><b>Mouse wheel</b> → zoom in/out.</li>
+          <li>📱 <b>Mobile</b>: one finger drags or pans, two fingers <b>pinch-to-zoom</b>. <b>Long press</b> on empty space to activate the <b>touch multi-part selection box</b> (with haptic feedback).</li>
+        </ul>
+      </div>
 
-<script>
+      <div class="help-section">
+        <h3>⏱️ Timeline</h3>
+        <ul>
+          <li>Click or drag (scrubbing) over the <b>timeline numbers (ruler)</b> or bottom cells to change frames.</li>
+          <li><b>+Fr</b> / <b>−Fr</b> duplicates or deletes the current frame.</li>
+          <li>Use the 📄 (Copy Frame) and 📋 (Paste Frame) buttons to clone entire frames.</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h3>⚙️ Right Panel — Properties</h3>
+        <ul>
+          <li>Shows and edits the position <b>(X, Y)</b>, scale <b>(SX, SY)</b>, rotation, and zValue of the selected part.</li>
+          <li>💡 <b>Speed tip:</b> You can <b>click and drag (left/right) on the numeric text boxes</b> to change their value fluidly. Hold <code>Shift</code> to make the value change faster.</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h3>↩️ Undo / Redo and Shortcuts</h3>
+        <ul>
+          <li><b>Ctrl+Z</b> / <b>Ctrl+Y</b> → undo / redo.</li>
+          <li><b>Ctrl+C</b> / <b>Ctrl+V</b> → copy and paste sprites (or frames if no parts selected).</li>
+          <li><b>Delete</b> / <b>Backspace</b> → Delete selected parts.</li>
+          <li><b>Shift + Arrows</b> → Move part 1px (or 10px with Ctrl).</li>
+          <li><b>T</b> → Toggle smooth tweening.</li>
+        </ul>
+      </div>`
+  }
+};
+
+let currentLang = 'es';
+
+function t(key, ...args) {
+  let str = i18n[currentLang][key] || i18n['es'][key] || key;
+  args.forEach((arg, i) => { str = str.replace(`{${i}}`, arg); });
+  return str;
+}
+
+function updateLanguage() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.innerHTML = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    el.title = t(el.getAttribute('data-i18n-title'));
+  });
+  
+  const hd = document.getElementById('help-content');
+  if (hd) hd.innerHTML = t('help_html');
+  
+  // Update Dropzone Status spans
+  updateDzStatusUI();
+  updatePropPanel();
+  updateLayerPanel();
+}
+
+document.getElementById('btn-lang').onclick = () => {
+  currentLang = currentLang === 'es' ? 'en' : 'es';
+  document.getElementById('lang-label').textContent = currentLang === 'es' ? 'EN' : 'ES';
+  updateLanguage();
+};
+
 // ═══════════════════════════════════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════════════════════════════════
@@ -754,14 +1010,14 @@ function parsePlistXML(node) {
 function parseXMLText(text) {
   const xmlDoc = new DOMParser().parseFromString(text.trim(), 'text/xml');
   const err = xmlDoc.getElementsByTagName('parsererror');
-  if (err.length) throw new Error('XML inválido: ' + err[0].textContent);
+  if (err.length) throw new Error(t('err_invalid_xml') + err[0].textContent);
   const findDict = n => {
     if (n.nodeType === 1 && n.nodeName.toLowerCase() === 'dict') return n;
     for (let i = 0; i < n.childNodes.length; i++) { const r = findDict(n.childNodes[i]); if (r) return r; }
     return null;
   };
   const d = findDict(xmlDoc);
-  if (!d) throw new Error('No se encontró <dict> en el Plist.');
+  if (!d) throw new Error(t('err_no_dict'));
   return parsePlistXML(d);
 }
 function parseFileContent(file, callback) {
@@ -769,7 +1025,7 @@ function parseFileContent(file, callback) {
   const r = new FileReader();
   r.onload = e => {
     try { callback(isPlist ? parseXMLText(e.target.result) : JSON.parse(e.target.result), file.name); }
-    catch(err) { alert('Error al leer archivo:\n' + err.message); }
+    catch(err) { alert(t('err_read_file') + ':\n' + err.message); }
   };
   r.readAsText(file);
 }
@@ -934,8 +1190,8 @@ function updateLayerPanel() {
   panel.innerHTML = '';
   const available = new Set(['1']);
   Object.keys(S.atlasFrames).forEach(k => available.add(getLayer(k)));
-  [{ id:'glow',name:'Glow',color:'#7ec8e3' }, { id:'2',name:'Capa 2',color:'#e86b5f' },
-   { id:'1',name:'Base (1)',color:'#7ebd7e' }, { id:'extra',name:'Extra',color:'#e8c87e' }].forEach(ld => {
+  [{ id:'glow',name:t('layer_glow'),color:'#7ec8e3' }, { id:'2',name:t('layer_2'),color:'#e86b5f' },
+   { id:'1',name:t('layer_1'),color:'#7ebd7e' }, { id:'extra',name:t('layer_extra'),color:'#e8c87e' }].forEach(ld => {
     if (!available.has(ld.id)) return;
     if (S.layers[ld.id] === undefined) S.layers[ld.id] = true;
     const row = document.createElement('div'); row.className = 'layer-row';
@@ -1230,14 +1486,14 @@ function updatePropPanel() {
   if (!S.animDesc || !S.currentAnim || S.selectedParts.length === 0) { 
     panel.style.display='none'; 
     nosel.style.display=''; 
-    nosel.innerHTML = 'Selecciona una parte<br>en la lista o el viewport';
+    nosel.innerHTML = t('prop_nosel');
     return; 
   }
   
   if (S.selectedParts.length > 1) {
     panel.style.display='none'; 
     nosel.style.display=''; 
-    nosel.innerHTML = `<b style="color:var(--textbright)">${S.selectedParts.length} partes seleccionadas</b><br><br>Arrastra para moverlas juntas.<br>Usa el panel de partes para copiarlas, borrarlas o modificar selección.`;
+    nosel.innerHTML = t('prop_multi_sel', S.selectedParts.length);
     return;
   }
 
@@ -1506,12 +1762,12 @@ document.getElementById('btn-copy-part').onclick = () => {
   const fi = Math.min(S.currentFrame-1, S.frameCount-1);
   const parts = S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]];
   S.clipboard = { type: 'parts', data: S.selectedParts.map(idx => JSON.parse(JSON.stringify(parts[idx]))) };
-  showToast(`Copiadas ${S.selectedParts.length} parte(s)`);
+  showToast(t('msg_copied_parts', S.selectedParts.length));
 };
 
 document.getElementById('btn-paste-part').onclick = () => {
   if (!S.currentAnim || S.clipboard?.type !== 'parts') {
-    if (S.clipboard?.type !== 'parts') showToast('No hay partes en el portapapeles');
+    if (S.clipboard?.type !== 'parts') showToast(t('msg_no_parts_cb'));
     return;
   }
   pushHistory();
@@ -1526,7 +1782,7 @@ document.getElementById('btn-paste-part').onclick = () => {
   });
   S.selectedParts = newSel;
   buildPartsList(); updatePropPanel(); render();
-  showToast(`Pegadas ${S.clipboard.data.length} parte(s)`);
+  showToast(t('msg_pasted_parts', S.clipboard.data.length));
 };
 
 document.getElementById('btn-copy-frame').onclick = () => {
@@ -1534,12 +1790,12 @@ document.getElementById('btn-copy-frame').onclick = () => {
   const fi = Math.min(S.currentFrame-1, S.frameCount-1);
   const parts = S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]];
   S.clipboard = { type: 'frame', data: JSON.parse(JSON.stringify(parts)) };
-  showToast('Frame entero copiado');
+  showToast(t('msg_frame_copied'));
 };
 
 document.getElementById('btn-paste-frame').onclick = () => {
   if (!S.currentAnim || S.clipboard?.type !== 'frame') {
-    if (S.clipboard?.type !== 'frame') showToast('No hay frames en el portapapeles');
+    if (S.clipboard?.type !== 'frame') showToast(t('msg_no_frames_cb'));
     return;
   }
   pushHistory();
@@ -1547,7 +1803,7 @@ document.getElementById('btn-paste-frame').onclick = () => {
   S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]] = JSON.parse(JSON.stringify(S.clipboard.data));
   S.selectedParts = [];
   buildPartsList(); updatePropPanel(); render();
-  showToast('Frame reemplazado/pegado');
+  showToast(t('msg_frame_pasted'));
 };
 
 
@@ -1572,9 +1828,13 @@ function hideDrop() {
     switchAnim(Object.keys(S.animDesc._frame_names)[0]);
   resizeCanvas();
 }
+function updateDzStatusUI() {
+  if (S.loaded.png) document.getElementById('st-png').innerHTML = `<span class="ok">✓</span> PNG`;
+  if (S.loaded.atlas) document.getElementById('st-atlas').innerHTML = `<span class="ok">✓</span> ${t('dz_st_atlas')}`;
+  if (S.loaded.anim) document.getElementById('st-anim').innerHTML = `<span class="ok">✓</span> AnimDesc`;
+}
 function updateDzStatus(k) {
-  document.getElementById('st-'+k).innerHTML = `<span class="ok">✓</span> ${k==='png'?'PNG':k==='atlas'?'Atlas':'AnimDesc'}`;
-  S.loaded[k] = true; checkAllLoaded();
+  S.loaded[k] = true; updateDzStatusUI(); checkAllLoaded();
 }
 function createFromScratch() { openNewAnimModal(); }
 
@@ -1611,7 +1871,7 @@ document.getElementById('inp-anim').onchange = e => {
   });
 };
 document.getElementById('btn-export').onclick = () => {
-  if (!S.animDesc) return alert('No hay animaciones para exportar.');
+  if (!S.animDesc) return alert(t('err_no_anims_exp'));
   document.getElementById('modal-export').classList.add('open');
 };
 
@@ -1709,12 +1969,12 @@ function exportFile(type) {
 // ═══════════════════════════════════════════════════════════════════════
 function openNewAnimModal() {
   if (!S.animDesc) {
-    if (!S.loaded.png || !S.loaded.atlas) return alert('Por favor importa primero el Atlas PNG y los Datos del Atlas.');
+    if (!S.loaded.png || !S.loaded.atlas) return alert(t('err_import_first'));
     S.animDesc = { baseVariantID:'01', usedTextures:{}, animationContainer:{}, _frame_counts:{}, _frame_names:{} };
     updateDzStatus('anim'); hideDrop();
   }
   const sel = document.getElementById('m-copy');
-  sel.innerHTML = '<option value="">— Vacía —</option>';
+  sel.innerHTML = `<option value="">${t('mod_empty_opt')}</option>`;
   for (const n of Object.keys(S.animDesc?._frame_names||{})) sel.innerHTML += `<option value="${n}">${n}</option>`;
   document.getElementById('m-copy-row').style.display = Object.keys(S.animDesc?._frame_names||{}).length ? 'flex' : 'none';
   document.getElementById('m-name').value = '';
@@ -1725,8 +1985,8 @@ function closeModals() { document.querySelectorAll('.modal-bg').forEach(m => m.c
 function createAnim() {
   const name = document.getElementById('m-name').value.trim();
   const copyFrom = document.getElementById('m-copy').value;
-  if (!name) return alert('Introduce un nombre');
-  if (S.animDesc._frame_names[name]) return alert('La animación ya existe');
+  if (!name) return alert(t('err_enter_name'));
+  if (S.animDesc._frame_names[name]) return alert(t('err_anim_exists'));
   if (copyFrom) {
     const srcNames = S.animDesc._frame_names[copyFrom];
     const newNames = srcNames.map((fn, i) => {
@@ -2351,6 +2611,7 @@ document.addEventListener('keydown', e => {
 //  INIT
 // ═══════════════════════════════════════════════════════════════════════
 window.onresize = () => { updateTLSizes(); resizeCanvas(); };
+updateLanguage(); // Inicia el idioma por defecto y dibuja HTML dinámico
 resizeCanvas();
 </script>
 </body>
