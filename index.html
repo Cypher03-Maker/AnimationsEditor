@@ -27,7 +27,7 @@
 body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none}
 
 /* ── TOP BAR ── */
-#topbar{height:42px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;flex-shrink:0;z-index:100;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+#topbar{height:42px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;flex-shrink:0;z-index:100;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;transition:height 0.3s;}
 #topbar::-webkit-scrollbar{display:none}
 #logo{padding:0 14px;font-weight:600;font-size:13px;color:var(--acc-title);letter-spacing:.05em;white-space:nowrap;display:flex;align-items:center;gap:7px;flex-shrink:0}
 #logo svg{flex-shrink:0;fill:none;stroke:var(--acc-title)}
@@ -65,7 +65,7 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 #main{display:flex;flex:1;overflow:hidden;min-height:0;position:relative}
 
 /* ── LEFT PANEL ── */
-#left{width:210px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:transform .3s ease,box-shadow .3s}
+#left{width:210px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:transform .3s ease,box-shadow .3s, top 0.3s}
 .pane-header{height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--border);flex-shrink:0}
 .pane-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text2)}
 .pane-btn{width:20px;height:20px;background:transparent;border:none;color:var(--text2);cursor:pointer;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .1s}
@@ -113,7 +113,7 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 .dz-btn-secondary:hover{background:var(--panel3)}
 
 /* ── RIGHT PANEL ── */
-#right{width:220px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;overflow-y:auto;transition:transform .3s ease,box-shadow .3s}
+#right{width:220px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;overflow-y:auto;transition:transform .3s ease,box-shadow .3s, top 0.3s}
 #right::-webkit-scrollbar{width:4px}
 #right::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 .prop-section{border-bottom:1px solid var(--border)}
@@ -137,22 +137,28 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 #no-sel{padding:24px 12px;text-align:center;font-size:11px;color:var(--text3);line-height:1.6}
 
 /* ── TIMELINE ── */
-#timeline{height:190px;background:var(--timeline);border-top:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:height .3s ease}
-#tl-top{height:36px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;flex-shrink:0}
-#tl-label{width:210px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--text2);text-transform:uppercase;border-right:1px solid var(--border)}
+#timeline{height:190px;background:var(--timeline);border-top:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:height .3s ease;}
+#tl-top{height:36px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;flex-shrink:0;transition:height 0.3s;}
+#tl-label{width:245px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--text2);text-transform:uppercase;border-right:1px solid var(--border);}
 #tl-ruler{flex:1;overflow:hidden;position:relative;height:100%;cursor:pointer}
 #tl-ruler canvas{display:block}
 #tl-body{display:flex;flex:1;overflow:hidden}
-#tl-names{width:210px;flex-shrink:0;overflow-y:auto;overflow-x:hidden;border-right:1px solid var(--border);scrollbar-width:none}
+#tl-names{width:245px;flex-shrink:0;overflow-y:auto;overflow-x:hidden;border-right:1px solid var(--border);scrollbar-width:none}
 #tl-names::-webkit-scrollbar{display:none}
 #tl-tracks{flex:1;overflow-x:auto;overflow-y:auto;position:relative;touch-action:pan-x pan-y}
 #tl-tracks::-webkit-scrollbar{height:6px;width:4px}
 #tl-tracks::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-#tl-names canvas,#tl-tracks canvas{display:block}
+#tl-names canvas,#tl-tracks canvas{display:block;}
 .sm-btn{background:var(--panel3);border:1px solid var(--border2);color:var(--text);border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer}
 .sm-btn:hover{background:var(--panel2);color:var(--textbright)}
 .sm-btn.green:hover{background:rgba(102,187,106,.15);color:var(--green);border-color:var(--green)}
 .sm-btn.red:hover{background:rgba(239,83,80,.15);color:var(--red);border-color:var(--red)}
+.sm-btn.tween-btn{color:var(--acc-tween)}
+.sm-btn.tween-btn:hover{background:rgba(38,198,218,.15); border-color:var(--acc-tween)}
+
+.tl-actions { display:flex; gap:4px; min-width:0; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+.tl-actions::-webkit-scrollbar { display:none; }
+.tl-title-text { flex-shrink:0; margin-right:6px; }
 
 /* ── TWEEN INDICATOR ── */
 #tween-indicator{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:rgba(38,198,218,.15);border:1px solid var(--acc-tween);border-radius:3px;padding:1px 8px;font-size:9px;font-weight:600;color:var(--acc-tween);letter-spacing:.06em;pointer-events:none;opacity:0;transition:opacity .3s}
@@ -161,7 +167,8 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 /* ── MODALS ── */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-bg.open{opacity:1;pointer-events:auto}
-.modal{background:var(--panel2);border:1px solid var(--border2);border-radius:10px;padding:24px;min-width:320px;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:translateY(10px);transition:transform .2s;max-width:90vw}
+/* Agregamos max-height y overflow-y para modo horizontal */
+.modal{background:var(--panel2);border:1px solid var(--border2);border-radius:10px;padding:24px;min-width:320px;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:translateY(10px);transition:transform .2s;max-width:90vw; max-height:90dvh; overflow-y:auto;}
 .modal-bg.open .modal{transform:translateY(0)}
 .modal h2{font-size:14px;font-weight:600;color:var(--textbright);margin-bottom:16px}
 .modal-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
@@ -179,11 +186,15 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 #mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;backdrop-filter:blur(2px)}
 
 /* ── MOBILE FABs ── */
-.mob-fab{display:none;position:fixed;bottom:200px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text);font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;transition:background .2s,color .2s,opacity .2s}
+.mob-fab{display:none;position:fixed;bottom:200px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text);font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;transition:background .2s,color .2s,opacity .2s, bottom 0.3s}
 .mob-fab.active{background:var(--acc-import-bg);border-color:var(--acc-import);color:var(--acc-import)}
 #mob-left-fab{left:8px;bottom:256px}
 #mob-right-fab{right:8px}
-#mob-tl-fab{display:none;position:fixed;bottom:148px;right:8px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text2);font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;font-weight:600}
+#mob-tl-fab{display:none;position:fixed;bottom:148px;right:8px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text2);font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;font-weight:600;transition:bottom 0.3s}
+
+/* Smooth docking for FABs when Timeline collapses */
+body.tl-collapsed .mob-fab { bottom: 70px !important; }
+body.tl-collapsed #mob-tl-fab { bottom: 16px !important; }
 
 /* ── TOAST NOTIFICATION ── */
 #toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.8); color:#fff; padding:8px 16px; border-radius:20px; font-size:12px; pointer-events:none; opacity:0; transition:opacity .3s; z-index:1000 }
@@ -194,7 +205,7 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-/* ── HELP MODAL ── */
+/* ── HELP & CREDITS MODAL ── */
 .help-section{margin-bottom:20px}
 .help-section h3{font-size:12px;font-weight:600;color:var(--acc-title);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
 .help-section p{font-size:11px;color:var(--text);line-height:1.7;margin-bottom:6px}
@@ -202,19 +213,15 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 .help-section li{margin-bottom:2px}
 .help-section b{color:var(--textbright)}
 .help-section code{background:var(--panel3);padding:1px 4px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--acc-import)}
-.kb-table{width:100%;border-collapse:collapse;font-size:11px}
-.kb-table tr{border-bottom:1px solid var(--border)}
-.kb-table td{padding:4px 6px;color:var(--text)}
-.kb-table td:first-child{width:200px;white-space:nowrap}
-kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2);border-radius:3px;padding:1px 5px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--textbright);box-shadow:0 1px 0 var(--border2)}
 
 /* ════════════════════════════════════════════
-   MOBILE RESPONSIVE  (≤768px)
+   MOBILE RESPONSIVE (Orientación + Tamaño)
 ════════════════════════════════════════════ */
-@media (max-width: 768px) {
+/* 1. Vista Móvil General (Móviles verticales u horizontales y tablets pequeñas) */
+@media (max-width: 850px), (max-height: 480px) {
   #left {
     position:fixed;left:0;top:42px;bottom:0;z-index:200;
-    transform:translateX(-100%);box-shadow:none;width:240px
+    transform:translateX(-100%);box-shadow:none;width:240px;
   }
   #left.mob-open {
     transform:translateX(0);
@@ -222,7 +229,7 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
   }
   #right {
     position:fixed;right:0;top:42px;bottom:0;z-index:200;
-    transform:translateX(100%);box-shadow:none;width:240px
+    transform:translateX(100%);box-shadow:none;width:240px;
   }
   #right.mob-open {
     transform:translateX(0);
@@ -232,8 +239,11 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
   .mob-fab { display:flex }
   #mob-tl-fab { display:flex }
   #timeline { height:120px }
-  #tl-label { width:120px; font-size:9px }
-  #tl-names { width:120px }
+  #tl-label { width:160px; padding:0 6px; font-size:9px; }
+  #tl-names { width:160px }
+  .tl-title-text { display:none; }
+  .tl-actions { flex:1; justify-content:flex-start; }
+  .sm-btn { padding:2px 4px; font-size:10px; }
   .mob-overlay-visible { opacity:1;pointer-events:auto }
   #logo span { display:none }
   .anim-item { height:40px }
@@ -242,9 +252,22 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
   #preview-scale { accent-color:var(--acc-zoom) }
 }
 
+/* 2. Ajustes Específicos para Móvil en Horizontal (Landscape) */
+@media (max-height: 480px) {
+  #topbar { height: 36px; }
+  #left, #right { top: 36px; }
+  #timeline { height: 90px; }
+  #tl-top { height: 30px; }
+  .mob-fab { bottom: 110px; width: 38px; height: 38px; }
+  #mob-left-fab { bottom: 110px; }
+  #mob-tl-fab { bottom: 60px; width: 38px; height: 38px; }
+  .dz-card { padding: 12px 16px; min-width: 150px; }
+  .dz-card .dz-icon { font-size: 20px; margin-bottom: 4px; }
+}
+
 @media (max-width: 480px) {
-  #tl-label { width:120px }
-  #tl-names { width:120px }
+  #tl-label { width:150px; padding:0 4px; }
+  #tl-names { width:150px }
   .modal { padding:16px; min-width:280px }
 }
 </style>
@@ -347,6 +370,11 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
       <span id="lang-label">EN</span>
     </button>
     <div class="sep" style="margin: 0 8px"></div>
+    <!-- Credits Button -->
+    <button class="tb-btn" id="btn-credits" data-i18n-title="tt_credits" title="Créditos del Autor" style="color:var(--text2)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span data-i18n="btn_credits">Créditos</span>
+    </button>
     <button class="tb-btn" id="btn-help" data-i18n-title="tt_help" title="Documentación / Ayuda" style="color:var(--text2)">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 5.2a1.5 1.5 0 012.8.7c0 1-1.3 1.3-1.3 2.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="10" r=".7" fill="currentColor"/></svg>
       <span data-i18n="btn_help">Ayuda</span>
@@ -481,8 +509,9 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
 <div id="timeline">
   <div id="tl-top">
     <div id="tl-label">
-      <span>Timeline</span>
-      <div style="display:flex;gap:4px">
+      <span class="tl-title-text">Timeline</span>
+      <div class="tl-actions">
+        <button class="sm-btn tween-btn" id="btn-add-tween" data-i18n-title="tl_add_tween_tt" title="Interpolar">✨</button>
         <button class="sm-btn" id="btn-copy-frame" data-i18n-title="tl_copy_tt" title="Copiar Frame">📄</button>
         <button class="sm-btn" id="btn-paste-frame" data-i18n-title="tl_paste_tt" title="Pegar Frame">📋</button>
         <button class="sm-btn green" id="btn-add-frame" data-i18n-title="tl_add_tt" title="Duplicar e insertar frame">+Fr</button>
@@ -508,10 +537,12 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
 
 <!-- MOBILE FABs -->
 <button id="mob-left-fab" class="mob-fab" title="Animaciones / Partes">☰</button>
-<button id="mob-right-fab" class="mob-fab" title="Propiedades" style="right:8px;left:auto">⚙</button>
+<button id="mob-right-fab" class="mob-fab" title="Propiedades" style="left:auto">⚙</button>
 <button id="mob-tl-fab" title="Timeline">TL</button>
 
 <!-- MODALS -->
+
+<!-- Modal: Nueva Animación -->
 <div class="modal-bg" id="modal-new">
   <div class="modal">
     <h2 data-i18n="mod_new_anim_title">Nueva Animación</h2>
@@ -529,10 +560,13 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
     </div>
   </div>
 </div>
+
+<!-- Modal: Exportar Animación -->
 <div class="modal-bg" id="modal-export">
-  <div class="modal" style="min-width:280px">
+  <div class="modal" style="min-width:300px">
     <h2 data-i18n="mod_exp_title">Exportar Animación</h2>
-    <p style="font-size:11px;color:var(--text2);margin-bottom:15px" data-i18n="mod_exp_desc">Selecciona el formato de salida para AnimDesc.</p>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:20px" data-i18n="mod_exp_desc">Selecciona el formato de salida para AnimDesc.</p>
+
     <div class="modal-btns" style="justify-content:center;gap:12px">
       <button class="btn-cancel" onclick="closeModals()" data-i18n="mod_cancel">Cancelar</button>
       <button class="btn-ok" onclick="exportFile('json')" style="background:var(--acc-import)">JSON</button>
@@ -540,6 +574,8 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
     </div>
   </div>
 </div>
+
+<!-- Modal: Añadir Parte -->
 <div class="modal-bg" id="modal-part">
   <div class="modal">
     <h2 data-i18n="mod_add_part_title">Añadir Textura / Parte</h2>
@@ -554,7 +590,23 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
   </div>
 </div>
 
-<!-- HELP / DOCUMENTATION MODAL -->
+<!-- Modal: Generar Frames Intermedios (Tween) -->
+<div class="modal-bg" id="modal-tween">
+  <div class="modal">
+    <h2 data-i18n="mod_tween_title">Interpolar Frames</h2>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:12px;line-height:1.5" data-i18n="mod_tween_desc">Genera frames intermedios matemáticos entre el frame actual y el siguiente.</p>
+    <div class="modal-row">
+      <label data-i18n="mod_tween_lbl">Frames a insertar:</label>
+      <input class="modal-input" id="m-tween-count" type="number" min="1" max="60" value="5">
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModals()" data-i18n="mod_cancel">Cancelar</button>
+      <button class="btn-ok" onclick="insertTweenFrames()" style="background:var(--acc-tween);color:#000" data-i18n="mod_create">Crear</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: HELP / DOCUMENTATION -->
 <div class="modal-bg" id="modal-help">
   <div class="modal" style="min-width:min(640px,95vw);max-height:85vh;display:flex;flex-direction:column">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
@@ -563,6 +615,24 @@ kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2
     </div>
     <div style="overflow-y:auto;flex:1;padding-right:4px" id="help-content">
       <!-- Injected via JS based on language -->
+    </div>
+  </div>
+</div>
+
+<!-- Modal: CRÉDITOS DEL AUTOR -->
+<div class="modal-bg" id="modal-credits">
+  <div class="modal" style="text-align: center; width: 300px; max-width: 90vw;">
+    <h2 data-i18n="mod_credits_title" style="margin-bottom: 20px;">Créditos del Autor</h2>
+    
+    <!-- ====== CONFIGURACIÓN DEL AUTOR ====== -->
+    <!-- Cambia la URL de la imagen (src) y tu nombre en el <h3>. Se quitó data-i18n para no sobreescribirlo -->
+    <img src="credits/Cypher_logo.jpeg" alt="Autor" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin:0 auto 12px; border:3px solid var(--acc-import); display:block; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+    <h3 style="font-size:18px; color:var(--textbright); margin-bottom:4px;">Cypher</h3>
+    <p style="font-size:12px; color:var(--text2); margin-bottom:24px;" data-i18n="mod_credits_role">Creador / Desarrollador de la herramienta</p>
+    <!-- ===================================== -->
+
+    <div class="modal-btns" style="justify-content: center;">
+      <button class="btn-cancel" onclick="closeModals()" data-i18n="mod_close">Cerrar</button>
     </div>
   </div>
 </div>
@@ -584,6 +654,7 @@ const i18n = {
     btn_export: "Exportar",
     btn_smooth: "Suave",
     btn_help: "Ayuda",
+    btn_credits: "Créditos",
     tt_import_png: "Importar atlas PNG",
     tt_import_atlas: "Importar Atlas JSON/Plist",
     tt_import_anim: "Importar AnimDesc JSON/Plist",
@@ -597,6 +668,7 @@ const i18n = {
     tt_next: "Frame siguiente",
     tt_last: "Último frame",
     tt_help: "Documentación / Ayuda",
+    tt_credits: "Créditos del Autor",
     lbl_animations: "Animaciones",
     lbl_parts: "Partes",
     lbl_properties: "Propiedades",
@@ -622,6 +694,7 @@ const i18n = {
     prop_drag_num_tt: "Arrastra el número o presiona para cambiar el valor",
     prop_drag_rot_tt: "Arrastra el número para rotar",
     lbl_prev_scale: "Escala preview",
+    tl_add_tween_tt: "Generar frames suavizados hasta el siguiente frame",
     tl_copy_tt: "Copiar Frame",
     tl_paste_tt: "Pegar Frame",
     tl_add_tt: "Duplicar e insertar frame",
@@ -637,7 +710,13 @@ const i18n = {
     mod_add_part_title: "Añadir Textura / Parte",
     mod_add_part_lbl: "Seleccionar textura base",
     mod_add: "Añadir",
+    mod_tween_title: "Interpolar Frames",
+    mod_tween_desc: "Genera frames intermedios matemáticos entre el frame actual y el siguiente.",
+    mod_tween_lbl: "Frames a insertar:",
     mod_help_title: "📖 Documentación — Animation Editor",
+    mod_credits_title: "Créditos del Autor",
+    mod_credits_role: "Creador / Desarrollador de la herramienta",
+    mod_close: "Cerrar",
     mod_empty_opt: "— Vacía —",
     msg_copied_parts: "Copiadas {0} parte(s)",
     msg_no_parts_cb: "No hay partes en el portapapeles",
@@ -645,10 +724,12 @@ const i18n = {
     msg_frame_copied: "Frame entero copiado",
     msg_no_frames_cb: "No hay frames en el portapapeles",
     msg_frame_pasted: "Frame reemplazado/pegado",
+    msg_tween_added: "Insertados {0} frames suavizados",
     err_no_anims_exp: "No hay animaciones para exportar.",
     err_enter_name: "Introduce un nombre",
     err_anim_exists: "La animación ya existe",
     err_import_first: "Por favor importa primero el Atlas PNG y los Datos del Atlas.",
+    err_need_two_frames: "Necesitas al menos 2 frames para interpolar.",
     layer_glow: "Glow",
     layer_2: "Capa 2",
     layer_1: "Base (1)",
@@ -658,62 +739,29 @@ const i18n = {
         <h3>🗂️ Carga de archivos</h3>
         <p>El editor necesita hasta tres archivos. Puedes arrastrarlos (<b>drag &amp; drop</b>) al viewport o usar los botones de la barra superior:</p>
         <ul>
-          <li><b>Atlas PNG</b> — la imagen sprite-sheet (puede ser <code>.png</code>, <code>.jpg</code>, <code>.webp</code>). Si el nombre contiene <code>@2x</code>, <code>-uhd</code> o similar, se detecta automáticamente como UHD.</li>
-          <li><b>Atlas Data</b> — JSON o Plist con la información de recorte de cada sprite del sheet (<code>frames</code>).</li>
-          <li><b>AnimDesc</b> — JSON o Plist con el descriptor de animaciones (<code>animationContainer</code>, <code>usedTextures</code>).</li>
-        </ul>
-        <p>Cuando los tres están cargados aparece el botón <b>"Abrir Editor"</b>. También puedes pulsar <b>"Crear desde cero"</b> con solo PNG + Atlas.</p>
-      </div>
-
-      <div class="help-section">
-        <h3>🎞️ Panel izquierdo — Animaciones &amp; Partes</h3>
-        <ul>
-          <li>La lista superior muestra las <b>animaciones</b>. Pulsa en una para activarla.</li>
-          <li>El botón <b>"+"</b> abre el modal para crear una nueva animación.</li>
-          <li>La lista inferior muestra las <b>partes/sprites</b> del frame actual, ordenadas por capa y zValue.</li>
-          <li>Usa los botones 📄 (Copiar) y 📋 (Pegar) para duplicar partes fácilmente.</li>
+          <li><b>Atlas PNG</b> — la imagen sprite-sheet (puede ser <code>.png</code>, <code>.jpg</code>, <code>.webp</code>).</li>
+          <li><b>Atlas Data</b> — JSON o Plist con la información de recorte de cada sprite (<code>frames</code>).</li>
+          <li><b>AnimDesc</b> — JSON o Plist con el descriptor de animaciones (<code>animationContainer</code>).</li>
         </ul>
       </div>
-
       <div class="help-section">
-        <h3>🖼️ Viewport — Canvas principal</h3>
+        <h3>🖼️ Viewport y Atajos Principales</h3>
         <ul>
-          <li><b>Click izquierdo</b> sobre un sprite → lo selecciona. Si varios se solapan, clicks sucesivos <b>ciclan por capas</b>.</li>
+          <li><b>Click izquierdo</b> sobre un sprite → lo selecciona. Si hay varios en la misma posición, clicks sucesivos <b>cambian de capa</b>.</li>
           <li><b>Arrastrar</b> un sprite → mueve todas las partes seleccionadas.</li>
           <li><b>Click en el fondo</b> → deselecciona los sprites activos.</li>
           <li><b>Arrastrar en vacío</b> → paneo del canvas.</li>
-          <li><b>Shift+arrastrar en vacío</b> → dibuja una <b>caja de selección multi-partes</b>.</li>
-          <li><b>Shift+click o Ctrl+click</b> → selecciona o deselecciona múltiples partes en la lista.</li>
-          <li><b>Rueda del ratón</b> → zoom in/out.</li>
-          <li>📱 <b>Móvil</b>: un dedo arrastra o panea, dos dedos hacen <b>pinch-to-zoom</b>. <b>Mantén pulsado</b> en espacio vacío para activar la <b>caja de selección táctil multi-partes</b> (con vibración háptica).</li>
+          <li><b>Shift + arrastrar en vacío</b> → dibuja una <b>caja de selección multi-partes</b>.</li>
+          <li><b>Ctrl+C / Ctrl+V</b> → Copiar y pegar partes/frames.</li>
+          <li><b>Delete</b> → Eliminar partes.</li>
         </ul>
       </div>
-
       <div class="help-section">
-        <h3>⏱️ Timeline</h3>
+        <h3>⏱️ Timeline y Suavizado</h3>
         <ul>
-          <li>Haz click o arrastra (scrubbing) sobre los <b>números del timeline (regla)</b> o en las celdas inferiores para cambiar de frame.</li>
+          <li>Haz click o arrastra sobre los <b>números del timeline</b> para cambiar de frame.</li>
           <li><b>+Fr</b> / <b>−Fr</b> duplica o elimina el frame actual.</li>
-          <li>Usa los botones 📄 (Copiar Frame) y 📋 (Pegar Frame) para clonar cuadros completos.</li>
-        </ul>
-      </div>
-
-      <div class="help-section">
-        <h3>⚙️ Panel derecho — Propiedades</h3>
-        <ul>
-          <li>Muestra y edita la posición <b>(X, Y)</b>, escala <b>(SX, SY)</b>, rotación y zValue de la parte seleccionada.</li>
-          <li>💡 <b>Tip de velocidad:</b> Puedes <b>hacer clic y arrastrar (izquierda/derecha) sobre los cuadros de texto numéricos</b> para cambiar su valor fluidamente. Mantén presionado <code>Shift</code> para que el valor cambie más rápido.</li>
-        </ul>
-      </div>
-
-      <div class="help-section">
-        <h3>↩️ Deshacer / Rehacer y Atajos</h3>
-        <ul>
-          <li><b>Ctrl+Z</b> / <b>Ctrl+Y</b> → deshacer / rehacer.</li>
-          <li><b>Ctrl+C</b> / <b>Ctrl+V</b> → copiar y pegar sprites (o frames si no hay partes seleccionadas).</li>
-          <li><b>Delete</b> / <b>Backspace</b> → Eliminar partes seleccionadas.</li>
-          <li><b>Shift + Flechas</b> → Mover parte 1px (o 10px con Ctrl).</li>
-          <li><b>T</b> → Activar/Desactivar interpolación suave.</li>
+          <li><b>✨ (Interpolar)</b>: Si tienes un frame A y un frame B con posiciones distintas, presiona ✨ para generar automáticamente los frames intermedios y crear una animación suave real para el juego.</li>
         </ul>
       </div>`
   },
@@ -724,6 +772,7 @@ const i18n = {
     btn_export: "Export",
     btn_smooth: "Smooth",
     btn_help: "Help",
+    btn_credits: "Credits",
     tt_import_png: "Import PNG atlas",
     tt_import_atlas: "Import Atlas JSON/Plist",
     tt_import_anim: "Import AnimDesc JSON/Plist",
@@ -737,6 +786,7 @@ const i18n = {
     tt_next: "Next frame",
     tt_last: "Last frame",
     tt_help: "Documentation / Help",
+    tt_credits: "Author Credits",
     lbl_animations: "Animations",
     lbl_parts: "Parts",
     lbl_properties: "Properties",
@@ -762,6 +812,7 @@ const i18n = {
     prop_drag_num_tt: "Drag the number or click to change the value",
     prop_drag_rot_tt: "Drag the number to rotate",
     lbl_prev_scale: "Preview Scale",
+    tl_add_tween_tt: "Insert tweened frames to next frame",
     tl_copy_tt: "Copy Frame",
     tl_paste_tt: "Paste Frame",
     tl_add_tt: "Duplicate and insert frame",
@@ -777,7 +828,13 @@ const i18n = {
     mod_add_part_title: "Add Texture / Part",
     mod_add_part_lbl: "Select base texture",
     mod_add: "Add",
+    mod_tween_title: "Tween Frames",
+    mod_tween_desc: "Generates automatic mathematical intermediate frames between the current frame and the next one.",
+    mod_tween_lbl: "Frames to insert:",
     mod_help_title: "📖 Documentation — Animation Editor",
+    mod_credits_title: "Author Credits",
+    mod_credits_role: "Creator / Tool Developer",
+    mod_close: "Close",
     mod_empty_opt: "— Empty —",
     msg_copied_parts: "Copied {0} part(s)",
     msg_no_parts_cb: "No parts in clipboard",
@@ -785,10 +842,12 @@ const i18n = {
     msg_frame_copied: "Entire frame copied",
     msg_no_frames_cb: "No frames in clipboard",
     msg_frame_pasted: "Frame replaced/pasted",
+    msg_tween_added: "Inserted {0} tweened frames",
     err_no_anims_exp: "No animations to export.",
     err_enter_name: "Enter a name",
     err_anim_exists: "Animation already exists",
     err_import_first: "Please import the PNG Atlas and Atlas Data first.",
+    err_need_two_frames: "You need at least 2 frames to tween.",
     layer_glow: "Glow",
     layer_2: "Layer 2",
     layer_1: "Base (1)",
@@ -798,62 +857,29 @@ const i18n = {
         <h3>🗂️ File Loading</h3>
         <p>The editor needs up to three files. You can <b>drag &amp; drop</b> them into the viewport or use the top bar buttons:</p>
         <ul>
-          <li><b>PNG Atlas</b> — the sprite-sheet image (can be <code>.png</code>, <code>.jpg</code>, <code>.webp</code>). If the name contains <code>@2x</code>, <code>-uhd</code>, or similar, it is auto-detected as UHD.</li>
+          <li><b>PNG Atlas</b> — the sprite-sheet image (can be <code>.png</code>, <code>.jpg</code>, <code>.webp</code>).</li>
           <li><b>Atlas Data</b> — JSON or Plist with the clipping info for each sprite (<code>frames</code>).</li>
-          <li><b>AnimDesc</b> — JSON or Plist with the animations descriptor (<code>animationContainer</code>, <code>usedTextures</code>).</li>
-        </ul>
-        <p>When all three are loaded, the <b>"Open Editor"</b> button appears. You can also click <b>"Create from scratch"</b> with only PNG + Atlas.</p>
-      </div>
-
-      <div class="help-section">
-        <h3>🎞️ Left Panel — Animations &amp; Parts</h3>
-        <ul>
-          <li>The top list shows the <b>animations</b>. Click one to activate it.</li>
-          <li>The <b>"+"</b> button opens the modal to create a new animation.</li>
-          <li>The bottom list shows the <b>parts/sprites</b> of the current frame, ordered by layer and zValue.</li>
-          <li>Use the 📄 (Copy) and 📋 (Paste) buttons to easily duplicate parts.</li>
+          <li><b>AnimDesc</b> — JSON or Plist with the animations descriptor (<code>animationContainer</code>).</li>
         </ul>
       </div>
-
       <div class="help-section">
-        <h3>🖼️ Viewport — Main Canvas</h3>
+        <h3>🖼️ Viewport & Main Shortcuts</h3>
         <ul>
           <li><b>Left click</b> on a sprite → selects it. If multiple overlap, successive clicks <b>cycle through layers</b>.</li>
           <li><b>Drag</b> a sprite → moves all selected parts.</li>
           <li><b>Click on background</b> → deselects active sprites.</li>
           <li><b>Drag on empty space</b> → canvas panning.</li>
           <li><b>Shift+drag on empty space</b> → draws a <b>multi-part selection box</b>.</li>
-          <li><b>Shift+click or Ctrl+click</b> → selects or deselects multiple parts in the list.</li>
-          <li><b>Mouse wheel</b> → zoom in/out.</li>
-          <li>📱 <b>Mobile</b>: one finger drags or pans, two fingers <b>pinch-to-zoom</b>. <b>Long press</b> on empty space to activate the <b>touch multi-part selection box</b> (with haptic feedback).</li>
+          <li><b>Ctrl+C / Ctrl+V</b> → Copy and paste parts/frames.</li>
+          <li><b>Delete</b> → Delete parts.</li>
         </ul>
       </div>
-
       <div class="help-section">
-        <h3>⏱️ Timeline</h3>
+        <h3>⏱️ Timeline & Tweening</h3>
         <ul>
-          <li>Click or drag (scrubbing) over the <b>timeline numbers (ruler)</b> or bottom cells to change frames.</li>
+          <li>Click or drag (scrubbing) over the <b>timeline numbers</b> to change frames.</li>
           <li><b>+Fr</b> / <b>−Fr</b> duplicates or deletes the current frame.</li>
-          <li>Use the 📄 (Copy Frame) and 📋 (Paste Frame) buttons to clone entire frames.</li>
-        </ul>
-      </div>
-
-      <div class="help-section">
-        <h3>⚙️ Right Panel — Properties</h3>
-        <ul>
-          <li>Shows and edits the position <b>(X, Y)</b>, scale <b>(SX, SY)</b>, rotation, and zValue of the selected part.</li>
-          <li>💡 <b>Speed tip:</b> You can <b>click and drag (left/right) on the numeric text boxes</b> to change their value fluidly. Hold <code>Shift</code> to make the value change faster.</li>
-        </ul>
-      </div>
-
-      <div class="help-section">
-        <h3>↩️ Undo / Redo and Shortcuts</h3>
-        <ul>
-          <li><b>Ctrl+Z</b> / <b>Ctrl+Y</b> → undo / redo.</li>
-          <li><b>Ctrl+C</b> / <b>Ctrl+V</b> → copy and paste sprites (or frames if no parts selected).</li>
-          <li><b>Delete</b> / <b>Backspace</b> → Delete selected parts.</li>
-          <li><b>Shift + Arrows</b> → Move part 1px (or 10px with Ctrl).</li>
-          <li><b>T</b> → Toggle smooth tweening.</li>
+          <li><b>✨ (Tween)</b>: If you have a Frame A and Frame B with different properties, press ✨ to automatically generate intermediate frames to bake smooth animation into the file.</li>
         </ul>
       </div>`
   }
@@ -878,7 +904,6 @@ function updateLanguage() {
   const hd = document.getElementById('help-content');
   if (hd) hd.innerHTML = t('help_html');
   
-  // Update Dropzone Status spans
   updateDzStatusUI();
   updatePropPanel();
   updateLayerPanel();
@@ -975,8 +1000,9 @@ function updateUndoButtons() {
 // ── Timeline cell/row sizes (responsive) ──
 let CELL = 28, ROW = 24;
 function updateTLSizes() {
-  CELL = window.innerWidth < 768 ? 22 : 28;
-  ROW  = window.innerWidth < 768 ? 20 : 24;
+  const isMob = window.innerWidth <= 850 || window.innerHeight <= 480;
+  CELL = isMob ? 24 : 28;
+  ROW  = isMob ? 20 : 24;
 }
 updateTLSizes();
 
@@ -1089,7 +1115,6 @@ function processAtlas(data, filename) {
 function processAnimDesc(data) {
   const out = { baseVariantID:'01', usedTextures:{}, animationContainer:{}, _frame_counts:{}, _frame_names:{} };
   
-  // Guardamos las texturas originales EXCTAMENTE como estaban para preservar tags especiales
   if (data.usedTextures) {
     out.usedTextures = JSON.parse(JSON.stringify(data.usedTextures));
   }
@@ -1111,7 +1136,6 @@ function processAnimDesc(data) {
         let rot = parseFloat(sp.rotation || sp.angle || 0);
         let tex = sp.texture != null ? String(sp.texture) : '0';
         
-        // Conservamos los tags y customTags originales
         let originalTag = parseInt(sp.tag !== undefined ? sp.tag : 0);
         let customTag = parseInt(sp.usesCustomTag||0);
 
@@ -1218,6 +1242,30 @@ function lerpAngle(a, b, t) {
   return a + d * t;
 }
 
+// Obtiene la metadata interpolada entre dos arrays de partes
+function getLerpedFrameData(p0, p1, time) {
+  const n = Math.min(p0.length, p1.length);
+  const result = [];
+  for (let i = 0; i < p0.length; i++) {
+    const a = p0[i];
+    if (i >= n) { result.push(JSON.parse(JSON.stringify(a))); continue; }
+    const b = p1[i];
+    if (a.texture !== b.texture) { result.push(JSON.parse(JSON.stringify(a))); continue; }
+    const rot = lerpAngle(a.rotation, b.rotation, time);
+    result.push({
+      ...a, // copiar las demás propiedades
+      x       : lerpVal(a.x, b.x, time),
+      y       : lerpVal(a.y, b.y, time),
+      scaleX  : lerpVal(a.scaleX, b.scaleX, time),
+      scaleY  : lerpVal(a.scaleY, b.scaleY, time),
+      rotation: rot,
+      flipXMul: time < 0.5 ? a.flipXMul : b.flipXMul,
+      flipYMul: time < 0.5 ? a.flipYMul : b.flipYMul,
+    });
+  }
+  return result;
+}
+
 function getPartsAtTime() {
   if (!S.animDesc || !S.currentAnim) return null;
   const fns = S.animDesc._frame_names[S.currentAnim];
@@ -1228,8 +1276,8 @@ function getPartsAtTime() {
     return S.animDesc.animationContainer[fns[fi]] || null;
   }
 
-  const t = S.playT - Math.floor(S.playT);
-  if (t < 0.001) {
+  const tVal = S.playT - Math.floor(S.playT);
+  if (tVal < 0.001) {
     const fi = Math.floor(S.playT) % fns.length;
     return S.animDesc.animationContainer[fns[fi]] || null;
   }
@@ -1240,26 +1288,7 @@ function getPartsAtTime() {
   const p1 = S.animDesc.animationContainer[fns[fi1]];
   if (!p0 || !p1) return p0 || null;
 
-  const n = Math.min(p0.length, p1.length);
-  const result = [];
-  for (let i = 0; i < p0.length; i++) {
-    const a = p0[i];
-    if (i >= n) { result.push(a); continue; }
-    const b = p1[i];
-    if (a.texture !== b.texture) { result.push(a); continue; }
-    const rot = lerpAngle(a.rotation, b.rotation, t);
-    result.push({
-      ...a,
-      x       : lerpVal(a.x, b.x, t),
-      y       : lerpVal(a.y, b.y, t),
-      scaleX  : lerpVal(a.scaleX, b.scaleX, t),
-      scaleY  : lerpVal(a.scaleY, b.scaleY, t),
-      rotation: rot,
-      flipXMul: t < 0.5 ? a.flipXMul : b.flipXMul,
-      flipYMul: t < 0.5 ? a.flipYMul : b.flipYMul,
-    });
-  }
-  return result;
+  return getLerpedFrameData(p0, p1, tVal);
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -1676,8 +1705,8 @@ function drawTimeline() {
   tc.beginPath(); tc.moveTo(phX,0); tc.lineTo(phX, tc.canvas.height); tc.stroke();
 
   if (S.isPlaying && S.tweenEnabled && S.frameCount > 1) {
-    const t = S.playT - Math.floor(S.playT);
-    tc.globalAlpha = t * 0.3;
+    const tVal = S.playT - Math.floor(S.playT);
+    tc.globalAlpha = tVal * 0.3;
     tc.strokeStyle = '#26C6DA'; tc.lineWidth = 1;
     const nextX = ((Math.floor(S.playT)+1)%S.frameCount) * CELL + CELL/2;
     tc.beginPath(); tc.moveTo(nextX,0); tc.lineTo(nextX,tc.canvas.height); tc.stroke();
@@ -1721,6 +1750,44 @@ document.getElementById('btn-del-frame').onclick = () => {
   if (S.currentFrame > S.frameCount) S.currentFrame = S.frameCount;
   setFrame(S.currentFrame);
 };
+
+// ── AGREGAR FRAMES SUAVIZADOS EN EL TIMELINE (TWEENING INTERNO) ──
+document.getElementById('btn-add-tween').onclick = () => {
+  if (!S.currentAnim || S.frameCount < 2) return showToast(t('err_need_two_frames'));
+  document.getElementById('m-tween-count').value = 5;
+  document.getElementById('modal-tween').classList.add('open');
+};
+
+function insertTweenFrames() {
+  const count = parseInt(document.getElementById('m-tween-count').value) || 0;
+  if (count <= 0) return closeModals();
+  
+  pushHistory();
+  const fns = S.animDesc._frame_names[S.currentAnim];
+  const i0 = S.currentFrame - 1;
+  const i1 = (i0 + 1) % fns.length; // Loop si estamos en el último frame
+  
+  const p0 = S.animDesc.animationContainer[fns[i0]];
+  const p1 = S.animDesc.animationContainer[fns[i1]];
+  
+  const newNames = [];
+  for (let step = 1; step <= count; step++) {
+    const time = step / (count + 1);
+    const lerped = getLerpedFrameData(p0, p1, time);
+    const tmpName = `TMP_${Date.now()}_${step}.png`;
+    S.animDesc.animationContainer[tmpName] = lerped;
+    newNames.push(tmpName);
+  }
+  
+  // Insertar los nuevos frames justo después del frame actual
+  fns.splice(i0 + 1, 0, ...newNames);
+  reindexFrames(S.currentAnim);
+  
+  closeModals();
+  showToast(t('msg_tween_added', count));
+  // Avanzamos al primer frame insertado para previsualizarlo
+  setFrame(S.currentFrame + 1);
+}
 
 document.getElementById('btn-new-part').onclick = () => {
   if (!S.currentAnim) return;
@@ -1870,26 +1937,22 @@ document.getElementById('inp-anim').onchange = e => {
     else { S.currentAnim=null; S.frameCount=0; S.currentFrame=1; S.selectedParts=[]; render(); updateHUD(); updatePropPanel(); }
   });
 };
+
 document.getElementById('btn-export').onclick = () => {
   if (!S.animDesc) return alert(t('err_no_anims_exp'));
   document.getElementById('modal-export').classList.add('open');
 };
 
-function refreshUsedTextures() {
-  if (!S.animDesc) return;
+function refreshUsedTextures(targetDesc) {
+  if (!targetDesc) return;
   
-  // Mantenemos el array original intacto para no borrar customID u overrides.
-  const used = S.animDesc.usedTextures || {};
-
-  // Buscar el tag más alto para asignar nuevos tags.
+  const used = targetDesc.usedTextures || {};
   let maxTag = -1;
   for (const v of Object.values(used)) {
-    const t = parseInt(v.tag);
-    if (!isNaN(t) && t > maxTag) maxTag = t;
+    const tg = parseInt(v.tag);
+    if (!isNaN(tg) && tg > maxTag) maxTag = tg;
   }
 
-  // Mapeamos las texturas estándar (sin customID ni dinámicas "0") 
-  // para reusarlas si el usuario añadió una nueva copia.
   const standardTex2Tag = {};
   for (const v of Object.values(used)) {
     if (!v.customID && v.texture !== "0") {
@@ -1897,20 +1960,14 @@ function refreshUsedTextures() {
     }
   }
 
-  // Comprobar todos los frames
-  for (const parts of Object.values(S.animDesc.animationContainer)) {
+  for (const parts of Object.values(targetDesc.animationContainer)) {
     for (const p of parts) {
-      // Si la parte ya tenía un tag preexistente asignado (-1 es marca de parte nueva)
       if (p.tag !== -1 && p.tag !== undefined) {
         let tagStr = `texture_${p.tag}`;
         let u = used[tagStr];
-        // Validamos que su entrada siga ahí, y que la textura coincida o sea dinámica ("0" o usesCustomTag)
-        if (u && (u.texture === p.texture || u.texture === "0" || p.usesCustomTag == 1)) {
-          continue; // La conexión es válida, mantener intacta.
-        }
+        if (u && (u.texture === p.texture || u.texture === "0" || p.usesCustomTag == 1)) continue; 
       }
 
-      // Si llegamos aquí, la parte es nueva (tag=-1) o su viejo link se rompió por alguna razón.
       if (standardTex2Tag[p.texture] !== undefined) {
         p.tag = standardTex2Tag[p.texture];
         p.usesCustomTag = 0;
@@ -1923,7 +1980,7 @@ function refreshUsedTextures() {
       }
     }
   }
-  S.animDesc.usedTextures = used;
+  targetDesc.usedTextures = used;
 }
 
 function buildPlistStr(desc) {
@@ -1942,9 +1999,9 @@ function buildPlistStr(desc) {
       x += `<key>texture</key><string>${p.texture}</string>\n`;
       x += `<key>tag</key><string>${p.tag}</string>\n`;
       x += `<key>usesCustomTag</key><string>${p.usesCustomTag||0}</string>\n`;
-      x += `<key>position</key><string>{${p.x}, ${p.y}}</string>\n`;
-      x += `<key>scale</key><string>{${p.scaleX}, ${p.scaleY}}</string>\n`;
-      x += `<key>rotation</key><string>${p.rotation}</string>\n`;
+      x += `<key>position</key><string>{${p.x.toFixed(3)}, ${p.y.toFixed(3)}}</string>\n`;
+      x += `<key>scale</key><string>{${p.scaleX.toFixed(3)}, ${p.scaleY.toFixed(3)}}</string>\n`;
+      x += `<key>rotation</key><string>${p.rotation.toFixed(3)}</string>\n`;
       x += `<key>flipped</key><string>{${p.flipX}, ${p.flipY}}</string>\n`;
       x += `<key>zValue</key><string>${p.zValue}</string>\n`;
       x += `</dict>\n`;
@@ -1956,11 +2013,12 @@ function buildPlistStr(desc) {
 }
 
 function exportFile(type) {
-  refreshUsedTextures();
+  refreshUsedTextures(S.animDesc);
   const content = type==='json' ? JSON.stringify(S.animDesc, null, 2) : buildPlistStr(S.animDesc);
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([content], { type:type==='json'?'application/json':'application/octet-stream' }));
-  a.download = `${S.animDescFileName || 'AnimDesc'}.${type}`; a.click();
+  a.download = `${S.animDescFileName || 'AnimDesc'}.${type}`; 
+  a.click();
   closeModals();
 }
 
@@ -2281,7 +2339,12 @@ function getTouchCanvasPos(touch) {
 }
 
 canvas.addEventListener('touchstart', e => {
+  // Verificamos si estamos tocando los inputs de propiedades, en ese caso no prevenimos el default
+  if (e.target.tagName==='INPUT' || e.target.tagName==='SELECT' || e.target.tagName==='BUTTON' || e.target.closest('button')) {
+      return;
+  }
   e.preventDefault();
+  
   if (e.touches.length === 2) {
     touchState.pinching = true; touchState.isDragging = false; touchState.isPanning = false;
     touchState.pinchDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
@@ -2340,7 +2403,11 @@ canvas.addEventListener('touchstart', e => {
 }, { passive:false });
 
 canvas.addEventListener('touchmove', e => {
+  if (e.target.tagName==='INPUT' || e.target.tagName==='SELECT' || e.target.tagName==='BUTTON' || e.target.closest('button')) {
+      return;
+  }
   e.preventDefault();
+  
   if (e.touches.length===2 && touchState.pinching) {
     const newDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
     const factor = newDist / touchState.pinchDist;
@@ -2386,6 +2453,9 @@ canvas.addEventListener('touchmove', e => {
 }, { passive:false });
 
 canvas.addEventListener('touchend', e => {
+  if (e.target.tagName==='INPUT' || e.target.tagName==='SELECT' || e.target.tagName==='BUTTON' || e.target.closest('button')) {
+      return;
+  }
   e.preventDefault();
   clearTimeout(touchState.longPressTimer);
   
@@ -2454,8 +2524,9 @@ canvas.addEventListener('touchend', e => {
 })();
 
 
-// Help button
+// Menús de Ayuda y Créditos
 document.getElementById('btn-help').onclick = () => document.getElementById('modal-help').classList.add('open');
+document.getElementById('btn-credits').onclick = () => document.getElementById('modal-credits').classList.add('open');
 
 // ═══════════════════════════════════════════════════════════════════════
 //  MOBILE PANEL TOGGLES
@@ -2489,6 +2560,8 @@ document.getElementById('mob-tl-fab').onclick = () => {
   tlCollapsed = !tlCollapsed;
   document.getElementById('timeline').style.height = tlCollapsed ? '0' : '';
   document.getElementById('mob-tl-fab').textContent = tlCollapsed ? 'TL▶' : 'TL';
+  // Toggle the class to safely animate the FABs docking at the bottom
+  document.body.classList.toggle('tl-collapsed', tlCollapsed);
   setTimeout(resizeCanvas, 310);
 };
 
@@ -2610,7 +2683,10 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════════════════════════
-window.onresize = () => { updateTLSizes(); resizeCanvas(); };
+window.addEventListener('resize', () => { 
+  updateTLSizes(); 
+  resizeCanvas(); 
+});
 updateLanguage(); // Inicia el idioma por defecto y dibuja HTML dinámico
 resizeCanvas();
 </script>
