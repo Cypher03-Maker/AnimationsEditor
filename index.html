@@ -69,6 +69,7 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 .pane-header{height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--border);flex-shrink:0}
 .pane-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text2)}
 .pane-btn{width:20px;height:20px;background:transparent;border:none;color:var(--text2);cursor:pointer;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .1s}
+.pane-btn:hover{background:var(--panel3);color:var(--textbright)}
 .pane-btn.add-btn{color:var(--acc-add)}
 .pane-btn.add-btn:hover{background:var(--acc-add-bg);color:var(--acc-add-hover)}
 .pane-btn.del-btn{color:var(--red)}
@@ -121,6 +122,8 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 .prop-val{flex:1;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--textbright)}
 .prop-input{flex:1;background:var(--panel3);border:1px solid var(--border2);color:var(--textbright);font-size:11px;font-family:'JetBrains Mono',monospace;border-radius:3px;padding:2px 6px;outline:none;width:0;min-width:0}
 .prop-input:focus{border-color:var(--acc-import);background:var(--panel2)}
+.prop-input[type="number"] { cursor: ew-resize; }
+.prop-input[type="number"]:focus { cursor: text; }
 .prop-2col{display:grid;grid-template-columns:1fr 1fr;gap:4px;flex:1}
 .prop-2col .prop-input{width:100%}
 .flip-btn{width:22px;height:22px;background:var(--panel3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;cursor:pointer;font-size:10px;font-weight:700;transition:background .1s,color .1s,border-color .1s}
@@ -137,12 +140,13 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 #timeline{height:190px;background:var(--timeline);border-top:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:height .3s ease}
 #tl-top{height:36px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;flex-shrink:0}
 #tl-label{width:210px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--text2);text-transform:uppercase;border-right:1px solid var(--border)}
-#tl-ruler{flex:1;overflow:hidden;position:relative;height:100%}
+#tl-ruler{flex:1;overflow:hidden;position:relative;height:100%;cursor:pointer}
 #tl-ruler canvas{display:block}
 #tl-body{display:flex;flex:1;overflow:hidden}
-#tl-names{width:210px;flex-shrink:0;overflow-y:hidden;border-right:1px solid var(--border)}
-#tl-tracks{flex:1;overflow-x:auto;overflow-y:hidden;position:relative}
-#tl-tracks::-webkit-scrollbar{height:6px}
+#tl-names{width:210px;flex-shrink:0;overflow-y:auto;overflow-x:hidden;border-right:1px solid var(--border);scrollbar-width:none}
+#tl-names::-webkit-scrollbar{display:none}
+#tl-tracks{flex:1;overflow-x:auto;overflow-y:auto;position:relative;touch-action:pan-x pan-y}
+#tl-tracks::-webkit-scrollbar{height:6px;width:4px}
 #tl-tracks::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 #tl-names canvas,#tl-tracks canvas{display:block}
 .sm-btn{background:var(--panel3);border:1px solid var(--border2);color:var(--text);border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer}
@@ -175,16 +179,34 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
 #mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;backdrop-filter:blur(2px)}
 
 /* ── MOBILE FABs ── */
-.mob-fab{display:none;position:fixed;bottom:200px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text);font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;transition:background .2s,color .2s}
+.mob-fab{display:none;position:fixed;bottom:200px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text);font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;transition:background .2s,color .2s,opacity .2s}
 .mob-fab.active{background:var(--acc-import-bg);border-color:var(--acc-import);color:var(--acc-import)}
-#mob-left-fab{left:8px}
+#mob-left-fab{left:8px;bottom:256px}
 #mob-right-fab{right:8px}
 #mob-tl-fab{display:none;position:fixed;bottom:148px;right:8px;z-index:160;width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);color:var(--text2);font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.5);align-items:center;justify-content:center;font-weight:600}
+
+/* ── TOAST NOTIFICATION ── */
+#toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.8); color:#fff; padding:8px 16px; border-radius:20px; font-size:12px; pointer-events:none; opacity:0; transition:opacity .3s; z-index:1000 }
+#toast.show { opacity:1 }
 
 /* ── SCROLLBAR GLOBAL ── */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── HELP MODAL ── */
+.help-section{margin-bottom:20px}
+.help-section h3{font-size:12px;font-weight:600;color:var(--acc-title);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.help-section p{font-size:11px;color:var(--text);line-height:1.7;margin-bottom:6px}
+.help-section ul{font-size:11px;color:var(--text);line-height:1.8;padding-left:16px}
+.help-section li{margin-bottom:2px}
+.help-section b{color:var(--textbright)}
+.help-section code{background:var(--panel3);padding:1px 4px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--acc-import)}
+.kb-table{width:100%;border-collapse:collapse;font-size:11px}
+.kb-table tr{border-bottom:1px solid var(--border)}
+.kb-table td{padding:4px 6px;color:var(--text)}
+.kb-table td:first-child{width:200px;white-space:nowrap}
+kbd{display:inline-block;background:var(--panel3);border:1px solid var(--border2);border-radius:3px;padding:1px 5px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--textbright);box-shadow:0 1px 0 var(--border2)}
 
 /* ════════════════════════════════════════════
    MOBILE RESPONSIVE  (≤768px)
@@ -210,8 +232,8 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
   .mob-fab { display:flex }
   #mob-tl-fab { display:flex }
   #timeline { height:120px }
-  #tl-label { width:160px; font-size:9px }
-  #tl-names { width:160px }
+  #tl-label { width:120px; font-size:9px }
+  #tl-names { width:120px }
   .mob-overlay-visible { opacity:1;pointer-events:auto }
   /* Topbar: shrink logo text */
   #logo span { display:none }
@@ -272,7 +294,15 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
     </button>
   </div>
   <div class="sep"></div>
-  <!-- Tween toggle -->
+  <!-- Undo/Redo -->
+  <div class="tb-group">
+    <button class="tb-btn" id="btn-undo" title="Deshacer (Ctrl+Z)" disabled style="color:var(--text2)">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 5h5a3 3 0 110 6H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2 5l3-3M2 5l3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="tb-btn" id="btn-redo" title="Rehacer (Ctrl+Y)" disabled style="color:var(--text2)">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M11 5H6a3 3 0 100 6h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 5l-3-3M11 5l-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
   <div class="tb-group">
     <button class="tb-btn tb-btn-tween active" id="btn-tween" title="Animación suave entre frames (interpolación)" disabled>
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -313,6 +343,12 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
   </div>
 
   <div id="spacer"></div>
+  <div class="tb-group">
+    <button class="tb-btn" id="btn-help" title="Documentación / Ayuda" style="color:var(--text2)">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 5.2a1.5 1.5 0 012.8.7c0 1-1.3 1.3-1.3 2.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="10" r=".7" fill="currentColor"/></svg>
+      <span>Ayuda</span>
+    </button>
+  </div>
   <div id="frame-info-top">—</div>
   <div id="scale-info">100%</div>
 </div>
@@ -330,8 +366,10 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
     <div class="pane-header" style="border-top:1px solid var(--border)">
       <span class="pane-title">Partes</span>
       <div style="display:flex;gap:4px">
+        <button class="pane-btn" id="btn-copy-part" title="Copiar partes seleccionadas" style="font-size:11px">📄</button>
+        <button class="pane-btn" id="btn-paste-part" title="Pegar partes" style="font-size:11px">📋</button>
         <button class="pane-btn add-btn" id="btn-new-part" title="Añadir parte" style="font-size:12px">+</button>
-        <button class="pane-btn del-btn" id="btn-del-part" title="Eliminar parte" style="font-size:12px;display:none">−</button>
+        <button class="pane-btn del-btn" id="btn-del-part" title="Eliminar partes" style="font-size:12px;display:none">−</button>
       </div>
     </div>
     <div class="pane-scroll" id="parts-list" style="flex:1"></div>
@@ -388,27 +426,27 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
       <div class="prop-section">
         <div class="prop-row"><span class="prop-label">Nombre</span><span class="prop-val" id="pp-name" style="font-size:10px;word-break:break-all">—</span></div>
         <div class="prop-row"><span class="prop-label">Capa</span><span class="prop-val" id="pp-layer">—</span></div>
-        <div class="prop-row">
+        <div class="prop-row" title="Arrastra el número para cambiar el valor">
           <span class="prop-label">zValue</span>
           <input class="prop-input" id="pp-z" type="number" step="1" style="width:100%;max-width:50px">
         </div>
       </div>
       <div class="prop-section">
-        <div class="prop-row">
+        <div class="prop-row" title="Arrastra los números para cambiar el valor">
           <span class="prop-label">Posición</span>
           <div class="prop-2col">
             <input class="prop-input" id="pp-x" type="number" step="0.1" placeholder="X">
             <input class="prop-input" id="pp-y" type="number" step="0.1" placeholder="Y">
           </div>
         </div>
-        <div class="prop-row">
+        <div class="prop-row" title="Arrastra los números para cambiar el valor">
           <span class="prop-label">Escala</span>
           <div class="prop-2col">
             <input class="prop-input" id="pp-sx" type="number" step="0.01" placeholder="X">
             <input class="prop-input" id="pp-sy" type="number" step="0.01" placeholder="Y">
           </div>
         </div>
-        <div class="prop-row">
+        <div class="prop-row" title="Arrastra el número para rotar">
           <span class="prop-label">Rotación</span>
           <input class="prop-input" id="pp-rot" type="number" step="0.1" placeholder="°">
         </div>
@@ -443,6 +481,8 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
     <div id="tl-label">
       <span>Timeline</span>
       <div style="display:flex;gap:4px">
+        <button class="sm-btn" id="btn-copy-frame" title="Copiar Frame">📄</button>
+        <button class="sm-btn" id="btn-paste-frame" title="Pegar Frame">📋</button>
         <button class="sm-btn green" id="btn-add-frame" title="Duplicar e insertar frame">+Fr</button>
         <button class="sm-btn red" id="btn-del-frame" title="Eliminar frame actual">−Fr</button>
       </div>
@@ -457,6 +497,9 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
     <div id="tl-tracks"><canvas id="tracks-canvas"></canvas></div>
   </div>
 </div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast">Notificación</div>
 
 <!-- MOBILE OVERLAY -->
 <div id="mob-overlay" onclick="closeMobilePanels()"></div>
@@ -509,6 +552,82 @@ body{background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:f
   </div>
 </div>
 
+<!-- HELP / DOCUMENTATION MODAL -->
+<div class="modal-bg" id="modal-help">
+  <div class="modal" style="min-width:min(640px,95vw);max-height:85vh;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h2 style="margin:0">📖 Documentación — Animation Editor</h2>
+      <button class="btn-cancel" onclick="closeModals()" style="padding:0 10px;min-width:28px">✕</button>
+    </div>
+    <div style="overflow-y:auto;flex:1;padding-right:4px" id="help-content">
+
+      <div class="help-section">
+        <h3>🗂️ Carga de archivos</h3>
+        <p>El editor necesita hasta tres archivos. Puedes arrastrarlos (<b>drag &amp; drop</b>) al viewport o usar los botones de la barra superior:</p>
+        <ul>
+          <li><b>Atlas PNG</b> — la imagen sprite-sheet (puede ser <code>.png</code>, <code>.jpg</code>, <code>.webp</code>). Si el nombre contiene <code>@2x</code>, <code>-uhd</code> o similar, se detecta automáticamente como UHD.</li>
+          <li><b>Atlas Data</b> — JSON o Plist con la información de recorte de cada sprite del sheet (<code>frames</code>).</li>
+          <li><b>AnimDesc</b> — JSON o Plist con el descriptor de animaciones (<code>animationContainer</code>, <code>usedTextures</code>).</li>
+        </ul>
+        <p>Cuando los tres están cargados aparece el botón <b>"Abrir Editor"</b>. También puedes pulsar <b>"Crear desde cero"</b> con solo PNG + Atlas.</p>
+      </div>
+
+      <div class="help-section">
+        <h3>🎞️ Panel izquierdo — Animaciones &amp; Partes</h3>
+        <ul>
+          <li>La lista superior muestra las <b>animaciones</b>. Pulsa en una para activarla.</li>
+          <li>El botón <b>"+"</b> abre el modal para crear una nueva animación.</li>
+          <li>La lista inferior muestra las <b>partes/sprites</b> del frame actual, ordenadas por capa y zValue.</li>
+          <li>Usa los botones 📄 (Copiar) y 📋 (Pegar) para duplicar partes fácilmente.</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h3>🖼️ Viewport — Canvas principal</h3>
+        <ul>
+          <li><b>Click izquierdo</b> sobre un sprite → lo selecciona. Si varios se solapan, clicks sucesivos <b>ciclan por capas</b>.</li>
+          <li><b>Arrastrar</b> un sprite → mueve todas las partes seleccionadas.</li>
+          <li><b>Click en el fondo</b> → deselecciona los sprites activos.</li>
+          <li><b>Arrastrar en vacío</b> → paneo del canvas.</li>
+          <li><b>Shift+arrastrar en vacío</b> → dibuja una <b>caja de selección multi-partes</b>.</li>
+          <li><b>Shift+click o Ctrl+click</b> → selecciona o deselecciona múltiples partes en la lista.</li>
+          <li><b>Rueda del ratón</b> → zoom in/out.</li>
+          <li>📱 <b>Móvil</b>: un dedo arrastra o panea, dos dedos hacen <b>pinch-to-zoom</b>. <b>Mantén pulsado</b> en espacio vacío para activar la <b>caja de selección táctil multi-partes</b> (con vibración háptica).</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h3>⏱️ Timeline</h3>
+        <ul>
+          <li>Haz click o arrastra (scrubbing) sobre los <b>números del timeline (regla)</b> o en las celdas inferiores para cambiar de frame.</li>
+          <li><b>+Fr</b> / <b>−Fr</b> duplica o elimina el frame actual.</li>
+          <li>Usa los botones 📄 (Copiar Frame) y 📋 (Pegar Frame) para clonar cuadros completos.</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h3>⚙️ Panel derecho — Propiedades</h3>
+        <ul>
+          <li>Muestra y edita la posición <b>(X, Y)</b>, escala <b>(SX, SY)</b>, rotación y zValue de la parte seleccionada.</li>
+          <li>💡 <b>Tip de velocidad:</b> Puedes <b>hacer clic y arrastrar (izquierda/derecha) sobre los cuadros de texto numéricos</b> para cambiar su valor fluidamente. Mantén presionado `Shift` para que el valor cambie más rápido.</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h3>↩️ Deshacer / Rehacer y Atajos</h3>
+        <ul>
+          <li><b>Ctrl+Z</b> / <b>Ctrl+Y</b> → deshacer / rehacer.</li>
+          <li><b>Ctrl+C</b> / <b>Ctrl+V</b> → copiar y pegar sprites (o frames si no hay partes seleccionadas).</li>
+          <li><b>Delete</b> / <b>Backspace</b> → Eliminar partes seleccionadas.</li>
+          <li><b>Shift + Flechas</b> → Mover parte 1px (o 10px con Ctrl).</li>
+          <li><b>T</b> → Activar/Desactivar interpolación suave.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- File inputs -->
 <input type="file" id="inp-png" accept=".png,.jpg,.jpeg,.webp" style="display:none" onclick="this.value=null">
 <input type="file" id="inp-atlas" accept=".json,.plist" style="display:none" onclick="this.value=null">
@@ -522,21 +641,80 @@ const S = {
   atlasImg: null, atlasFrames: {}, animDesc: null,
   currentAnim: null, currentFrame: 1, frameCount: 0,
   isPlaying: false, fps: 20, raf: null, lastT: 0, acc: 0,
-  selectedPartIdx: -1,
+  selectedParts: [], clipboard: { type: null, data: null },
   viewX: 0, viewY: 0,
   isPanning: false, panSX: 0, panSY: 0, panOX: 0, panOY: 0,
   previewScale: 1.5,
   layers: { glow: true, '2': true, '1': true, extra: true },
   loaded: { png: false, atlas: false, anim: false },
-  animDescFileName: null,  // Nombre base del archivo AnimDesc importado
-  // ── NEW FEATURES ──
-  atlasScale: 1,        // 1 = normal, 2 = UHD/2x, 3 = 3x
-  tweenEnabled: true,   // Smooth sub-frame interpolation
-  playT: 0,             // Continuous play time (frames, float)
+  animDescFileName: null,
+  atlasScale: 1,
+  tweenEnabled: true,
+  playT: 0,
 };
 
 let dragInfo = null;
 window.isAutoLoading = false;
+
+// ═══════════════════════════════════════════════════════════════════════
+//  UI UTILS (Toast)
+// ═══════════════════════════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  UNDO / REDO  (Ctrl+Z / Ctrl+Y / Ctrl+Shift+Z)
+// ═══════════════════════════════════════════════════════════════════════
+const undoHistory = [];
+let undoIdx = -1;
+const MAX_HISTORY = 60;
+
+function pushHistory() {
+  if (!S.animDesc) return;
+  const snap = JSON.stringify(S.animDesc);
+  if (undoIdx >= 0 && undoHistory[undoIdx] === snap) return; // no change
+  if (undoIdx < undoHistory.length - 1) undoHistory.splice(undoIdx + 1);
+  undoHistory.push(snap);
+  if (undoHistory.length > MAX_HISTORY) undoHistory.shift();
+  undoIdx = undoHistory.length - 1;
+  updateUndoButtons();
+}
+function undo() {
+  if (undoIdx <= 0) return;
+  undoIdx--;
+  S.animDesc = JSON.parse(undoHistory[undoIdx]);
+  afterHistoryJump();
+}
+function redo() {
+  if (undoIdx >= undoHistory.length - 1) return;
+  undoIdx++;
+  S.animDesc = JSON.parse(undoHistory[undoIdx]);
+  afterHistoryJump();
+}
+function afterHistoryJump() {
+  const keys = Object.keys(S.animDesc._frame_names);
+  if (!keys.includes(S.currentAnim) && keys.length) S.currentAnim = keys[0];
+  if (S.currentAnim) {
+    S.frameCount = S.animDesc._frame_counts[S.currentAnim] || 0;
+    if (S.currentFrame > S.frameCount) S.currentFrame = S.frameCount;
+  }
+  S.selectedParts = [];
+  buildAnimList(); buildPartsList(); drawTimeline(); render(); updateHUD(); updatePropPanel();
+  updateUndoButtons();
+}
+function updateUndoButtons() {
+  const u = document.getElementById('btn-undo'), r = document.getElementById('btn-redo');
+  const canUndo = undoIdx > 0;
+  const canRedo = undoIdx < undoHistory.length - 1;
+  if (u) u.disabled = !canUndo;
+  if (r) r.disabled = !canRedo;
+}
 
 // ── Timeline cell/row sizes (responsive) ──
 let CELL = 28, ROW = 24;
@@ -547,7 +725,7 @@ function updateTLSizes() {
 updateTLSizes();
 
 // ═══════════════════════════════════════════════════════════════════════
-//  PARSERS
+//  PARSERS & SCALING
 // ═══════════════════════════════════════════════════════════════════════
 function parsePlistXML(node) {
   if (!node) return null;
@@ -596,9 +774,6 @@ function parseFileContent(file, callback) {
   r.readAsText(file);
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  UHD / SCALE DETECTION
-// ═══════════════════════════════════════════════════════════════════════
 function detectScaleFromName(name) {
   const n = name.toLowerCase();
   if (n.includes('-uhd') || n.includes('@2x') || n.includes('-2x') || n.includes('_2x') || n.includes('x2.')) return 2;
@@ -606,7 +781,6 @@ function detectScaleFromName(name) {
   return 1;
 }
 function detectScaleFromData(data, filename) {
-  // Check metadata in plist
   const meta = data && data.metadata;
   if (meta) {
     const fn = (meta.realTextureFileName || meta.textureFileName || '').toLowerCase();
@@ -624,9 +798,6 @@ function applyAtlasScale(scale) {
   badge.textContent = scale === 2 ? '2×UHD' : scale === 3 ? '3×' : scale + '×';
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  ATLAS PROCESSING
-// ═══════════════════════════════════════════════════════════════════════
 function processAtlas(data, filename) {
   const out = {};
   const frames = data.frames;
@@ -659,12 +830,9 @@ function processAtlas(data, filename) {
   return out;
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  ANIM DESC PROCESSING
-// ═══════════════════════════════════════════════════════════════════════
 function processAnimDesc(data) {
   const out = { baseVariantID:'01', usedTextures:{}, animationContainer:{}, _frame_counts:{}, _frame_names:{} };
-  if (data.usedTextures) out.usedTextures = data.usedTextures;
+  if (data.usedTextures) out.usedTextures = data.usedTextures; // Conservamos customID automáticamente
   if (data.animationContainer) {
     for (const [fn, sprites] of Object.entries(data.animationContainer)) {
       const arr = [];
@@ -680,8 +848,20 @@ function processAnimDesc(data) {
         if (sp.flipped) flip = typeof sp.flipped === 'string' ? sp.flipped.match(/-?[\d.]+/g).map(Number) : [sp.flipX?1:0, sp.flipY?1:0];
         else flip = [sp.flipX?1:0, sp.flipY?1:0];
         let rot = parseFloat(sp.rotation || sp.angle || 0);
-        let tex = sp.texture;
-        if (/^\d+$/.test(tex) && data.usedTextures && data.usedTextures['texture_'+tex]) tex = data.usedTextures['texture_'+tex].texture || tex;
+        let tex = sp.texture != null ? String(sp.texture) : '0';
+        if (/^\d+$/.test(tex) && data.usedTextures) {
+          const resolved =
+            data.usedTextures['texture_' + tex] ||
+            data.usedTextures['texture_' + parseInt(tex, 10)] ||
+            (() => {
+              const tagNum = parseInt(tex, 10);
+              for (const v of Object.values(data.usedTextures)) {
+                if (parseInt(v.tag) === tagNum || String(v.tag) === tex) return v;
+              }
+              return null;
+            })();
+          if (resolved) tex = resolved.texture || tex;
+        }
         arr.push({
           texture:tex, tag:parseInt(sp.tag||0), usesCustomTag:parseInt(sp.usesCustomTag||0),
           x:pos[0], y:pos[1], scaleX:sca[0], scaleY:sca[1], rotation:rot,
@@ -771,19 +951,16 @@ function lerpAngle(a, b, t) {
   return a + d * t;
 }
 
-/** Returns the parts to render — interpolated if tweening during playback */
 function getPartsAtTime() {
   if (!S.animDesc || !S.currentAnim) return null;
   const fns = S.animDesc._frame_names[S.currentAnim];
   if (!fns || !fns.length) return null;
 
-  // If not playing or tween disabled: return discrete frame
   if (!S.isPlaying || !S.tweenEnabled) {
     const fi = Math.min(S.currentFrame - 1, fns.length - 1);
     return S.animDesc.animationContainer[fns[fi]] || null;
   }
 
-  // Sub-frame fractional position
   const t = S.playT - Math.floor(S.playT);
   if (t < 0.001) {
     const fi = Math.floor(S.playT) % fns.length;
@@ -796,14 +973,13 @@ function getPartsAtTime() {
   const p1 = S.animDesc.animationContainer[fns[fi1]];
   if (!p0 || !p1) return p0 || null;
 
-  // Interpolate matching parts (by index; assume same structure across frames)
   const n = Math.min(p0.length, p1.length);
   const result = [];
   for (let i = 0; i < p0.length; i++) {
     const a = p0[i];
     if (i >= n) { result.push(a); continue; }
     const b = p1[i];
-    if (a.texture !== b.texture) { result.push(a); continue; } // Can't lerp different textures
+    if (a.texture !== b.texture) { result.push(a); continue; }
     const rot = lerpAngle(a.rotation, b.rotation, t);
     result.push({
       ...a,
@@ -812,7 +988,6 @@ function getPartsAtTime() {
       scaleX  : lerpVal(a.scaleX, b.scaleX, t),
       scaleY  : lerpVal(a.scaleY, b.scaleY, t),
       rotation: rot,
-      // Keep flip from dominant frame
       flipXMul: t < 0.5 ? a.flipXMul : b.flipXMul,
       flipYMul: t < 0.5 ? a.flipYMul : b.flipYMul,
     });
@@ -855,12 +1030,11 @@ function drawGrid() {
   ctx.fillStyle = 'var(--acc-play)'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI*2); ctx.fill();
 }
 
-/** Draw one sprite part — fully UHD-scale-aware */
 function drawPart(frame, part, ox, oy, alpha, highlight) {
   if (!frame || !S.atlasImg) return;
-  const AS = S.atlasScale;                    // 1, 2, or 3
+  const AS = S.atlasScale;
   const sw = frame.spriteW, sh = frame.spriteH;
-  const lsw = sw / AS, lsh = sh / AS;        // logical (display) size
+  const lsw = sw / AS, lsh = sh / AS;
   const lox = frame.offsetX / AS, loy = frame.offsetY / AS;
 
   const psx = part.scaleX * S.previewScale * (part.flipXMul || 1);
@@ -905,7 +1079,6 @@ function render() {
   if (!parts) { drawTimeline(); return; }
 
   const layerOrder = { glow:0, '2':1, '1':2, extra:3 };
-  // Sort with original indices preserved
   const sorted = parts.map((p,i) => ({p, i})).sort((a,b) =>
     (layerOrder[getLayer(a.p.texture)]*100 + a.p.zValue) -
     (layerOrder[getLayer(b.p.texture)]*100 + b.p.zValue)
@@ -915,8 +1088,7 @@ function render() {
     if (!S.layers[pass]) continue;
     for (const { p: part, i: idx } of sorted) {
       const baseTex = part.texture, baseLayer = getLayer(baseTex);
-      // Highlight only on discrete frames (not while tweening)
-      const highlight = (S.selectedPartIdx === idx) && pass === '1' && !S.isPlaying;
+      const highlight = S.selectedParts.includes(idx) && pass === '1' && !S.isPlaying;
 
       if (pass === '1' && baseLayer === '1') {
         drawPart(S.atlasFrames[baseTex], part, ox, oy, 1.0, highlight);
@@ -931,13 +1103,22 @@ function render() {
   drawTimeline();
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  PLAYBACK  (smooth timing)
+function renderBoxSel() {
+  if (!boxSel) return;
+  const bx0=Math.min(boxSel.x0,boxSel.x1), by0=Math.min(boxSel.y0,boxSel.y1);
+  const bw=Math.abs(boxSel.x1-boxSel.x0), bh=Math.abs(boxSel.y1-boxSel.y0);
+  render();
+  ctx.strokeStyle='rgba(58,120,201,0.9)'; ctx.lineWidth=1.5; ctx.setLineDash([5,3]);
+  ctx.fillStyle='rgba(58,120,201,0.08)';
+  ctx.fillRect(bx0,by0,bw,bh); ctx.strokeRect(bx0,by0,bw,bh);
+  ctx.setLineDash([]);
+}
+
 // ═══════════════════════════════════════════════════════════════════════
 function play() {
   S.isPlaying = true;
   S.lastT = performance.now();
-  S.playT = S.currentFrame - 1; // Start from current discrete frame
+  S.playT = S.currentFrame - 1;
   document.getElementById('play-icon').style.display = 'none';
   document.getElementById('pause-icon').style.display = '';
   document.getElementById('tween-indicator').classList.toggle('visible', S.tweenEnabled);
@@ -953,11 +1134,11 @@ function pause() {
 function loop() {
   if (!S.isPlaying) return;
   const now = performance.now();
-  const dt = Math.min((now - S.lastT) / 1000, 0.1); // cap to avoid big jumps
+  const dt = Math.min((now - S.lastT) / 1000, 0.1);
   S.lastT = now;
 
   S.playT += dt * S.fps;
-  if (S.playT >= S.frameCount) S.playT -= S.frameCount; // seamless loop
+  if (S.playT >= S.frameCount) S.playT -= S.frameCount;
 
   S.currentFrame = Math.floor(S.playT) + 1;
   if (S.currentFrame > S.frameCount) S.currentFrame = S.frameCount;
@@ -988,7 +1169,7 @@ function buildAnimList() {
 function switchAnim(name) {
   if (!S.animDesc || !S.animDesc._frame_names[name]) return;
   S.currentAnim = name; S.frameCount = S.animDesc._frame_counts[name] || 0;
-  S.currentFrame = 1; S.playT = 0; S.selectedPartIdx = -1;
+  S.currentFrame = 1; S.playT = 0; S.selectedParts = [];
   buildAnimList(); buildPartsList(); drawTimeline(); render(); updateHUD(); updatePropPanel();
 }
 function buildPartsList() {
@@ -998,19 +1179,34 @@ function buildPartsList() {
   const fn = S.animDesc._frame_names[S.currentAnim][fi];
   const parts = S.animDesc.animationContainer[fn];
   if (!parts) return;
-  document.getElementById('btn-del-part').style.display = S.selectedPartIdx >= 0 ? 'flex' : 'none';
+  
+  document.getElementById('btn-del-part').style.display = S.selectedParts.length > 0 ? 'flex' : 'none';
+  
   const sorted = [...parts.entries()].sort((a,b) => {
     const la = getLayer(a[1].texture), lb = getLayer(b[1].texture);
     const lo = {glow:0,'2':1,'1':2,extra:3};
     return (lo[la]||0)*100 + (a[1].zValue||0) - (lo[lb]||0)*100 - (b[1].zValue||0);
   });
+  
   for (const [idx, part] of sorted) {
     const layer = getLayer(part.texture);
-    const shortName = part.texture.replace(/^.*_(\d{2})_/,'').replace('.png','');
+    const rawTex = part.texture;
+    let shortName = rawTex.replace(/\.png$/i,''); 
+    
     const item = document.createElement('div');
-    item.className = 'part-item' + (S.selectedPartIdx === idx ? ' selected' : '');
+    item.className = 'part-item' + (S.selectedParts.includes(idx) ? ' selected' : '');
     item.innerHTML = `<div class="part-icon" style="background:${getLayerColor(layer)}"></div><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${shortName}</span><span class="part-z">z${part.zValue}</span>`;
-    item.onclick = () => { S.selectedPartIdx = idx; buildPartsList(); updatePropPanel(); render(); closeMobilePanels(); };
+    
+    item.onclick = (e) => { 
+      if (e.shiftKey || e.ctrlKey || e.metaKey) {
+        const pos = S.selectedParts.indexOf(idx);
+        if (pos >= 0) S.selectedParts.splice(pos, 1);
+        else S.selectedParts.push(idx);
+      } else {
+        S.selectedParts = [idx]; 
+      }
+      buildPartsList(); updatePropPanel(); render(); closeMobilePanels(); 
+    };
     el.appendChild(item);
   }
 }
@@ -1020,13 +1216,31 @@ function buildPartsList() {
 // ═══════════════════════════════════════════════════════════════════════
 function updatePropPanel() {
   const panel = document.getElementById('prop-panel'), nosel = document.getElementById('no-sel');
-  if (!S.animDesc || !S.currentAnim || S.selectedPartIdx < 0) { panel.style.display='none'; nosel.style.display=''; return; }
+  if (!S.animDesc || !S.currentAnim || S.selectedParts.length === 0) { 
+    panel.style.display='none'; 
+    nosel.style.display=''; 
+    nosel.innerHTML = 'Selecciona una parte<br>en la lista o el viewport';
+    return; 
+  }
+  
+  if (S.selectedParts.length > 1) {
+    panel.style.display='none'; 
+    nosel.style.display=''; 
+    nosel.innerHTML = `<b style="color:var(--textbright)">${S.selectedParts.length} partes seleccionadas</b><br><br>Arrastra para moverlas juntas.<br>Usa el panel de partes para copiarlas, borrarlas o modificar selección.`;
+    return;
+  }
+
   const fi = Math.min(S.currentFrame-1, S.frameCount-1);
   const fn = S.animDesc._frame_names[S.currentAnim][fi];
-  const p = S.animDesc.animationContainer[fn]?.[S.selectedPartIdx];
+  const p = S.animDesc.animationContainer[fn]?.[S.selectedParts[0]];
   if (!p) { panel.style.display='none'; nosel.style.display=''; return; }
+  
   nosel.style.display='none'; panel.style.display='';
-  document.getElementById('pp-name').textContent = p.texture.replace(/^.*_(\d{2})_/,'');
+  
+  const rawTex2 = p.texture;
+  let dispName = rawTex2.replace(/\.png$/i,'');
+  
+  document.getElementById('pp-name').textContent = dispName;
   document.getElementById('pp-layer').textContent = getLayer(p.texture);
   document.getElementById('pp-z').value = p.zValue;
   document.getElementById('pp-x').value = p.x.toFixed(3);
@@ -1037,20 +1251,76 @@ function updatePropPanel() {
   document.getElementById('pp-flipx').className = 'flip-btn' + (p.flipX ? ' active' : '');
   document.getElementById('pp-flipy').className = 'flip-btn' + (p.flipY ? ' active' : '');
 }
-function applyPropEdit() {
-  if (!S.animDesc || !S.currentAnim || S.selectedPartIdx < 0) return;
+
+function applyPropEdit(skipHistory = false) {
+  if (!S.animDesc || !S.currentAnim || S.selectedParts.length !== 1) return;
+  if (!skipHistory) pushHistory();
   const fi = Math.min(S.currentFrame-1, S.frameCount-1);
   const fn = S.animDesc._frame_names[S.currentAnim][fi];
-  const p = S.animDesc.animationContainer[fn]?.[S.selectedPartIdx];
+  const p = S.animDesc.animationContainer[fn]?.[S.selectedParts[0]];
   if (!p) return;
   p.x = parseFloat(document.getElementById('pp-x').value)||0;
   p.y = parseFloat(document.getElementById('pp-y').value)||0;
-  p.scaleX = parseFloat(document.getElementById('pp-sx').value)||1;
-  p.scaleY = parseFloat(document.getElementById('pp-sy').value)||1;
+  const sx = parseFloat(document.getElementById('pp-sx').value); p.scaleX = isNaN(sx) ? 1 : sx;
+  const sy = parseFloat(document.getElementById('pp-sy').value); p.scaleY = isNaN(sy) ? 1 : sy;
   p.rotation = parseFloat(document.getElementById('pp-rot').value)||0;
   p.zValue = parseInt(document.getElementById('pp-z').value)||0;
-  render(); buildPartsList();
+  
+  if (!skipHistory) { render(); buildPartsList(); }
+  else { render(); }
 }
+
+function makeDraggableInput(id, step) {
+  const el = document.getElementById(id);
+  let isDragging = false, startX = 0, startVal = 0, moved = false;
+  
+  const onMove = e => {
+    if (!isDragging) return;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const dx = clientX - startX;
+    
+    if (!moved && Math.abs(dx) > 3) {
+        moved = true;
+        pushHistory();
+        el.blur(); 
+    }
+    
+    if (moved) {
+        if (e.cancelable) e.preventDefault(); // Detener scroll vertical si estás arrastrando lateralmente en móvil
+        const factor = id.includes('s') ? 0.01 : (id==='pp-rot' ? 1 : 1);
+        let effStep = step * factor;
+        const newVal = startVal + (dx * effStep * (e.shiftKey ? 5 : 1));
+        el.value = id==='pp-z' ? Math.round(newVal) : newVal.toFixed(id.includes('s') ? 3 : 2);
+        applyPropEdit(true); 
+    }
+  };
+  
+  const onUp = e => {
+    isDragging = false;
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend', onUp);
+    if (moved) {
+        buildPartsList(); 
+    }
+  };
+
+  el.addEventListener('mousedown', e => {
+    isDragging = true; moved = false;
+    startX = e.clientX; startVal = parseFloat(el.value)||0;
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+  
+  el.addEventListener('touchstart', e => {
+    isDragging = true; moved = false;
+    startX = e.touches[0].clientX; startVal = parseFloat(el.value)||0;
+    document.addEventListener('touchmove', onMove, {passive:false});
+    document.addEventListener('touchend', onUp);
+  }, {passive:true});
+}
+
 function updateHUD() {
   const fi = `${S.currentAnim ? S.currentAnim.replace(/^.*?_/,'') : '—'}  ${S.currentFrame}/${S.frameCount}`;
   document.getElementById('frame-info-top').textContent = S.currentAnim ? fi : '—';
@@ -1065,7 +1335,9 @@ function drawTimeline() {
   if (!S.animDesc || !S.currentAnim) return;
   const fns = S.animDesc._frame_names[S.currentAnim] || [];
   const parts0 = S.animDesc.animationContainer[fns[0]] || [];
-  const partNames = parts0.map(p => p.texture.replace(/^.*_(\d{2})_/,'').replace('.png',''));
+  const partNames = parts0.map(p => {
+    return p.texture.replace(/\.png$/i,'');
+  });
 
   // Ruler
   const rulerEl = document.getElementById('tl-ruler');
@@ -1083,7 +1355,7 @@ function drawTimeline() {
     }
     rc.fillStyle = '#353a47'; rc.fillRect(f*CELL, 32, 1, 4);
   }
-  // Smooth playhead in ruler
+  
   const phPos = S.isPlaying && S.tweenEnabled ? S.playT : (S.currentFrame - 1);
   const phX = phPos * CELL + CELL/2;
   rc.strokeStyle = '#FFA726'; rc.lineWidth = 2;
@@ -1098,13 +1370,13 @@ function drawTimeline() {
   nc.canvas.height = partNames.length * ROW + 4;
   nc.fillStyle = '#20232a'; nc.fillRect(0, 0, nc.canvas.width, nc.canvas.height);
   for (let i = 0; i < partNames.length; i++) {
-    const y = i*ROW + 4, sel = S.selectedPartIdx === i;
+    const y = i*ROW + 4, sel = S.selectedParts.includes(i);
     if (sel) { nc.fillStyle='rgba(58,120,201,.18)'; nc.fillRect(0,y,nc.canvas.width,ROW); }
     nc.fillStyle = getLayerColor(getLayer(parts0[i]?.texture||''));
     nc.fillRect(8, y+ROW/2-4, 8, 8);
     nc.fillStyle = sel ? '#edf0f5' : '#bfc5d1';
     nc.font = `400 11px 'IBM Plex Sans'`; nc.textAlign='left';
-    const nameStr = partNames[i].length > 14 ? partNames[i].slice(0,13)+'…' : partNames[i];
+    const nameStr = partNames[i].length > 20 ? partNames[i].slice(0,18)+'…' : partNames[i];
     nc.fillText(nameStr, 24, y+ROW/2+4);
     nc.fillStyle = '#353a47'; nc.fillRect(0, y+ROW-1, nc.canvas.width, 1);
   }
@@ -1116,7 +1388,7 @@ function drawTimeline() {
   tc.fillStyle = '#1d1f23'; tc.fillRect(0, 0, tc.canvas.width, tc.canvas.height);
 
   for (let i = 0; i < partNames.length; i++) {
-    const y = i*ROW + 4, sel = S.selectedPartIdx === i;
+    const y = i*ROW + 4, sel = S.selectedParts.includes(i);
     if (sel) { tc.fillStyle='rgba(58,120,201,.08)'; tc.fillRect(0,y,tc.canvas.width,ROW); }
     tc.fillStyle = '#292d38'; tc.fillRect(0, y+ROW-1, tc.canvas.width, 1);
     for (let f = 0; f < fns.length; f++) {
@@ -1133,11 +1405,9 @@ function drawTimeline() {
     }
   }
 
-  // Smooth playhead line in tracks
   tc.strokeStyle = 'rgba(255,167,38,.85)'; tc.lineWidth = 1.5;
   tc.beginPath(); tc.moveTo(phX,0); tc.lineTo(phX, tc.canvas.height); tc.stroke();
 
-  // If tweening: draw a subtle ghost line at the next discrete frame
   if (S.isPlaying && S.tweenEnabled && S.frameCount > 1) {
     const t = S.playT - Math.floor(S.playT);
     tc.globalAlpha = t * 0.3;
@@ -1149,7 +1419,7 @@ function drawTimeline() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-//  FRAME & PART MANAGEMENT
+//  FRAME & PART MANAGEMENT (COPY / PASTE)
 // ═══════════════════════════════════════════════════════════════════════
 function reindexFrames(animName) {
   const oldNames = S.animDesc._frame_names[animName];
@@ -1164,8 +1434,10 @@ function reindexFrames(animName) {
   S.animDesc._frame_counts[animName] = newNames.length;
   S.frameCount = newNames.length;
 }
+
 document.getElementById('btn-add-frame').onclick = () => {
   if (!S.currentAnim) return;
+  pushHistory();
   const fns = S.animDesc._frame_names[S.currentAnim];
   const dupe = JSON.parse(JSON.stringify(S.animDesc.animationContainer[fns[S.currentFrame-1]]));
   const tmp = `TMP_${Date.now()}.png`;
@@ -1173,33 +1445,97 @@ document.getElementById('btn-add-frame').onclick = () => {
   fns.splice(S.currentFrame, 0, tmp);
   reindexFrames(S.currentAnim); setFrame(S.currentFrame + 1);
 };
+
 document.getElementById('btn-del-frame').onclick = () => {
   if (!S.currentAnim || S.frameCount <= 1) return;
+  pushHistory();
   S.animDesc._frame_names[S.currentAnim].splice(S.currentFrame-1, 1);
   reindexFrames(S.currentAnim);
   if (S.currentFrame > S.frameCount) S.currentFrame = S.frameCount;
   setFrame(S.currentFrame);
 };
+
 document.getElementById('btn-new-part').onclick = () => {
   if (!S.currentAnim) return;
   const sel = document.getElementById('m-part-sel'); sel.innerHTML = '';
   Object.keys(S.atlasFrames).filter(k => getLayer(k)==='1').forEach(k => { sel.innerHTML += `<option value="${k}">${k}</option>`; });
   document.getElementById('modal-part').classList.add('open');
 };
+
 function addPartToFrame() {
   const tex = document.getElementById('m-part-sel').value; if (!tex) return;
+  pushHistory();
   const fn = S.animDesc._frame_names[S.currentAnim][S.currentFrame-1];
   const parts = S.animDesc.animationContainer[fn];
   parts.push({ texture:tex, tag:0, usesCustomTag:0, x:0, y:0, scaleX:1, scaleY:1, rotation:0, flipX:0, flipY:0, zValue:parts.length, flipXMul:1, flipYMul:1 });
-  closeModals(); S.selectedPartIdx = parts.length-1;
+  closeModals(); S.selectedParts = [parts.length-1];
   buildPartsList(); updatePropPanel(); render();
 }
+
 document.getElementById('btn-del-part').onclick = () => {
-  if (!S.currentAnim || S.selectedPartIdx < 0) return;
+  if (!S.currentAnim || S.selectedParts.length === 0) return;
+  pushHistory();
   const fn = S.animDesc._frame_names[S.currentAnim][S.currentFrame-1];
-  S.animDesc.animationContainer[fn].splice(S.selectedPartIdx, 1);
-  S.selectedPartIdx = -1; buildPartsList(); updatePropPanel(); render();
+  const parts = S.animDesc.animationContainer[fn];
+  
+  S.selectedParts.sort((a,b)=>b-a).forEach(idx => {
+    parts.splice(idx, 1);
+  });
+  
+  S.selectedParts = [];
+  buildPartsList(); updatePropPanel(); render();
 };
+
+// --- COPY / PASTE LOGIC ---
+document.getElementById('btn-copy-part').onclick = () => {
+  if (!S.currentAnim || S.selectedParts.length === 0) return;
+  const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+  const parts = S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]];
+  S.clipboard = { type: 'parts', data: S.selectedParts.map(idx => JSON.parse(JSON.stringify(parts[idx]))) };
+  showToast(`Copiadas ${S.selectedParts.length} parte(s)`);
+};
+
+document.getElementById('btn-paste-part').onclick = () => {
+  if (!S.currentAnim || S.clipboard?.type !== 'parts') {
+    if (S.clipboard?.type !== 'parts') showToast('No hay partes en el portapapeles');
+    return;
+  }
+  pushHistory();
+  const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+  const parts = S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]];
+  const newSel = [];
+  S.clipboard.data.forEach(p => {
+      const clone = JSON.parse(JSON.stringify(p));
+      clone.x += 8; clone.y -= 8; // Offset visual ligero
+      parts.push(clone);
+      newSel.push(parts.length - 1);
+  });
+  S.selectedParts = newSel;
+  buildPartsList(); updatePropPanel(); render();
+  showToast(`Pegadas ${S.clipboard.data.length} parte(s)`);
+};
+
+document.getElementById('btn-copy-frame').onclick = () => {
+  if (!S.currentAnim) return;
+  const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+  const parts = S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]];
+  S.clipboard = { type: 'frame', data: JSON.parse(JSON.stringify(parts)) };
+  showToast('Frame entero copiado');
+};
+
+document.getElementById('btn-paste-frame').onclick = () => {
+  if (!S.currentAnim || S.clipboard?.type !== 'frame') {
+    if (S.clipboard?.type !== 'frame') showToast('No hay frames en el portapapeles');
+    return;
+  }
+  pushHistory();
+  const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+  S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]] = JSON.parse(JSON.stringify(S.clipboard.data));
+  S.selectedParts = [];
+  buildPartsList(); updatePropPanel(); render();
+  showToast('Frame reemplazado/pegado');
+};
+
 
 // ═══════════════════════════════════════════════════════════════════════
 //  FILE LOADING & EXPORT
@@ -1234,7 +1570,6 @@ document.getElementById('btn-open-anim').onclick   = () => document.getElementBy
 
 document.getElementById('inp-png').onchange = e => {
   const f = e.target.files[0]; if (!f) return;
-  // Detect UHD from PNG filename too
   const sc = detectScaleFromName(f.name);
   if (sc > 1) applyAtlasScale(sc);
   const img = new Image();
@@ -1252,14 +1587,13 @@ document.getElementById('inp-atlas').onchange = e => {
 };
 document.getElementById('inp-anim').onchange = e => {
   const f = e.target.files[0]; if (!f) return;
-  // Guardar nombre base sin extensión para usarlo al exportar
   S.animDescFileName = f.name.replace(/\.(json|plist)$/i, '');
   parseFileContent(f, data => {
     S.animDesc = processAnimDesc(data); updateDzStatus('anim');
     buildAnimList();
     const keys = Object.keys(S.animDesc._frame_names);
     if (keys.length) switchAnim(keys[0]);
-    else { S.currentAnim=null; S.frameCount=0; S.currentFrame=1; S.selectedPartIdx=-1; render(); updateHUD(); updatePropPanel(); }
+    else { S.currentAnim=null; S.frameCount=0; S.currentFrame=1; S.selectedParts=[]; render(); updateHUD(); updatePropPanel(); }
   });
 };
 document.getElementById('btn-export').onclick = () => {
@@ -1269,21 +1603,50 @@ document.getElementById('btn-export').onclick = () => {
 
 function refreshUsedTextures() {
   if (!S.animDesc) return;
-  const used={}, tex2tag={};
-  let tagIdx=0;
+  const used = {};
+  const tex2tag = {};
+  
+  // Guardar datos previos para mantener el CustomID usado por GD
+  const existingByTex = {};
+  if (S.animDesc.usedTextures) {
+    for (const [k, v] of Object.entries(S.animDesc.usedTextures)) {
+      existingByTex[v.texture] = v;
+    }
+  }
+
+  let tagIdx = 0;
   for (const parts of Object.values(S.animDesc.animationContainer)) {
     for (const p of parts) {
-      if (tex2tag[p.texture]===undefined) { tex2tag[p.texture]=tagIdx; used[`texture_${tagIdx}`]={texture:p.texture,tag:tagIdx}; tagIdx++; }
+      if (tex2tag[p.texture] === undefined) {
+        const existing = existingByTex[p.texture];
+        const t = existing ? parseInt(existing.tag) : tagIdx;
+        tex2tag[p.texture] = t;
+        
+        used[`texture_${t}`] = {
+          texture: p.texture,
+          tag: t
+        };
+        // Preservar el customID importantísimo
+        if (existing && existing.customID) {
+           used[`texture_${t}`].customID = existing.customID;
+        }
+        
+        tagIdx = Math.max(tagIdx, t) + 1;
+      }
       p.tag = tex2tag[p.texture];
     }
   }
   S.animDesc.usedTextures = used;
 }
+
 function buildPlistStr(desc) {
   let x = `<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n<plist version="1.0">\n<dict>\n`;
   x += `<key>usedTextures</key>\n<dict>\n`;
-  for (const [k,v] of Object.entries(desc.usedTextures||{}))
-    x += `<key>${k}</key>\n<dict>\n<key>texture</key>\n<string>${v.texture}</string>\n<key>tag</key>\n<string>${v.tag}</string>\n</dict>\n`;
+  for (const [k,v] of Object.entries(desc.usedTextures||{})) {
+    x += `<key>${k}</key>\n<dict>\n<key>texture</key>\n<string>${v.texture}</string>\n<key>tag</key>\n<string>${v.tag}</string>\n`;
+    if (v.customID) x += `<key>customID</key>\n<string>${v.customID}</string>\n`;
+    x += `</dict>\n`;
+  }
   x += `</dict>\n<key>animationContainer</key>\n<dict>\n`;
   for (const [fn, parts] of Object.entries(desc.animationContainer)) {
     x += `<key>${fn}</key>\n<dict>\n`;
@@ -1353,6 +1716,46 @@ function createAnim() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════
+//  HIT TEST  (scale + rotation aware)
+// ═══════════════════════════════════════════════════════════════════════
+function hitTestPart(mx, my, part, ox, oy) {
+  const frame = S.atlasFrames[part.texture];
+  if (!frame) {
+    const px = ox + part.x * S.previewScale * 2;
+    const py = oy - part.y * S.previewScale * 2;
+    return Math.hypot(mx - px, my - py) < 20;
+  }
+  const AS = S.atlasScale;
+  const lsw = frame.spriteW / AS, lsh = frame.spriteH / AS;
+  const lox = frame.offsetX / AS, loy = frame.offsetY / AS;
+  const absPsx = Math.abs(part.scaleX * S.previewScale);
+  const absPsy = Math.abs(part.scaleY * S.previewScale);
+  const lx = part.x * S.previewScale * 2, ly = -part.y * S.previewScale * 2;
+  const wx = ox + lx, wy = oy + ly;
+  const cx = wx + lox * absPsx;
+  const cy = wy + (-loy) * absPsy;
+  const rot = -part.rotation * Math.PI / 180;
+  const dx = mx - cx, dy = my - cy;
+  const rx = dx * Math.cos(rot) - dy * Math.sin(rot);
+  const ry = dx * Math.sin(rot) + dy * Math.cos(rot);
+  const hw = lsw / 2 * absPsx + 4;
+  const hh = lsh / 2 * absPsy + 4;
+  return Math.abs(rx) <= hw && Math.abs(ry) <= hh;
+}
+
+function pickPartAt(mx, my, parts, ox, oy, startAfter) {
+  const hits = [];
+  parts.forEach((p, i) => {
+    if (hitTestPart(mx, my, p, ox, oy)) hits.push(i);
+  });
+  if (!hits.length) return -1;
+  if (startAfter < 0) return hits[hits.length - 1]; 
+  const cur = hits.indexOf(startAfter);
+  if (cur < 0) return hits[hits.length - 1];
+  return hits[(cur + 1) % hits.length];
+}
+
+// ═══════════════════════════════════════════════════════════════════════
 //  MOUSE / KEYBOARD EVENTS
 // ═══════════════════════════════════════════════════════════════════════
 document.getElementById('btn-new-anim').onclick = openNewAnimModal;
@@ -1372,22 +1775,38 @@ document.getElementById('btn-tween').onclick = () => {
   render();
 };
 
+// Undo / Redo buttons
+document.getElementById('btn-undo').onclick = undo;
+document.getElementById('btn-redo').onclick = redo;
+
+// Eventos para arrastrar en inputs
+makeDraggableInput('pp-x', 0.5);
+makeDraggableInput('pp-y', 0.5);
+makeDraggableInput('pp-sx', 0.01);
+makeDraggableInput('pp-sy', 0.01);
+makeDraggableInput('pp-rot', 0.5);
+makeDraggableInput('pp-z', 0.05);
+
 ['pp-x','pp-y','pp-sx','pp-sy','pp-rot','pp-z'].forEach(id => {
-  document.getElementById(id).onchange = applyPropEdit;
+  document.getElementById(id).onchange = () => applyPropEdit();
   document.getElementById(id).onkeydown = e => { if (e.key==='Enter') applyPropEdit(); };
 });
 document.getElementById('pp-flipx').onclick = () => {
+  if (S.selectedParts.length !== 1) return;
   const fi = Math.min(S.currentFrame-1, S.frameCount-1);
-  const p = S.animDesc?.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]]?.[S.selectedPartIdx];
+  const p = S.animDesc?.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]]?.[S.selectedParts[0]];
   if (p) { p.flipX=p.flipX?0:1; p.flipXMul=p.flipX?-1:1; updatePropPanel(); render(); }
 };
 document.getElementById('pp-flipy').onclick = () => {
+  if (S.selectedParts.length !== 1) return;
   const fi = Math.min(S.currentFrame-1, S.frameCount-1);
-  const p = S.animDesc?.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]]?.[S.selectedPartIdx];
+  const p = S.animDesc?.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]]?.[S.selectedParts[0]];
   if (p) { p.flipY=p.flipY?0:1; p.flipYMul=p.flipY?-1:1; updatePropPanel(); render(); }
 };
 
 // Canvas mouse
+let boxSel = null; // { x0,y0,x1,y1 } in canvas coords during drag
+
 canvas.onmousedown = e => {
   if (e.button===1 || (e.button===0 && e.altKey)) {
     S.isPanning=true; S.panSX=e.clientX; S.panSY=e.clientY; S.panOX=S.viewX; S.panOY=S.viewY;
@@ -1399,16 +1818,34 @@ canvas.onmousedown = e => {
     const fi=Math.min(S.currentFrame-1, S.frameCount-1);
     const fn=S.animDesc._frame_names[S.currentAnim][fi];
     const parts=S.animDesc.animationContainer[fn]||[];
-    let best=-1, bd=30;
-    parts.forEach((p,i) => {
-      const px=ox+p.x*S.previewScale*2, py=oy-p.y*S.previewScale*2;
-      const d=Math.hypot(mx-px, my-py);
-      if (d<bd) { bd=d; best=i; }
-    });
-    if (best>=0) {
-      S.selectedPartIdx=best; buildPartsList(); updatePropPanel(); render();
-      dragInfo={idx:best, startX:mx, startY:my, origPX:parts[best].x, origPY:parts[best].y};
-    } else { S.selectedPartIdx=-1; buildPartsList(); updatePropPanel(); render(); }
+
+    const prevIdx = S.selectedParts.length === 1 ? S.selectedParts[0] : -1;
+    const cycleStart = (prevIdx >= 0 && hitTestPart(mx, my, parts[prevIdx], ox, oy)) ? prevIdx : -1;
+    const best = pickPartAt(mx, my, parts, ox, oy, cycleStart);
+
+    if (best >= 0) {
+      if (e.shiftKey || e.ctrlKey || e.metaKey) {
+        const pos = S.selectedParts.indexOf(best);
+        if (pos >= 0) S.selectedParts.splice(pos, 1);
+        else S.selectedParts.push(best);
+      } else {
+        if (!S.selectedParts.includes(best)) S.selectedParts = [best];
+      }
+      buildPartsList(); updatePropPanel(); render();
+      
+      dragInfo = {
+        startX: mx, startY: my, 
+        items: S.selectedParts.map(idx => ({idx: idx, origPX: parts[idx].x, origPY: parts[idx].y}))
+      };
+    } else if (e.shiftKey) {
+      if (!e.ctrlKey && !e.metaKey) S.selectedParts = [];
+      boxSel = { x0:mx, y0:my, x1:mx, y1:my };
+      buildPartsList(); updatePropPanel(); render();
+    } else {
+      S.isPanning=true; S.panSX=e.clientX; S.panSY=e.clientY; S.panOX=S.viewX; S.panOY=S.viewY;
+      canvas.style.cursor='grab';
+      S.selectedParts = []; buildPartsList(); updatePropPanel(); render();
+    }
   }
 };
 canvas.onmousemove = e => {
@@ -1417,15 +1854,65 @@ canvas.onmousemove = e => {
     const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
     const dx=(mx-dragInfo.startX)/(S.previewScale*2), dy=(my-dragInfo.startY)/(S.previewScale*2);
     const fi=Math.min(S.currentFrame-1, S.frameCount-1);
-    const p=S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]][dragInfo.idx];
-    p.x=dragInfo.origPX+dx; p.y=dragInfo.origPY-dy;
+    const parts = S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]];
+    let moved = false;
+    dragInfo.items.forEach(item => {
+      const p = parts[item.idx];
+      if (p) { p.x = item.origPX + dx; p.y = item.origPY - dy; moved = true;}
+    });
+    if (moved && !dragInfo.historyPushed) { pushHistory(); dragInfo.historyPushed = true; }
     updatePropPanel(); render();
+  } else if (boxSel) {
+    const r=canvas.getBoundingClientRect();
+    boxSel.x1=e.clientX-r.left; boxSel.y1=e.clientY-r.top;
+    renderBoxSel();
   }
 };
-canvas.onmouseup = () => {
+
+canvas.onmouseup = e => {
   if (S.isPanning) { S.isPanning=false; canvas.style.cursor='crosshair'; }
-  dragInfo=null;
+  if (dragInfo) { dragInfo=null; }
+  if (boxSel && S.currentAnim) {
+    const ox=canvas.width/2+S.viewX, oy=canvas.height/2+S.viewY;
+    const fi=Math.min(S.currentFrame-1, S.frameCount-1);
+    const fn=S.animDesc._frame_names[S.currentAnim][fi];
+    const parts=S.animDesc.animationContainer[fn]||[];
+    const bx0=Math.min(boxSel.x0,boxSel.x1), bx1=Math.max(boxSel.x0,boxSel.x1);
+    const by0=Math.min(boxSel.y0,boxSel.y1), by1=Math.max(boxSel.y0,boxSel.y1);
+    
+    if (bx1-bx0 > 6 || by1-by0 > 6) {
+      const newSel = (e.shiftKey && (e.ctrlKey||e.metaKey)) ? [...S.selectedParts] : [];
+      parts.forEach((p, i) => {
+        const frame = S.atlasFrames[p.texture];
+        const AS = S.atlasScale;
+        const lsw = frame ? (frame.spriteW/AS) : 20;
+        const lsh = frame ? (frame.spriteH/AS) : 20;
+        const lox = frame ? (frame.offsetX/AS) : 0;
+        const loy = frame ? (frame.offsetY/AS) : 0;
+        
+        const absPsx = Math.abs(p.scaleX * S.previewScale);
+        const absPsy = Math.abs(p.scaleY * S.previewScale);
+        
+        const lx = p.x * S.previewScale * 2, ly = -p.y * S.previewScale * 2;
+        const cx = ox + lx + lox * absPsx;
+        const cy = oy + ly - loy * absPsy;
+        
+        const hw = (frame?.rotated ? lsh : lsw) / 2 * absPsx;
+        const hh = (frame?.rotated ? lsw : lsh) / 2 * absPsy;
+        
+        const sx0 = cx - hw, sx1 = cx + hw, sy0 = cy - hh, sy1 = cy + hh;
+        
+        if (!(sx1 < bx0 || sx0 > bx1 || sy1 < by0 || sy0 > by1)) {
+          if (!newSel.includes(i)) newSel.push(i);
+        }
+      });
+      S.selectedParts = newSel;
+      buildPartsList(); updatePropPanel();
+    }
+    boxSel=null; render();
+  }
 };
+
 canvas.onwheel = e => {
   e.preventDefault();
   S.previewScale = Math.max(0.1, Math.min(10, S.previewScale*(e.deltaY<0?1.1:0.9)));
@@ -1433,25 +1920,61 @@ canvas.onwheel = e => {
   updateHUD(); render();
 };
 
-// Timeline click
-document.getElementById('tracks-canvas').onclick = e => {
-  const r = e.target.getBoundingClientRect();
-  const f = Math.floor((e.clientX - r.left) / CELL) + 1;
-  if (f>=1 && f<=S.frameCount) setFrame(f);
-  const row = Math.floor((e.clientY - r.top - 4) / ROW);
-  if (row>=0) { S.selectedPartIdx=row; buildPartsList(); updatePropPanel(); render(); }
-};
+// Funciones unificadas para el scrubber (arrastre o clicks en el timeline y regla)
+function attachScrubber(elId) {
+  const el = document.getElementById(elId);
+  el.addEventListener('mousedown', e => {
+    const r = document.getElementById('tracks-canvas').getBoundingClientRect();
+    const f = Math.floor((e.clientX - r.left) / CELL) + 1;
+    if (f>=1 && f<=S.frameCount) { pause(); setFrame(f); tlDragging = true; }
+  });
+  el.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) {
+      const r = document.getElementById('tracks-canvas').getBoundingClientRect();
+      const f = Math.floor((e.touches[0].clientX - r.left) / CELL) + 1;
+      if (f>=1 && f<=S.frameCount) { pause(); setFrame(f); tlDragging = true; }
+    }
+  }, {passive:true});
+}
+
+attachScrubber('tl-tracks');
+attachScrubber('tl-ruler');
 
 // Drag on tracks to scrub
 let tlDragging = false;
-document.getElementById('tl-tracks').addEventListener('mousedown', () => { tlDragging=true; });
 document.addEventListener('mousemove', e => {
   if (!tlDragging || !S.animDesc || !S.currentAnim) return;
   const r = document.getElementById('tracks-canvas').getBoundingClientRect();
   const f = Math.floor((e.clientX - r.left) / CELL) + 1;
   if (f>=1 && f<=S.frameCount) { pause(); setFrame(f); }
 });
+document.addEventListener('touchmove', e => {
+  if (!tlDragging || !S.animDesc || !S.currentAnim || e.touches.length !== 1) return;
+  const r = document.getElementById('tracks-canvas').getBoundingClientRect();
+  const f = Math.floor((e.touches[0].clientX - r.left) / CELL) + 1;
+  if (f>=1 && f<=S.frameCount) { pause(); setFrame(f); }
+}, {passive:true});
+
 document.addEventListener('mouseup', () => { tlDragging=false; });
+document.addEventListener('touchend', () => { tlDragging=false; });
+
+// Click on parts list inside the track
+document.getElementById('tracks-canvas').onclick = e => {
+  const r = e.target.getBoundingClientRect();
+  const row = Math.floor((e.clientY - r.top - 4) / ROW);
+  // Solo aplicamos esto si le diste click, la nav del frame la hace el mousedown
+  if (row>=0 && S.animDesc && !tlDragging) { 
+    if (e.shiftKey || e.ctrlKey || e.metaKey) {
+      const pos = S.selectedParts.indexOf(row);
+      if (pos >= 0) S.selectedParts.splice(pos, 1);
+      else S.selectedParts.push(row);
+    } else {
+      S.selectedParts=[row]; 
+    }
+    buildPartsList(); updatePropPanel(); render(); 
+  }
+};
+
 
 // ═══════════════════════════════════════════════════════════════════════
 //  TOUCH EVENTS  (Mobile support)
@@ -1460,7 +1983,8 @@ let touchState = {
   isPanning:false, isDragging:false,
   startX:0, startY:0, panOX:0, panOY:0,
   pinching:false, pinchDist:0,
-  dragInfo:null
+  dragInfo:null,
+  longPressTimer:null, longPressPos:null, isBoxSel:false
 };
 
 function getTouchCanvasPos(touch) {
@@ -1473,7 +1997,6 @@ canvas.addEventListener('touchstart', e => {
   if (e.touches.length === 2) {
     touchState.pinching = true; touchState.isDragging = false; touchState.isPanning = false;
     touchState.pinchDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
-    // Pan center point
     touchState.startX = (e.touches[0].clientX+e.touches[1].clientX)/2;
     touchState.startY = (e.touches[0].clientY+e.touches[1].clientY)/2;
     touchState.panOX = S.viewX; touchState.panOY = S.viewY;
@@ -1481,23 +2004,49 @@ canvas.addEventListener('touchstart', e => {
     touchState.pinching = false;
     const pos = getTouchCanvasPos(e.touches[0]);
     if (!S.currentAnim) { touchState.isPanning=true; touchState.startX=pos.x; touchState.startY=pos.y; touchState.panOX=S.viewX; touchState.panOY=S.viewY; return; }
+    
     const ox=canvas.width/2+S.viewX, oy=canvas.height/2+S.viewY;
     const fi=Math.min(S.currentFrame-1, S.frameCount-1);
     const fn=S.animDesc._frame_names[S.currentAnim]?.[fi];
     const parts = fn ? (S.animDesc.animationContainer[fn]||[]) : [];
-    let best=-1, bd=55; // larger hit radius on touch
-    parts.forEach((p,i) => {
-      const px=ox+p.x*S.previewScale*2, py=oy-p.y*S.previewScale*2;
-      const d=Math.hypot(pos.x-px, pos.y-py);
-      if (d<bd) { bd=d; best=i; }
-    });
+    
+    let best=-1;
+    parts.forEach((p,i) => { if (hitTestPart(pos.x, pos.y, p, ox, oy)) best=i; });
+    
+    const prevIdx = S.selectedParts.length === 1 ? S.selectedParts[0] : -1;
+    if (best >= 0 && best === prevIdx) {
+      best = pickPartAt(pos.x, pos.y, parts, ox, oy, prevIdx);
+    }
+    
     if (best>=0) {
-      S.selectedPartIdx=best; buildPartsList(); updatePropPanel(); render();
+      if (!S.selectedParts.includes(best)) S.selectedParts = [best];
+      buildPartsList(); updatePropPanel(); render();
       touchState.isDragging=true; touchState.isPanning=false;
-      touchState.dragInfo={idx:best, startX:pos.x, startY:pos.y, origPX:parts[best].x, origPY:parts[best].y};
+      touchState.dragInfo = {
+        startX: pos.x, startY: pos.y,
+        items: S.selectedParts.map(idx => ({idx: idx, origPX: parts[idx].x, origPY: parts[idx].y})),
+        historyPushed: false
+      };
     } else {
       touchState.isPanning=true; touchState.isDragging=false;
       touchState.startX=pos.x; touchState.startY=pos.y; touchState.panOX=S.viewX; touchState.panOY=S.viewY;
+      
+      // CLEAR SELECTION
+      S.selectedParts = []; buildPartsList(); updatePropPanel(); render();
+      
+      touchState.longPressPos = pos;
+      touchState.isBoxSel = false;
+      clearTimeout(touchState.longPressTimer);
+      touchState.longPressTimer = setTimeout(() => {
+        if (touchState.isPanning && !touchState.isDragging && !touchState.pinching) {
+          touchState.isPanning = false;
+          touchState.isBoxSel = true;
+          boxSel = { x0: touchState.longPressPos.x, y0: touchState.longPressPos.y,
+                     x1: touchState.longPressPos.x, y1: touchState.longPressPos.y };
+          if (navigator.vibrate) navigator.vibrate(30);
+          renderBoxSel();
+        }
+      }, 450);
     }
   }
 }, { passive:false });
@@ -1509,7 +2058,6 @@ canvas.addEventListener('touchmove', e => {
     const factor = newDist / touchState.pinchDist;
     S.previewScale = Math.max(0.1, Math.min(10, S.previewScale*factor));
     touchState.pinchDist = newDist;
-    // Also pan with pinch center
     const cx=(e.touches[0].clientX+e.touches[1].clientX)/2, cy=(e.touches[0].clientY+e.touches[1].clientY)/2;
     S.viewX = touchState.panOX + (cx-touchState.startX);
     S.viewY = touchState.panOY + (cy-touchState.startY);
@@ -1517,7 +2065,19 @@ canvas.addEventListener('touchmove', e => {
     updateHUD(); render();
   } else if (e.touches.length===1) {
     const pos = getTouchCanvasPos(e.touches[0]);
-    if (touchState.isPanning) {
+    
+    if (touchState.longPressTimer) {
+       const dist = Math.hypot(pos.x - touchState.startX, pos.y - touchState.startY);
+       if (dist > 8) {
+           clearTimeout(touchState.longPressTimer);
+           touchState.longPressTimer = null;
+       }
+    }
+    
+    if (touchState.isBoxSel && boxSel) {
+      boxSel.x1 = pos.x; boxSel.y1 = pos.y;
+      renderBoxSel();
+    } else if (touchState.isPanning) {
       S.viewX = touchState.panOX + (pos.x-touchState.startX);
       S.viewY = touchState.panOY + (pos.y-touchState.startY);
       render();
@@ -1525,9 +2085,13 @@ canvas.addEventListener('touchmove', e => {
       const dx=(pos.x-touchState.dragInfo.startX)/(S.previewScale*2);
       const dy=(pos.y-touchState.dragInfo.startY)/(S.previewScale*2);
       const fi=Math.min(S.currentFrame-1, S.frameCount-1);
-      const fn=S.animDesc._frame_names[S.currentAnim][fi];
-      const p=S.animDesc.animationContainer[fn][touchState.dragInfo.idx];
-      p.x=touchState.dragInfo.origPX+dx; p.y=touchState.dragInfo.origPY-dy;
+      const parts=S.animDesc.animationContainer[S.animDesc._frame_names[S.currentAnim][fi]];
+      let moved = false;
+      touchState.dragInfo.items.forEach(item => {
+        const p = parts[item.idx];
+        if(p) { p.x = item.origPX + dx; p.y = item.origPY - dy; moved = true; }
+      });
+      if (moved && !touchState.dragInfo.historyPushed) { pushHistory(); touchState.dragInfo.historyPushed = true; }
       updatePropPanel(); render();
     }
   }
@@ -1535,11 +2099,52 @@ canvas.addEventListener('touchmove', e => {
 
 canvas.addEventListener('touchend', e => {
   e.preventDefault();
+  clearTimeout(touchState.longPressTimer);
+  
   if (e.touches.length===0) {
-    touchState.isPanning=false; touchState.isDragging=false;
-    touchState.pinching=false; touchState.dragInfo=null;
+    if (touchState.isBoxSel && boxSel && S.currentAnim) {
+      const ox=canvas.width/2+S.viewX, oy=canvas.height/2+S.viewY;
+      const fi=Math.min(S.currentFrame-1, S.frameCount-1);
+      const fn=S.animDesc._frame_names[S.currentAnim]?.[fi];
+      const parts = fn ? (S.animDesc.animationContainer[fn]||[]) : [];
+      const bx0=Math.min(boxSel.x0,boxSel.x1), bx1=Math.max(boxSel.x0,boxSel.x1);
+      const by0=Math.min(boxSel.y0,boxSel.y1), by1=Math.max(boxSel.y0,boxSel.y1);
+      
+      if (bx1-bx0 > 6 || by1-by0 > 6) {
+        const newSel = [];
+        parts.forEach((p, i) => {
+          const frame = S.atlasFrames[p.texture];
+          const AS = S.atlasScale;
+          const lsw = frame ? (frame.spriteW/AS) : 20;
+          const lsh = frame ? (frame.spriteH/AS) : 20;
+          const lox = frame ? (frame.offsetX/AS) : 0;
+          const loy = frame ? (frame.offsetY/AS) : 0;
+          
+          const absPsx = Math.abs(p.scaleX * S.previewScale);
+          const absPsy = Math.abs(p.scaleY * S.previewScale);
+          
+          const lx = p.x * S.previewScale * 2, ly = -p.y * S.previewScale * 2;
+          const cx = ox + lx + lox * absPsx;
+          const cy = oy + ly - loy * absPsy;
+          
+          const hw = (frame?.rotated ? lsh : lsw) / 2 * absPsx;
+          const hh = (frame?.rotated ? lsw : lsh) / 2 * absPsy;
+          
+          const sx0 = cx - hw, sx1 = cx + hw, sy0 = cy - hh, sy1 = cy + hh;
+          
+          if (!(sx1 < bx0 || sx0 > bx1 || sy1 < by0 || sy0 > by1)) {
+            newSel.push(i);
+          }
+        });
+        if (newSel.length > 0) S.selectedParts = newSel;
+        buildPartsList(); updatePropPanel();
+      }
+      boxSel=null; touchState.isBoxSel=false; render();
+    } else {
+      touchState.isPanning=false; touchState.isDragging=false; touchState.pinching=false;
+      if (touchState.dragInfo) { touchState.dragInfo=null; }
+    }
   } else if (e.touches.length===1 && touchState.pinching) {
-    // Transition from pinch to pan
     const pos = getTouchCanvasPos(e.touches[0]);
     touchState.pinching=false; touchState.isPanning=true;
     touchState.startX=pos.x; touchState.startY=pos.y;
@@ -1547,14 +2152,22 @@ canvas.addEventListener('touchend', e => {
   }
 }, { passive:false });
 
-// Timeline touch scrubbing
-document.getElementById('tl-tracks').addEventListener('touchstart', e => {
-  if (e.touches.length===1) {
-    const r=document.getElementById('tracks-canvas').getBoundingClientRect();
-    const f=Math.floor((e.touches[0].clientX-r.left)/CELL)+1;
-    if (f>=1 && f<=S.frameCount) { pause(); setFrame(f); }
-  }
-}, { passive:true });
+// Sync vertical scroll between names and tracks panels
+(function() {
+  const names = document.getElementById('tl-names');
+  const tracks = document.getElementById('tl-tracks');
+  let syncing = false;
+  names.addEventListener('scroll', () => {
+    if (syncing) return; syncing=true; tracks.scrollTop=names.scrollTop; syncing=false;
+  }, { passive:true });
+  tracks.addEventListener('scroll', () => {
+    if (syncing) return; syncing=true; names.scrollTop=tracks.scrollTop; syncing=false;
+  }, { passive:true });
+})();
+
+
+// Help button
+document.getElementById('btn-help').onclick = () => document.getElementById('modal-help').classList.add('open');
 
 // ═══════════════════════════════════════════════════════════════════════
 //  MOBILE PANEL TOGGLES
@@ -1626,12 +2239,84 @@ document.ondrop = e => {
 // Keyboard shortcuts
 document.addEventListener('keydown', e => {
   if (e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
-  if (e.key==='ArrowRight') { pause(); setFrame(S.currentFrame+1); }
-  else if (e.key==='ArrowLeft') { pause(); setFrame(S.currentFrame-1); }
+
+  // Undo / Redo
+  if ((e.ctrlKey||e.metaKey) && !e.shiftKey && e.key==='z') { e.preventDefault(); undo(); return; }
+  if ((e.ctrlKey||e.metaKey) && (e.key==='y' || (e.shiftKey && e.key==='z'))) { e.preventDefault(); redo(); return; }
+
+  // Copy / Paste
+  if ((e.ctrlKey||e.metaKey) && e.key==='c') {
+    e.preventDefault();
+    if (S.currentAnim && S.selectedParts.length > 0) document.getElementById('btn-copy-part').click();
+    else document.getElementById('btn-copy-frame').click();
+  }
+  if ((e.ctrlKey||e.metaKey) && e.key==='v') {
+    e.preventDefault();
+    if (S.clipboard?.type === 'parts') document.getElementById('btn-paste-part').click();
+    else if (S.clipboard?.type === 'frame') document.getElementById('btn-paste-frame').click();
+  }
+
+  // Duplicate selected parts (Ctrl+D)
+  if ((e.ctrlKey||e.metaKey) && e.key==='d') {
+    e.preventDefault();
+    if (S.currentAnim && S.selectedParts.length > 0) {
+      const fn = S.animDesc._frame_names[S.currentAnim][Math.min(S.currentFrame-1, S.frameCount-1)];
+      const parts = S.animDesc.animationContainer[fn];
+      if (parts) {
+        pushHistory();
+        const newSel = [];
+        S.selectedParts.forEach(idx => {
+          const clone = JSON.parse(JSON.stringify(parts[idx]));
+          clone.x += 10; clone.y += 10;
+          parts.push(clone);
+          newSel.push(parts.length - 1);
+        });
+        S.selectedParts = newSel;
+        buildPartsList(); updatePropPanel(); render();
+      }
+    }
+    return;
+  }
+
+  // Delete selected parts
+  if (e.key==='Delete'||e.key==='Backspace') {
+    if (S.currentAnim && S.selectedParts.length > 0) {
+      e.preventDefault();
+      document.getElementById('btn-del-part').click();
+    }
+    return;
+  }
+
+  // Playback
+  if (e.key==='ArrowRight' && !e.shiftKey) { pause(); setFrame(S.currentFrame+1); }
+  else if (e.key==='ArrowLeft' && !e.shiftKey) { pause(); setFrame(S.currentFrame-1); }
   else if (e.key===' ') { e.preventDefault(); S.isPlaying ? pause() : play(); }
   else if (e.key==='Home') { pause(); setFrame(1); }
   else if (e.key==='End') { pause(); setFrame(S.frameCount); }
   else if (e.key==='t'||e.key==='T') document.getElementById('btn-tween').click();
+
+  // Nudge selected parts with arrow keys + Shift
+  else if (e.shiftKey && (e.key==='ArrowRight'||e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='ArrowDown')) {
+    if (S.currentAnim && S.selectedParts.length > 0) {
+      e.preventDefault();
+      pushHistory();
+      const fi = Math.min(S.currentFrame-1, S.frameCount-1);
+      const fn = S.animDesc._frame_names[S.currentAnim][fi];
+      const parts = S.animDesc.animationContainer[fn];
+      const step = (e.ctrlKey || e.metaKey) ? 10 : 1;
+      
+      S.selectedParts.forEach(idx => {
+        const p = parts[idx];
+        if (p) {
+          if (e.key==='ArrowRight') p.x += step;
+          else if (e.key==='ArrowLeft') p.x -= step;
+          else if (e.key==='ArrowUp') p.y += step;
+          else if (e.key==='ArrowDown') p.y -= step;
+        }
+      });
+      updatePropPanel(); render();
+    }
+  }
 });
 
 // ═══════════════════════════════════════════════════════════════════════
